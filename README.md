@@ -1,20 +1,13 @@
-# polyglot-db
+# Polyglot Database - Big Data Praktikum SoSe 2018
 
 https://dbs.uni-leipzig.de/study/ss_2018/bigdprak
 
-Testat 1: Ende Mai
-
-Testat 2: Mitte/Ende Juli
-
-Testat 3: tba
-
-kommende Treffen: 
-Freitag, 18.05.18 13:15, 511 
+### Termine
+* Abgabe Testat1: Mittwoch, 30.05.2018 per Email. Tim schickts um 22:00 ab.
+* Testat 1: Donnerstag, 31.05.2018, 13:00, P419
+* Testat 2: Mitte/Ende Juli
+* Testat 3: tba
 
 bis dahin:
-* Neo4j, Mongodb server aufsetzen
-* mongo import zum Laden der Yelp Json Dateien
-* Mongo connector zum Übertragen der DB von Mongo auf Neo4j
-* **Konzeptioneller Entwurf (2-4 Seiten, je ein Branch, Markdown, evtl. Diagramm für Architektur)**
-* Java-Framework: Aufruf externer Programme (neo4j, mongodb, mongo connector), erste Ideen
+* Konzeptioneller Entwurf (2-4 Seiten, je ein Branch, Markdown, evtl. Diagramm für Architektur)
 * Idee überlegen für Name des Benchmark Frameworks (NoSQLBench..)
