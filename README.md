@@ -12,6 +12,6 @@ Siehe https://dbs.uni-leipzig.de/study/ss_2018/bigdprak
 * Testat 2: Mitte/Ende Juli
 * Testat 3: tba
 
-## Aufgaben Pinnwand:
+## Aufgaben Pinnwand
 * Konzeptioneller Entwurf (2-4 Seiten, je ein Branch, Markdown, evtl. Diagramm für Architektur)
 * Idee überlegen für Name des Benchmark Frameworks (NoSQLBench..)
