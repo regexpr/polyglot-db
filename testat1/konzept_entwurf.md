@@ -13,7 +13,7 @@ Darüber hinaus soll ebenfalls das folgende Szenario betrachtet werden: Sofern e
 
 Die Software PolyG-DBP wird in Java als Konsolenapplikation umgesetzt.
 Konkret werden **Neo4j** als Graphdatenbank und **MongoDB** als Dokumentendatenbank untersucht. Für ihre Synchronisation werden **mongo-connector** und **neo4j doc manager** verwendet.
-Zum Testen der Abfragen benutzt PolyDBTesting den **Yelp Open Datensatz** [https://yelp.com/dataset](https://www.yelp.com/dataset).
+Zum Testen der Abfragen benutzt PolyDBTesting den **Yelp Open Datensatz** ([https://yelp.com/dataset](https://www.yelp.com/dataset)).
 
 ![Architektur](architecture.png "Architektur")
 
