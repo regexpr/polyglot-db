@@ -1,4 +1,4 @@
-# Polyglot Database - PolyG-DBP - Big Data Praktikum SoSe 2018
+# PolyG-DBP - Big Data Praktikum SoSe 2018
 
 Siehe https://dbs.uni-leipzig.de/study/ss_2018/bigdprak
 
