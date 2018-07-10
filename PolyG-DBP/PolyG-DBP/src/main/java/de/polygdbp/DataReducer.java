@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.bigdata.polygdbp.dbp;
+package de.polygdbp;
 
 /**
  *
  * @author tim
  */
-public class DatabaseService {
+public class DataReducer {
     
 }

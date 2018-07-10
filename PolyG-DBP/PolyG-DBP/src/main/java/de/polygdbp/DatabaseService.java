@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.bigdata.polygdbp;
+package de.polygdbp;
 
 /**
  *
  * @author tim
  */
-public class Main {
-
-public static void main(String[] argv){
-    System.out.println("cv1");
-}    
+public class DatabaseService {
+    
 }
