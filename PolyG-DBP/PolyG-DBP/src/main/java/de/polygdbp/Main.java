@@ -15,9 +15,6 @@
 */
 package de.polygdbp;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
