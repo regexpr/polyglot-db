@@ -7,6 +7,7 @@ package main.java.de.polygdbp;
 
 import java.net.UnknownHostException;
 
+import org.bson.Document;
 import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.GraphDatabase;
@@ -15,59 +16,50 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 
 /**
  *
- * @author tim, Hyeon Ung
+ * @author tim, HyeonUng
  */
 public class DatabaseService {
 	private static MongoClient mongoClient;
     private static Driver driver;
     
-    private DB mongoDatabase;
-    private DBCollection mongoCollection;  
+    private MongoDatabase mongoDatabase;
+    private MongoCollection<Document> mongoCollection;  
     
-	public DatabaseService() throws UnknownHostException {
-		this.mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-		this.mongoDatabase = mongoClient.getDB("yelp");
+    //Constructor for the DatabaseService
+    //TODO: connect to Neo4j also
+	public DatabaseService(String host, int port, String dbName) throws UnknownHostException {
+		DatabaseService.mongoClient = new MongoClient(new MongoClientURI("mongodb://"+host+":"+port));
+		this.mongoDatabase = mongoClient.getDatabase(dbName);
 	}
 	
+	//connects to Database with name: dbName
 	public void changeMongoDatabase(String dbName) {
-		this.mongoDatabase = mongoClient.getDB(dbName);
+		this.mongoDatabase = mongoClient.getDatabase(dbName);
 	}
 	
 	
-	public DBCollection chooseMongoCollection(String collectionName) {
+	public MongoCollection<Document> chooseMongoCollection(String collectionName) {
 		this.mongoCollection = mongoDatabase.getCollection(collectionName);
 		return mongoCollection;
 	}
 	
-	public DB getMongoDatabase() {
+	public MongoDatabase getMongoDatabase() {
 		return mongoDatabase;
 	}
 	
-	
-//    //this method connects to the standard localhost mongodb, and connects to the database "databaseName"
-//    public void connectToMongo(String host, int port, String databaseName) throws UnknownHostException {
-//    	MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://"+host+":"+port));
-//    	this.mongoClient = new MongoClient(host, port);
-//    	this.mongoDb = mongoClient.getDatabase(databaseName);
-//    }
-//    
-//    public void changeMongoDatabase(String databaseName) {
-//    	this.mongoDb = mongoClient.getDatabase(databaseName);
-//    }
-//    
-//    public MongoCollection getMongoCollection(String collectionName) {
-//    	return mongoDb.getCollection(collectionName);
-//    }
-//    
+
     /**
     *
     * the following methods are for the Neo4j Server
     */
     
+	//connects to Neo4j with credentials
     public void connectToNeo4j(String uri, String user, String password) {
     	this.driver = GraphDatabase.driver( uri, AuthTokens.basic( user, password ) );
     }

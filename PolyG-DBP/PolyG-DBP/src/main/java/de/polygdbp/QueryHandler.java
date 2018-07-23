@@ -5,43 +5,72 @@
  */
 package main.java.de.polygdbp;
 
-import org.w3c.dom.Document;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import org.bson.Document;
+
+import com.mongodb.Block;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
+
+import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Projections.*;
+
+import java.util.Arrays;
 
 /**
  *
- * @author tim, Hyeon Ung
+ * @author tim, HyeonUng
  */
 public class QueryHandler {
-    private DatabaseService databaseService;
+    private DatabaseService dbs;
+    
+    Block<Document> printBlock = new Block<Document>() {
+        @Override
+        public void apply(final Document document) {
+            System.out.println(document.toJson());
+        }
+    };
 	
     //giving the QueryHandler the DatabaseService, where it can execute its queries
-	public QueryHandler(DatabaseService dbs) {
-    	this.databaseService = dbs;
-    }
+	public QueryHandler(DatabaseService databaseService) {
+    	this.dbs = databaseService;
+    };
 	
 	//gets a single Object from the MongoDB with corresponding key-value
-	public DBObject simpleMongoQueryFindOne(String collectionName, String key, String value) {
-		DBCollection collection = databaseService.chooseMongoCollection(collectionName);
-		DBObject result = collection.findOne(new BasicDBObject("name", "Starbucks"));
+	public Document simpleMongoQueryFindOne(String collectionName, String key, String value) {
+		MongoCollection<Document> collection = dbs.chooseMongoCollection(collectionName);
+		Document result = collection.find(eq(key, value)).first();
 		System.out.println(result);
 		return result;
-	}
-	
-	
-	//gets a single Object from the MongoDB with corresponding key-value
-	public DBCursor simpleMongoQueryFindAll(String collectionName, String key, String value) {
-		DBCollection collection = databaseService.chooseMongoCollection(collectionName);
-		DBCursor results = collection.find(new BasicDBObject("name", "Starbucks"));
-		System.out.println(results.size());
-		while (results.hasNext()) {
-			System.out.println(results.next());
-		}
+	};
+
+	//gets all Objects from the MongoDB with corresponding key-value
+	public FindIterable<Document> simpleMongoQueryFindAll(String collectionName, String key, String value) {
+		MongoCollection<Document> collection = dbs.chooseMongoCollection(collectionName);
+//		collection.find(eq(key, value)).forEach(printBlock);
+		FindIterable<Document> results = collection.find(eq(key, value));
 		return results;
+	};
+	
+
+	//give me all business names and ids a <user> rated with minumum of <stars>
+	@SuppressWarnings("unchecked")
+	public void mongoAggregation2(String uid, int stars) {
+		MongoCollection<Document> collection = dbs.chooseMongoCollection("review");
+		collection.aggregate(Arrays.asList(
+			Aggregates.match(and(
+				eq("user_id", uid),
+				gt("stars",stars)
+			)),
+			Aggregates.lookup("business", "business_id", "business_id", "business"),
+			Aggregates.addFields(new Field("business", "$business")),
+			Aggregates.project(fields(include("business.name", "business.business_id")))
+		)).forEach(printBlock);
 	}
+
+	
+	
 
 }
