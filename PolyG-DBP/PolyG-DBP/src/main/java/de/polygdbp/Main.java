@@ -20,16 +20,7 @@ import com.mongodb.client.FindIterable;
  */
 public class Main {
 
-	public static void main(String[] argv) throws UnknownHostException{
-	    DatabaseService dbs = new DatabaseService("localhost", 27017, "yelp");
-	    
-	    
-	    QueryHandler qh = new QueryHandler(dbs);
-	    
-//	    Document obj = qh.simpleMongoQueryFindOne("business", "name", "Starbucks");
-//	    System.out.println(((Document) obj.get("hours")).get("Monday"));
-//	    
-//	    FindIterable<Document> obj2 = qh.simpleMongoQueryFindAll("business", "name", "Starbucks");
-	    qh.mongoAggregation2("nOTl4aPC4tKHK35T3bNauQ", 4);
+	public static void main(String[] argv){
+
 	}    
 }

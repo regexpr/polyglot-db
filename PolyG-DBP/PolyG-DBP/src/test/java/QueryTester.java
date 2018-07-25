@@ -19,7 +19,7 @@ class QueryTester{
 	
 	@Before
 	void connect() throws UnknownHostException {
-		this.dbs = new DatabaseService("localhost", 27017, "yelp");
+		this.dbs = new DatabaseService("localhost", 27017, "yelp", "bolt://localhost:7687", "yoshi", "mitsu");
 		this.qh = new QueryHandler(dbs);
 	}
 	

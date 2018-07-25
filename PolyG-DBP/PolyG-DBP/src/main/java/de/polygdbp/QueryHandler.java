@@ -7,6 +7,7 @@ package main.java.de.polygdbp;
 
 
 import org.bson.Document;
+import org.neo4j.driver.v1.Driver;
 
 import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
@@ -24,7 +25,8 @@ import java.util.Arrays;
  * @author tim, HyeonUng
  */
 public class QueryHandler {
-    private DatabaseService dbs;
+    private static DatabaseService dbs;
+    private static Driver driver;
     
     Block<Document> printBlock = new Block<Document>() {
         @Override
@@ -35,7 +37,8 @@ public class QueryHandler {
 	
     //giving the QueryHandler the DatabaseService, where it can execute its queries
 	public QueryHandler(DatabaseService databaseService) {
-    	this.dbs = databaseService;
+    	QueryHandler.dbs = databaseService;
+    	QueryHandler.driver = dbs.getNeo4jDriver();
     };
 	
 	//gets a single Object from the MongoDB with corresponding key-value
@@ -68,7 +71,7 @@ public class QueryHandler {
 			Aggregates.addFields(new Field("business", "$business")),
 			Aggregates.project(fields(include("business.name", "business.business_id")))
 		)).forEach(printBlock);
-	}
+	};
 
 	
 	

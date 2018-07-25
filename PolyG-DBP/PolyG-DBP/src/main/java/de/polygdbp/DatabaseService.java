@@ -33,9 +33,10 @@ public class DatabaseService {
     
     //Constructor for the DatabaseService
     //TODO: connect to Neo4j also
-	public DatabaseService(String host, int port, String dbName) throws UnknownHostException {
+	public DatabaseService(String host, int port, String dbName, String uri, String user, String password) throws UnknownHostException {
 		DatabaseService.mongoClient = new MongoClient(new MongoClientURI("mongodb://"+host+":"+port));
 		this.mongoDatabase = mongoClient.getDatabase(dbName);
+		this.connectToNeo4j(uri, user, password);
 	}
 	
 	//connects to Database with name: dbName
@@ -61,7 +62,11 @@ public class DatabaseService {
     
 	//connects to Neo4j with credentials
     public void connectToNeo4j(String uri, String user, String password) {
-    	this.driver = GraphDatabase.driver( uri, AuthTokens.basic( user, password ) );
+    	DatabaseService.driver = GraphDatabase.driver( uri, AuthTokens.basic( user, password ) );
+    }
+    
+    public Driver getNeo4jDriver() {
+    	return DatabaseService.driver;
     }
     
     public void closeNeo4j() {
