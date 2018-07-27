@@ -15,6 +15,9 @@
 */
 package de.polygdbp;
 
+import java.net.UnknownHostException;
+import java.util.List;
+import java.util.logging.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +26,36 @@ import org.apache.logging.log4j.Logger;
  */
 public class Main {
   private static final Logger LOG = LogManager.getLogger(Main.class);
+  
+  /**
+   * Hauptmethode.
+   * @param args enthält die Kommandozeilenoptionen.
+   */
+  public static void main(String[] args){
+    
+    LOG.info("Polyglot Logging!");
+    
+    // BEGIN Yoshi's Testing stuffs. Has to be moved to the real test package!
+    try {
+      DatabaseService dbs = new DatabaseService("localhost", 27017, "yelp", "bolt://localhost:7687", "yoshi", "mitsu");
+      QueryHandler qh = new QueryHandler(dbs);
+      List<Object> results = qh.customNeo4jQuery("MATCH (u:User)-[:WROTE]-(r:Review)-[:REVIEWS]-(Business) WHERE id(u)=214195 AND r.stars > 2 Return Business.name");
+      for(int i=0; i<results.size(); i++) {
+        System.out.println(results.get(i));
+      }
+      
+    } catch (UnknownHostException ex) {
+      java.util.logging.Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+    // END Yoshi's Testing stuffs. Has to be moved to the real test package!
+    
+    if (args.length < 1) {
+      help();
+      return;
+    }
+    checkUserInput(args);
+  }
   
   private static void help() {
     StringBuilder builder = new StringBuilder();
@@ -59,18 +92,7 @@ public class Main {
     builder.append("[q5]:\n");
     System.out.println(builder);
   }
-  /**
-   * Hauptmethode.
-   * @param args enthält die Kommandozeilenoptionen.
-   */
-  public static void main(String[] args){
-    LOG.info("Polyglot Logging!");
-    if (args.length < 1) {
-      help();
-      return;
-    }
-    checkUserInput(args);
-  }
+  
   
   private static void checkUserInput(final String[] args) {
     // User input handling
@@ -148,7 +170,7 @@ public class Main {
                   }
                   mongoPath = arg;
                   break;
-                 case "-r": case "--reduce":
+                case "-r": case "--reduce":
                   if (!reduceLines.isEmpty()) {
                     System.out.println("You can only specify one number of reduced lines!");
                     System.exit(0);
