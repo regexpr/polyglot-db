@@ -52,6 +52,11 @@ public class QueryHandler {
   
   
   //giving the QueryHandler the DatabaseService, where it can execute its queries
+
+  /**
+   *
+   * @param databaseService
+   */
   public QueryHandler(DatabaseService databaseService) {
     QueryHandler.dbs = databaseService;
     QueryHandler.driver = dbs.getNeo4jDriver();
@@ -61,6 +66,11 @@ public class QueryHandler {
   //
   //The Mongo DB queries
   //
+
+  /**
+   *
+   * @throws ParseException
+   */
   
   public void convertMongoQuery() throws ParseException {
     JSONParser jsonParser = new JSONParser();
@@ -116,6 +126,14 @@ public class QueryHandler {
   
   
   //gets a single Object from the MongoDB with corresponding key-value.
+
+  /**
+   *
+   * @param collectionName
+   * @param key
+   * @param value
+   * @return
+   */
   public Document simpleMongoQueryFindOne(String collectionName, String key, String value) {
     MongoCollection<Document> collection = dbs.chooseMongoCollection(collectionName);
     Document result = collection.find(eq(key, value)).first();
@@ -125,6 +143,14 @@ public class QueryHandler {
   
   
   //gets all Objects from the MongoDB with corresponding key-value
+
+  /**
+   *
+   * @param collectionName
+   * @param key
+   * @param value
+   * @return
+   */
   public FindIterable<Document> simpleMongoQueryFindAll(String collectionName, String key, String value) {
     MongoCollection<Document> collection = dbs.chooseMongoCollection(collectionName);
 //		collection.find(eq(key, value)).forEach(printBlock);
@@ -134,6 +160,12 @@ return results;
   
   
   //give me all business names and ids a <user> rated with minimum of <stars>
+
+  /**
+   *
+   * @param uid
+   * @param stars
+   */
   @SuppressWarnings("unchecked")
   public void mongoAggregation2(String uid, int stars) {
     MongoCollection<Document> collection = dbs.chooseMongoCollection("review");
@@ -151,6 +183,12 @@ return results;
   //
   //Neo4j Queries
   //
+
+  /**
+   *
+   * @param query
+   * @return
+   */
   public List<Object> customNeo4jQuery(String query)	{
     try ( Session session = driver.session() ) {
       return session.readTransaction( new TransactionWork<List<Object>>() {

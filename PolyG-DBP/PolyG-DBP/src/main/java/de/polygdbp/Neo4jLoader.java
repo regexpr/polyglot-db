@@ -30,11 +30,18 @@ public class Neo4jLoader {
   private static DatabaseService dbs;
   private static Driver driver;
   
+  /**
+   *
+   * @param databaseService
+   */
   public Neo4jLoader(DatabaseService databaseService) {
     Neo4jLoader.dbs = databaseService;
     Neo4jLoader.driver = dbs.getNeo4jDriver();
   };
   
+  /**
+   *
+   */
   public void loadYelpDataset() {
     this.schemaAssertion();
     this.loadBusinesses();
@@ -44,6 +51,9 @@ public class Neo4jLoader {
     
   }
   
+  /**
+   *
+   */
   public void schemaAssertion() {
     
     try ( Session session = driver.session() )
@@ -61,7 +71,9 @@ public class Neo4jLoader {
     
   }
   
-  
+  /**
+   *
+   */
   public void loadBusinesses()
   {
     try ( Session session = driver.session() )
@@ -87,7 +99,9 @@ public class Neo4jLoader {
     }
   };
   
-  
+  /**
+   *
+   */
   public void loadTips()
   {
     try ( Session session = driver.session() )
@@ -110,6 +124,9 @@ public class Neo4jLoader {
     }
   };
   
+  /**
+   *
+   */
   public void loadReviews()
   {
     try ( Session session = driver.session() )
@@ -135,6 +152,9 @@ public class Neo4jLoader {
     }
   };
   
+  /**
+   *
+   */
   public void loadUsers()
   {
     try ( Session session = driver.session() )

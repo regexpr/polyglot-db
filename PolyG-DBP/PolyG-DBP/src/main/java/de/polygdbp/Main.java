@@ -34,22 +34,7 @@ public class Main {
   public static void main(String[] args){
     
     LOG.info("Polyglot Logging!");
-    
-    // BEGIN Yoshi's Testing stuffs. Has to be moved to the real test package!
-    try {
-      DatabaseService dbs = new DatabaseService("localhost", 27017, "yelp", "bolt://localhost:7687", "yoshi", "mitsu");
-      QueryHandler qh = new QueryHandler(dbs);
-      List<Object> results = qh.customNeo4jQuery("MATCH (u:User)-[:WROTE]-(r:Review)-[:REVIEWS]-(Business) WHERE id(u)=214195 AND r.stars > 2 Return Business.name");
-      for(int i=0; i<results.size(); i++) {
-        System.out.println(results.get(i));
-      }
-      
-    } catch (UnknownHostException ex) {
-      java.util.logging.Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    
-    // END Yoshi's Testing stuffs. Has to be moved to the real test package!
-    
+        
     if (args.length < 1) {
       help();
       return;

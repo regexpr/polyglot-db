@@ -39,6 +39,17 @@ public class DatabaseService {
   
   //Constructor for the DatabaseService
   //TODO: connect to Neo4j also
+
+  /**
+   *
+   * @param host
+   * @param port
+   * @param dbName
+   * @param uri
+   * @param user
+   * @param password
+   * @throws UnknownHostException
+   */
   public DatabaseService(String host, int port, String dbName, String uri, String user, String password) throws UnknownHostException {
     DatabaseService.mongoClient = new MongoClient(new MongoClientURI("mongodb://"+host+":"+port));
     this.mongoDatabase = mongoClient.getDatabase(dbName);
@@ -46,16 +57,29 @@ public class DatabaseService {
   }
   
   //connects to Database with name: dbName
+
+  /**
+   *
+   * @param dbName
+   */
   public void changeMongoDatabase(String dbName) {
     this.mongoDatabase = mongoClient.getDatabase(dbName);
   }
   
-  
+  /**
+   *
+   * @param collectionName
+   * @return
+   */
   public MongoCollection<Document> chooseMongoCollection(String collectionName) {
     this.mongoCollection = mongoDatabase.getCollection(collectionName);
     return mongoCollection;
   }
   
+  /**
+   *
+   * @return
+   */
   public MongoDatabase getMongoDatabase() {
     return mongoDatabase;
   }
@@ -64,6 +88,9 @@ public class DatabaseService {
   /**
    *
    * The following methods are for the Neo4j Server.
+   * @param uri
+   * @param user
+   * @param password
    */
   
   //connects to Neo4j with credentials
@@ -71,10 +98,17 @@ public class DatabaseService {
     DatabaseService.driver = GraphDatabase.driver( uri, AuthTokens.basic( user, password ) );
   }
   
+  /**
+   *
+   * @return
+   */
   public Driver getNeo4jDriver() {
     return DatabaseService.driver;
   }
   
+  /**
+   *
+   */
   public void closeNeo4j() {
     driver.close();
   }
