@@ -18,12 +18,12 @@ public class Neo4jLoader {
 	};
 	
 	public void loadYelpDataset() {
-//		this.schemaAssertion();
-//		this.loadBusinesses();
-//		this.loadTips();
+		this.schemaAssertion();
+		this.loadBusinesses();
+		this.loadTips();
 		this.loadReviews();
 		this.loadUsers();
-		this.mergAll();
+	
 	}
 	
     public void schemaAssertion() {
@@ -145,27 +145,7 @@ public class Neo4jLoader {
     };
     
     
-    
-    public void mergAll()
-    {
-        try ( Session session = driver.session() )
-        {
-            session.writeTransaction( new TransactionWork<Integer>()
-            {
-                @Override
-                public Integer execute( Transaction tx )
-                {
-                    tx.run( "CALL apoc.periodic.iterate(\n" + 
-                    		"\"MATCH (p1:User)-->(r1:Review)-->(:Business)<--(r2:Review)<--(p2:User) \n" + 
-                    		"where id(p1) < id(p2) \n" + 
-                    		"RETURN p1,p2,collect(r1.stars) as s1,collect(r2.stars) as s2\",\n" + 
-                    		"\"MERGE (p1)-[s:SIMILAR]-(p2) SET s.weight = apoc.algo.euclideanSimilarity(s1,s2)\"\n" + 
-                    		", {batchSize:10000, parallel:false,iterateList:true});");
-                    return 1;
-                }
-            } );
-        }
-    };
+   
     
     
     
