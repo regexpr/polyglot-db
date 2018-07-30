@@ -29,9 +29,9 @@ public class MongoAPI {
   private MongoDatabase mongoDb;
   private MongoCollection<Document> currentMongoCollection;
 
-  public MongoAPI(String database) {
+  public MongoAPI() {
     this.mongoClient = new MongoClient();
-    this.mongoDb = mongoClient.getDatabase(database);
+    this.mongoDb = mongoClient.getDatabase("polyg-benchmark");
     this.currentMongoCollection = null;
   }
 

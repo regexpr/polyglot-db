@@ -23,19 +23,42 @@ import org.apache.logging.log4j.Logger;
  * Dient als ausführbare Hauptklasse des PolyG-DB Projektes.
  */
 public class Main extends RuntimeException {
-  private static final Logger LOG = LogManager.getLogger(Main.class);
-  private String inputPath;
+  protected static final Logger LOG = LogManager.getLogger(Main.class);
+  private String pathDataset;
   private String mongoAddress;
   private String neo4jAddress;
   private int reduceLines;
   private int simulationPercentage;
 
   public Main() {
-    inputPath = "";
+    pathDataset = "";
     mongoAddress = "";
     neo4jAddress = "";
     reduceLines = -1;
     simulationPercentage = -1;
+  }
+  
+  public void run(){
+    MongoAPI mongoApi = new MongoAPI();
+    Benchmark bench = new Benchmark();
+    if (mongoAddress.isEmpty())
+      mongoAddress = "mongodb://localhost:27017";
+    if (neo4jAddress.isEmpty())
+      neo4jAddress = "jdbc:neo4j:bolt://localhost";
+    
+    // <-- BEGIN importing .JSONS into MongoDB -->
+    if (pathDataset.isEmpty()){
+      LOG.info("No dataset path set with --input. So we will import nothing.");
+    } else {
+      LOG.info("Dataset path set. Starting to import.");
+      LOG.info("This may take some time");
+      MongoImporter mongoImporter = new MongoImporter(mongoApi, reduceLines, pathDataset);
+      bench.start();
+      mongoImporter.importData();
+      bench.stop();
+      bench.getElapsedSecondsString();
+    }
+    // <-- END importing .JSONS into MongoDB -->
   }
   
   /**
@@ -47,19 +70,7 @@ public class Main extends RuntimeException {
     LOG.info("Starting Polyglot Logging!");
     LOG.info("Processing command line arguments: "+Arrays.toString(args));
     main.checkUserInput(args);
-    
-    if (main.mongoAddress.isEmpty())
-      main.mongoAddress = "mongodb://localhost:27017";
-    if (main.neo4jAddress.isEmpty())
-      main.neo4jAddress = "jdbc:neo4j:bolt://localhost";
-    
-    if (main.inputPath.isEmpty()){
-      LOG.info("No dataset path set with --input. So we will import nothing.");
-    } else {
-      LOG.info("Dataset path set. Starting to import.");
-      //MongoImporter mongoImporter = new MongoImporter();
-    }
-    
+    main.run();
   }
   
   public void help() {
@@ -127,11 +138,11 @@ public class Main extends RuntimeException {
       }
       switch (last) {
         case "-i": case "--input":
-          if (!inputPath.isEmpty()) {
+          if (!pathDataset.isEmpty()) {
             LOG.error("Unexpected user input. You can only specify one input path!");
             throw new UnexpectedParameterException("Multiple input paths");
           }
-          inputPath = arg;
+          pathDataset = arg;
           break;
         case "-n": case "--neo4j":
           if (!neo4jAddress.isEmpty()) {
