@@ -23,6 +23,11 @@ import org.apache.logging.log4j.Logger;
  */
 public class Main {
   private static final Logger LOG = LogManager.getLogger(Main.class);
+  private static String inputPath = "";
+  private static String mongoAddress = "";
+  private static String neo4jAddress = "";
+  private static int reduceLines =  -1;
+  private static int simulationPercentage = -1;
   
   /**
    * Hauptmethode.
@@ -30,13 +35,20 @@ public class Main {
    */
   public static void main(String[] args){
     
-    LOG.info("Polyglot Logging!");
-        
-    if (args.length < 1) {
-      help();
-      return;
+    LOG.info("Starting Polyglot Logging!");
+    LOG.info("Checking arguments");
+    checkUserInput(args);
+    
+    if (mongoAddress.isEmpty())
+      mongoAddress = "localhost://774";
+    if (neo4jAddress.isEmpty())
+      neo4jAddress = "localhost://774";
+    
+    if (inputPath.isEmpty()){
+      LOG.info("No dataset path set with --input. So we will import nothing.");
     } else {
-      checkUserInput(args);
+      LOG.info("Dataset path set. Starting to import.");
+      //MongoImporter mongoImporter = new MongoImporter();
     }
     
   }
@@ -52,17 +64,17 @@ public class Main {
     
     builder.append("java -jar PolyG-DBP-0.1.jar benchmark [Options] ")
             .append("Query\n")
-            .append("\tBenchmark with the given query.\n");
+            .append("\tBenchmark with the given query.\n")
+            .append("Example: java -jar PolyG-DBP-0.1.jar benchmark q1");
     
     builder.append("OPTIONS (can be specified in any order):\n")
             .append("-i, --input\t\tPath to the input file(s).\n")
             .append("-n, --neo4j\t\tAdress of the neo4j instance\n")
             .append("-m, --mongo\t\tAdress of the mongodb instance\n")
             .append("-s, --simulate\t\tSimulates daily Update from Mongo to Neo4j\n")
-            .append("-r, --reduce\t\tReduces each input file to certain number of lines\n")
-            .append("    --quiet\t\tSet the default log-level to quiet.\n")
-            .append("    --verbose\t\tSet the default log-level to verbose.\n");
+            .append("-r, --reduce\t\tReduces each input file to certain number of lines\n");
     System.out.println(builder);
+    System.exit(0);
   }
   private static void list() {
     StringBuilder builder = new StringBuilder();
@@ -75,124 +87,79 @@ public class Main {
     builder.append("[q4]:\n");
     builder.append("[q5]:\n");
     System.out.println(builder);
+    System.exit(0);
   }
   private static void checkUserInput(final String[] args) {
     // User input handling
-    if (args[0].equalsIgnoreCase("help")) {
+    if (args.length == 0) {
+      LOG.error("Unexpected user input. No query set.");
       help();
-      return;
-    } else if (args[0].equalsIgnoreCase("list")) {
+    }
+    if (args[0].equalsIgnoreCase("list"))
       list();
-      return;
+    if (args[0].equalsIgnoreCase("help")) 
+      help();
+    if (!args[0].startsWith("q")) {
+      LOG.error("Unexpected user input. First Argument should start with 'q'.");
+      help();
     }
-    else if (args[0].equalsIgnoreCase("benchmark") && args.length < 2 ) {
-      //Not enough arguments
-      System.out.println(
-              "Usage: java -jar PolyG-DBP-0.1.jar benchmark"
-                      + "[OPTIONS] QUERY\n");
-      System.out.println("Example: java -jar PolyG-DBP-0.1.jar benchmark"
-              + "q1");
-      return;
-    } else if (!args[0].equalsIgnoreCase("benchmark")) {
-      System.out.println("Unknown command: " + args[0]);
-      System.out.println("See help for usage: java -jar PolyG-DBP-0.1.jar help");
-      return;
+    if (args.length % 2 == 0) {
+      LOG.error("Unexpected user input. Number of arguments must be odd - one for query, two for each option");
+      help();
     }
     
-    String inputPath = "";
-    String neo4jPath = "";
-    String mongoPath = "";
-    String reduceLines = "";
-    String simulationPercentage = "";
-    
-    boolean needsValue = false;
     String last = "";
-    
-    if (args.length > 3) {
-      for (int i = 1; i < args.length - 3; ++i) {
-        String arg = args[i];
-        
-        if (arg.startsWith("-") && needsValue) {
-          System.out.println("Parameter " + last + " needs value.");
-          System.exit(0);
-        }
-        switch (arg) {
-          case "--verbose":
-            //LogManager.getRootLogger().setLevel(Level.ALL);
-            break;
-          case "--quiet":
-            // LogManager.getRootLogger().
-            break;
-          case "-i": case "--input": case "-n": case "--neo4j": case "-m":
-          case "--mongo": case "-s": case "--simulate": case "-r":
-          case "--reduce":
-            needsValue = true;
-            break;
-          default:
-            if (needsValue) {
-              switch (last) {
-                case "-i": case "--input":
-                  if (!inputPath.isEmpty()) {
-                    System.out.println("You can only specify one input path!");
-                    System.exit(0);
-                  }
-                  inputPath = arg;
-                  break;
-                case "-n": case "--neo4j":
-                  if (!neo4jPath.isEmpty()) {
-                    System.out.println("You can only specify one address to the Neo4j!");
-                    System.exit(0);
-                  }
-                  neo4jPath = arg;
-                  break;
-                case "-m": case "--mongo":
-                  if (!mongoPath.isEmpty()) {
-                    System.out.println("You can only specify one address to the Mongodb!");
-                    System.exit(0);
-                  }
-                  mongoPath = arg;
-                  break;
-                case "-r": case "--reduce":
-                  if (!reduceLines.isEmpty()) {
-                    System.out.println("You can only specify one number of reduced lines!");
-                    System.exit(0);
-                  }
-                  reduceLines = arg;
-                  break;
-                case "-s": case "--simulate":
-                  if (!simulationPercentage.isEmpty()) {
-                    System.out.println("You can only specify one simulation percentage!");
-                    System.exit(0);
-                  }
-                  simulationPercentage = arg;
-                  break;
-                default:
-                  //This can not happen
-                  break;
-              }
-              needsValue = false;
-              break;
-            }
-            System.out.println("Unknown command line option: " + arg);
+    for (int i = 1; i < args.length; ++i) {
+      String arg = args[i];
+      
+      if (arg.startsWith("-") && last.startsWith("-")) {
+        LOG.error("Unexpected user input. Parameter "+last+"has no value.");
+        help();
+      }
+      switch (last) {
+        case "-i": case "--input":
+          if (!inputPath.isEmpty()) {
+            LOG.error("Unexpected user input. You can only specify one input path!");
             System.exit(0);
-        }
-        
-        if (i < args.length - 1) {
-          last = arg;
-        }
+          }
+          inputPath = arg;
+          break;
+        case "-n": case "--neo4j":
+          if (!neo4jAddress.isEmpty()) {
+            LOG.error("Unexpected user input. You can only specify one address to the Neo4j!");
+            System.exit(0);
+          }
+          neo4jAddress = arg;
+          break;
+        case "-m": case "--mongo":
+          if (!mongoAddress.isEmpty()) {
+            LOG.error("Unexpected user input. You can only specify one address to the Mongodb!");
+            System.exit(0);
+          }
+          mongoAddress = arg;
+          break;
+        case "-r": case "--reduce":
+          if (reduceLines != -1) {
+            LOG.error("Unexpected user input. You can only specify one number of reduced lines!");
+            System.exit(0);
+          }
+          reduceLines = Integer.parseInt(arg);
+          break;
+        case "-s": case "--simulate":
+          if (simulationPercentage != -1) {
+           LOG.error("Unexpected user input. You can only specify one simulation percentage!");
+            System.exit(0);
+          }
+          simulationPercentage = Integer.parseInt(arg);
+          break;
+        default:
+          LOG.error("Unexpected user input.");
+          help();
+          System.exit(0);
+          break;
       }
-      if (needsValue) {
-        System.out.println("Parameter " + last + " needs value.");
-        System.exit(0);
-      }
-      startBenchmark();
-    }
-  }
-  
-  private static void startBenchmark() {
-    boolean err = false;
-    if (err) {
-      System.exit(-1);
+      
+      last = arg;
     }
   }
 }
