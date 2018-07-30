@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2018 Tim Niehoff, Hyeon Ung Kim.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,10 +15,31 @@
  */
 package de.polygdbp;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 /**
- * Verringert JSON Dateien. Liest zeilenweise eine Datei ein und hört bei einer
- * vorgegebenen Schranke auf.
+ *
+ * @author Tim Niehoff, Hyeon Ung Kim
  */
-public class DataReducer {
+public class MongoImporterTest {
+    
+    public MongoImporterTest() {
+    }
+    
+
+  /**
+   * Test of importData method, of class MongoImporter.
+   */
+  @Test
+  public void testImportData() throws Exception {
+    MongoImporter instance = null;
+    //instance.importData();
+    // TODO review the generated test code and remove the default call to fail.
+    
+  }
     
 }

@@ -15,9 +15,6 @@
 */
 package de.polygdbp;
 
-import java.net.UnknownHostException;
-import java.util.List;
-import java.util.logging.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,8 +35,10 @@ public class Main {
     if (args.length < 1) {
       help();
       return;
+    } else {
+      checkUserInput(args);
     }
-    checkUserInput(args);
+    
   }
   
   private static void help() {
@@ -77,8 +76,6 @@ public class Main {
     builder.append("[q5]:\n");
     System.out.println(builder);
   }
-  
-  
   private static void checkUserInput(final String[] args) {
     // User input handling
     if (args[0].equalsIgnoreCase("help")) {
@@ -190,8 +187,6 @@ public class Main {
       }
       startBenchmark();
     }
-    
-    
   }
   
   private static void startBenchmark() {
