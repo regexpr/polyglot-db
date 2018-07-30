@@ -7,7 +7,5 @@ Siehe https://dbs.uni-leipzig.de/study/ss_2018/bigdprak
 * Tim Niehoff (regexpr)
 
 ## Termine
-* Abgabe Testat1: Mittwoch, 30.05.2018 per Email. Tim schickts um 22:00 ab.
-* Testat 1: Donnerstag, 31.05.2018, 13:00, P419
-* Testat 2: Mitte/Ende Juli
-* Testat 3: tba
+* Testat 2: Mittwoch, 1.08.2018 um 10:00
+* Testat 3: Montag, 6.08.2018 ab 13:30 Uhr Raum P502
