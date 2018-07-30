@@ -1,1 +1,4 @@
-2018-07-30 11:47:14.023 [main] INFO  de.polygdbp.Main - Polyglot Logging!
+2018-07-30 18:38:08.564 [main] INFO  de.polygdbp.Main - Starting Polyglot Logging!
+2018-07-30 18:38:08.580 [main] INFO  de.polygdbp.Main - Processing command line arguments: null
+2018-07-30 18:38:08.581 [main] ERROR de.polygdbp.Main - Unexpected user input. No query set.
+2018-07-30 18:38:08.597 [main] ERROR de.polygdbp.Main - Unexpected user input. No query set.
