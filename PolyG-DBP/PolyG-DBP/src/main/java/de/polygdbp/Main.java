@@ -22,11 +22,6 @@ import com.mongodb.client.FindIterable;
 public class Main {
 
 	public static void main(String[] argv) throws UnknownHostException{
-		DatabaseService dbs = new DatabaseService("localhost", 27017, "yelp", "bolt://localhost:7687", "yoshi", "mitsu");
-		QueryHandler qh = new QueryHandler(dbs);
-		List<Object> results = qh.customNeo4jQuery("MATCH (u:User)-[:WROTE]-(r:Review)-[:REVIEWS]-(Business) WHERE id(u)=214195 AND r.stars > 2 Return Business.name");
-		for(int i=0; i<results.size(); i++) {
-			System.out.println(results.get(i));
-		}
+
 	}    
 }

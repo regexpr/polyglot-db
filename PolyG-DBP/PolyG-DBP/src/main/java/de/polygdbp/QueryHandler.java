@@ -29,7 +29,6 @@ import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -54,50 +53,6 @@ public class QueryHandler {
     //The Mongo DB queries  
     //
 
-    public void convertMongoQuery() throws ParseException {
-		JSONParser jsonParser = new JSONParser();
-		Object jsonObject = null;
-		
-	    String phrase ="db.review.aggregate([{$match : {$and: [{\"user_id\":\"nOTl4aPC4tKHK35T3bNauQ\"},{\"stars\": {$gt: 4}}]}}, {$lookup: {from:\"business\", localField: \"business_id\", foreignField: \"business_id\", as: \"business\"}}, {$addFields: {\"business\":\"$business\"}}, {$project:{\"business.name\":1, \"business.business_id\":1}}])";
-	    String delims1 = "[(\\[{}: ,\\])]+";
-	    String delims2 = ".";
-	    String delims3 = "\\(";
-	    
-	    String[] tokens2 = phrase.split(delims3);
-	    String[] tokens = phrase.split(delims1);
-	    String[] firstPart = phrase.split(delims2);
-	    
-	    String inner = (String) tokens2[1].subSequence(1, tokens2[1].length()-2);
-	    
-	    jsonObject = jsonParser.parse(inner);
-	    
-//	    System.out.println(jsonObject["$match"]);
-//        
-//        for(int i=1; i<tokens.length; i++) {
-//        	switch(tokens[i]){ 
-//        		case "$match":
-//        			
-//        			break;
-//        	}
-//        }
-    }
-    
-//    public void checkTokens(String token) {
-//    	Filters filter;
-//    	switch(token) {
-//    		case "$and": and()
-//    		case "$gt":
-//    		case "$gte":
-//    		case "$lt":
-//    		case "$lte":
-//    		case "$ne":
-//    		case "$in":
-//    		case "$nin":
-//    	}
-//    	
-//    }
-    
-    
     
     Block<Document> printBlock = new Block<Document>() {
         @Override
@@ -125,20 +80,19 @@ public class QueryHandler {
 	};
 	
 
-	//give me all business names and ids a <user> rated with minimum of <stars>
-	@SuppressWarnings("unchecked")
-	public void mongoAggregation2(String uid, int stars) {
-		MongoCollection<Document> collection = dbs.chooseMongoCollection("review");
-		collection.aggregate(Arrays.asList(
-			Aggregates.match(and(
-				eq("user_id", uid),
-				gt("stars",stars)
-			)),
-			Aggregates.lookup("business", "business_id", "business_id", "business"),
-			Aggregates.addFields(new Field("business", "$business")),
-			Aggregates.project(fields(include("business.name", "business.business_id")))
-		)).forEach(printBlock);
-	};
+	public void customMongoAggregation(String phrase, String collectionName) {
+		MongoCollection<Document> collection = dbs.chooseMongoCollection(collectionName);
+		MongoQueryBuilder mqb = new MongoQueryBuilder(phrase);
+		
+		List<Document> query = new ArrayList<Document>();
+		List<Document> query2 = new ArrayList<Document>();
+		
+		mqb.buildMongoQuery();
+		query = mqb.getMongoQuery();
+		
+		collection.aggregate(query).forEach(printBlock);
+
+	}
 
 	
 	
@@ -154,7 +108,6 @@ public class QueryHandler {
 	            public List<Object> execute( Transaction tx ) {
 	        	    List<Object> output = new ArrayList<>();
 	        	    StatementResult result = tx.run( query );
-	        	    String string;
 	        	    if(result.peek().get(0).type().name() == "NODE") {
 		        	    while ( result.hasNext() ) {
 		        	    	Record tempResult = result.next();
