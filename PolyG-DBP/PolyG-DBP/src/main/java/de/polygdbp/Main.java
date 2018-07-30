@@ -15,36 +15,45 @@
 */
 package de.polygdbp;
 
+import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
  * Dient als ausführbare Hauptklasse des PolyG-DB Projektes.
  */
-public class Main {
+public class Main extends RuntimeException {
   private static final Logger LOG = LogManager.getLogger(Main.class);
-  private static String inputPath = "";
-  private static String mongoAddress = "";
-  private static String neo4jAddress = "";
-  private static int reduceLines =  -1;
-  private static int simulationPercentage = -1;
+  private String inputPath;
+  private String mongoAddress;
+  private String neo4jAddress;
+  private int reduceLines;
+  private int simulationPercentage;
+
+  public Main() {
+    inputPath = "";
+    mongoAddress = "";
+    neo4jAddress = "";
+    reduceLines = -1;
+    simulationPercentage = -1;
+  }
   
   /**
-   * Hauptmethode.
-   * @param args enthält die Kommandozeilenoptionen.
+   * Runs PolyG-DBP. 
+   * @param args contains users command line arguments.
    */
   public static void main(String[] args){
-    
+    Main main = new Main();
     LOG.info("Starting Polyglot Logging!");
-    LOG.info("Checking arguments");
-    checkUserInput(args);
+    LOG.info("Processing command line arguments: "+Arrays.toString(args));
+    main.checkUserInput(args);
     
-    if (mongoAddress.isEmpty())
-      mongoAddress = "localhost://774";
-    if (neo4jAddress.isEmpty())
-      neo4jAddress = "localhost://774";
+    if (main.mongoAddress.isEmpty())
+      main.mongoAddress = "mongodb://localhost:27017";
+    if (main.neo4jAddress.isEmpty())
+      main.neo4jAddress = "jdbc:neo4j:bolt://localhost";
     
-    if (inputPath.isEmpty()){
+    if (main.inputPath.isEmpty()){
       LOG.info("No dataset path set with --input. So we will import nothing.");
     } else {
       LOG.info("Dataset path set. Starting to import.");
@@ -53,7 +62,7 @@ public class Main {
     
   }
   
-  private static void help() {
+  public void help() {
     StringBuilder builder = new StringBuilder();
     builder.append("USAGE:\n")
             .append("java -jar PolyG-DBP-0.1.jar help\n")
@@ -74,9 +83,8 @@ public class Main {
             .append("-s, --simulate\t\tSimulates daily Update from Mongo to Neo4j\n")
             .append("-r, --reduce\t\tReduces each input file to certain number of lines\n");
     System.out.println(builder);
-    System.exit(0);
   }
-  private static void list() {
+  public void list() {
     StringBuilder builder = new StringBuilder();
     
     builder.append("\n\nAVAILABLE QUERIES FOR THE YELP DATASET\n");
@@ -87,27 +95,27 @@ public class Main {
     builder.append("[q4]:\n");
     builder.append("[q5]:\n");
     System.out.println(builder);
-    System.exit(0);
   }
-  private static void checkUserInput(final String[] args) {
+  public void checkUserInput(final String[] args) {
     // User input handling
-    if (args.length == 0) {
+    if ((args == null) || (args.length == 0) || (!args[0].startsWith("q"))){
       LOG.error("Unexpected user input. No query set.");
       help();
+      throw new UnexpectedParameterException("No query");
     }
-    if (args[0].equalsIgnoreCase("list"))
+    if (args[0].equalsIgnoreCase("list")){
       list();
-    if (args[0].equalsIgnoreCase("help")) 
+      System.exit(0);
+    }
+    if (args[0].equalsIgnoreCase("help")) {
       help();
-    if (!args[0].startsWith("q")) {
-      LOG.error("Unexpected user input. First Argument should start with 'q'.");
-      help();
+      System.exit(0);
     }
     if (args.length % 2 == 0) {
       LOG.error("Unexpected user input. Number of arguments must be odd - one for query, two for each option");
       help();
+      throw new UnexpectedParameterException("Even number of parameters");
     }
-    
     String last = "";
     for (int i = 1; i < args.length; ++i) {
       String arg = args[i];
@@ -115,50 +123,50 @@ public class Main {
       if (arg.startsWith("-") && last.startsWith("-")) {
         LOG.error("Unexpected user input. Parameter "+last+"has no value.");
         help();
+        throw new UnexpectedParameterException("No value");
       }
       switch (last) {
         case "-i": case "--input":
           if (!inputPath.isEmpty()) {
             LOG.error("Unexpected user input. You can only specify one input path!");
-            System.exit(0);
+            throw new UnexpectedParameterException("Multiple input paths");
           }
           inputPath = arg;
           break;
         case "-n": case "--neo4j":
           if (!neo4jAddress.isEmpty()) {
             LOG.error("Unexpected user input. You can only specify one address to the Neo4j!");
-            System.exit(0);
+            throw new UnexpectedParameterException("Multiple neo4j addresses");
+            
           }
           neo4jAddress = arg;
           break;
         case "-m": case "--mongo":
           if (!mongoAddress.isEmpty()) {
             LOG.error("Unexpected user input. You can only specify one address to the Mongodb!");
-            System.exit(0);
+            throw new UnexpectedParameterException("Multiple mongodb addresses");
           }
           mongoAddress = arg;
           break;
         case "-r": case "--reduce":
           if (reduceLines != -1) {
             LOG.error("Unexpected user input. You can only specify one number of reduced lines!");
-            System.exit(0);
+            throw new UnexpectedParameterException("Multiple numbers of reduced lines");
           }
           reduceLines = Integer.parseInt(arg);
           break;
         case "-s": case "--simulate":
           if (simulationPercentage != -1) {
            LOG.error("Unexpected user input. You can only specify one simulation percentage!");
-            System.exit(0);
+            throw new UnexpectedParameterException("Multiple simulation percentages");
           }
           simulationPercentage = Integer.parseInt(arg);
           break;
         default:
           LOG.error("Unexpected user input.");
           help();
-          System.exit(0);
-          break;
+          throw new UnexpectedParameterException();
       }
-      
       last = arg;
     }
   }
