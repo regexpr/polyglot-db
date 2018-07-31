@@ -15,6 +15,7 @@
 */
 package de.polygdbp;
 
+import static de.polygdbp.Main.LOG;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -76,9 +77,9 @@ public class MongoImporter {
         in.close();
         fis.close();
       } catch (FileNotFoundException ex) {
-        Main.LOG.info("Dataset File not found" + ex.getMessage() + ex.getCause());
+        LOG.error("Dataset File not found" + ex.getMessage() + ex.getCause());
       } catch (IOException ex) {
-        Main.LOG.error("IOException: " + ex.getMessage() + ex.getCause());
+        LOG.error("IOException: " + ex.getMessage() + ex.getCause());
       }
     }
   }

@@ -28,7 +28,7 @@ import org.bson.Document;
  * @author Tim Niehoff, Hyeon Ung Kim
  */
 public class MongoQuery {
-  
+
   MongoAPI mongoApi;
   
   /**
@@ -101,3 +101,4 @@ return results;
     
   }
 }
+
