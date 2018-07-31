@@ -29,13 +29,13 @@ import org.bson.Document;
 
 /**
  * Loads a dataset into the MongoDB.
- * 
+ *
  */
 public class MongoImporter {
   private final int lines;
   private final String pathDataset;
   private MongoAPI mongoApi;
-
+  
   /**
    *
    * @param mongoApi
@@ -54,7 +54,7 @@ public class MongoImporter {
   public void importData(){
     File folder = new File(pathDataset);
     List<File> files = new ArrayList<File>(Arrays.asList(folder.listFiles()));
-    while(files.iterator().hasNext()){      
+    while(files.iterator().hasNext()){
       File file = files.iterator().next();
       FileInputStream fis;
       String collectionName = FilenameUtils.getBaseName(file.getName());
