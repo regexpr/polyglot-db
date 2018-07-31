@@ -20,5 +20,5 @@ package de.polygdbp;
  * @author Tim Niehoff, Hyeon Ung Kim
  */
 public class Neo4jQuery {
-  
+  private Neo4jAPI neo4jApi;
 }

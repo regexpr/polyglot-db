@@ -18,6 +18,7 @@ package de.polygdbp;
 import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
@@ -33,6 +34,7 @@ public ExpectedException expectedEx = ExpectedException.none();
   /**
    * Test of main method, of class Main.
    */
+  @Ignore
   @Test
   public void testMain() {
     System.out.println("main");

@@ -15,6 +15,7 @@
 */
 package de.polygdbp;
 
+import com.mongodb.MongoClientURI;
 import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +24,7 @@ import org.apache.logging.log4j.Logger;
  * Dient als ausführbare Hauptklasse des PolyG-DB Projektes.
  */
 public class Main extends RuntimeException {
-
+  
   /**
    *
    */
@@ -33,7 +34,7 @@ public class Main extends RuntimeException {
   private String neo4jAddress;
   private int reduceLines;
   private int simulationPercentage;
-
+  
   /**
    *
    */
@@ -46,16 +47,21 @@ public class Main extends RuntimeException {
   }
   
   /**
-   * 
+   *
    */
   public void run(){
-    MongoAPI mongoApi = new MongoAPI();
+    
     Benchmark bench = new Benchmark();
     if (mongoAddress.isEmpty())
       mongoAddress = "mongodb://localhost:27017";
     if (neo4jAddress.isEmpty())
       neo4jAddress = "jdbc:neo4j:bolt://localhost";
-    
+    // @TODO MongoAPI should get the mongoAddress
+    // @TODO Try to connect to the MongoDB
+    MongoClientURI mongoUri  = new MongoClientURI(mongoAddress);
+    MongoAPI mongoApi = new MongoAPI(mongoUri);
+    // @TODO Start Neo4j API
+    // @TODO Try to connect to the Neo4j
     // <-- BEGIN importing .JSONS into MongoDB -->
     if (pathDataset.isEmpty()){
       LOG.info("No dataset path set with --input. So we will import nothing.");
@@ -67,8 +73,15 @@ public class Main extends RuntimeException {
       mongoImporter.importData();
       bench.stop();
       bench.getElapsedSecondsString();
+      LOG.info("Execute Mongo-Connector with Neo4j Doc Manager to import MongoDB database into Neo4j database");
+      LOG.info("This may take some time");
+      bench.start();
+      Neo4jDocManager.startMongoConnector();
+      bench.stop();
+      bench.getElapsedSecondsString();
     }
-   
+    LOG.info("Executing MongoDB Query.");
+    
     // Aufruf Neo4jAPI.java + MongoAPI.java
     // Aufruf Neo4jQuery.java + MongoQuery.java
     // Aufruf Neo4jExamples.java + MongoExamples.java
@@ -78,7 +91,7 @@ public class Main extends RuntimeException {
   }
   
   /**
-   * Runs PolyG-DBP. 
+   * Runs PolyG-DBP.
    * @param args contains users command line arguments.
    */
   public static void main(String[] args){
@@ -114,7 +127,7 @@ public class Main extends RuntimeException {
             .append("-r, --reduce\t\tReduces each input file to certain number of lines\n");
     System.out.println(builder);
   }
-
+  
   /**
    *
    */
@@ -130,18 +143,13 @@ public class Main extends RuntimeException {
     builder.append("[q5]:\n");
     System.out.println(builder);
   }
-
+  
   /**
    *
    * @param args
    */
   public void checkUserInput(final String[] args) {
     // User input handling
-    if ((args == null) || (args.length == 0) || (!args[0].startsWith("q"))){
-      LOG.error("Unexpected user input. No query set.");
-      help();
-      throw new UnexpectedParameterException("No query");
-    }
     if (args[0].equalsIgnoreCase("list")){
       list();
       System.exit(0);
@@ -150,6 +158,12 @@ public class Main extends RuntimeException {
       help();
       System.exit(0);
     }
+    if ((args == null) || (args.length == 0) || (!args[0].startsWith("q"))){
+      LOG.error("Unexpected user input. No query set.");
+      help();
+      throw new UnexpectedParameterException("No query");
+    }
+    
     if (args.length % 2 == 0) {
       LOG.error("Unexpected user input. Number of arguments must be odd - one for query, two for each option");
       help();
@@ -196,7 +210,7 @@ public class Main extends RuntimeException {
           break;
         case "-s": case "--simulate":
           if (simulationPercentage != -1) {
-           LOG.error("Unexpected user input. You can only specify one simulation percentage!");
+            LOG.error("Unexpected user input. You can only specify one simulation percentage!");
             throw new UnexpectedParameterException("Multiple simulation percentages");
           }
           simulationPercentage = Integer.parseInt(arg);

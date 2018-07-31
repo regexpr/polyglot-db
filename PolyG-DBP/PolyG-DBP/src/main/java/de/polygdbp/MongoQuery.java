@@ -20,5 +20,5 @@ package de.polygdbp;
  * @author Tim Niehoff, Hyeon Ung Kim
  */
 public class MongoQuery {
-  
+  private MongoAPI mongoApi;
 }
