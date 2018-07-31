@@ -34,9 +34,8 @@ public class MongoAPI {
   /**
    *
    */
-  public MongoAPI(MongoClientURI uri) {
-    
-    this.mongoClient = new MongoClient(uri);
+  public MongoAPI(String uri) {
+    this.mongoClient = new MongoClient(new MongoClientURI(uri));
     this.mongoDb = mongoClient.getDatabase("polyg-benchmark");
     this.currentMongoCollection = null;
     // Checking if Connection is refused by provoking a potential com.mongodb.MongoSocketOpenException
