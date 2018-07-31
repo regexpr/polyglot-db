@@ -21,7 +21,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Dient als ausführbare Hauptklasse des PolyG-DB Projektes.
+ * Serves as executable Main class of the PolyG-DB project.
+ * @author Tim Niehoff, Hyeon Ung Kim
+ * Please note, that in all other Java Classes @author is left out in the javadoc as the 
+ * License header already contains the contributors.
+ * 
  */
 public class Main extends RuntimeException {
   /**

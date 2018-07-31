@@ -19,12 +19,10 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import static de.polygdbp.Main.LOG;
 import org.bson.Document;
 
 /**
- *
- * @author Tim Niehoff, Hyeon Ung Kim
+ * Establishes a connection with a running MongoDB instance. It contains several API methods.
  */
 public class MongoAPI {
   private final MongoClient mongoClient;
@@ -32,9 +30,8 @@ public class MongoAPI {
   private MongoCollection<Document> currentMongoCollection;
   
   /**
-   *
-   * @param uri
-   * @param uri
+   * The constructor tries to connect to the MongoDB.
+   * @param uri. Address of the running MongoDB. Valid example: "mongodb://localhost:27017".
    */
   public MongoAPI(String uri) {
     this.mongoClient = new MongoClient(new MongoClientURI(uri));
@@ -46,24 +43,18 @@ public class MongoAPI {
   }
   
   /**
-   *
-   * @return
+   * Getter method of one considered MongoCollection.
+   * @return MongoCollection of Documents.
    */
   public MongoCollection<Document> getCurrentMongoCollection() {
     return currentMongoCollection;
   }
   
   /**
-   *
-   * @param currentMongoCollection
+   * Setter method of one considered MongoCollection.
+   * @param currentMongoCollection. Name of the relevant Collection.
    */
   public void setCurrentMongoCollection(String currentMongoCollection) {
     this.currentMongoCollection = mongoDb.getCollection(currentMongoCollection);
   }
-  
-  
-  
-  
-  
-  
 }

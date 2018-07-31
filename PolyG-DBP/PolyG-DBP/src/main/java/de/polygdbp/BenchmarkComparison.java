@@ -1,35 +1,34 @@
 /*
- * Copyright 2018 Tim Niehoff, Hyeon Ung Kim.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2018 Tim Niehoff, Hyeon Ung Kim.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package de.polygdbp;
 
 import static de.polygdbp.Main.LOG;
 import static de.polygdbp.Main.BENCHMARK;
 
 /**
- *
- * @author Tim Niehoff, Hyeon Ung Kim
+ * Compares two measured time durations in form of de.polygdbp.Benchmark with each other.
  */
 public class BenchmarkComparison {
   private final Benchmark benchmark1;
   private final Benchmark benchmark2;
-
+  
   /**
-   *
-   * @param benchmark1
-   * @param benchmark2
+   * Constructor.
+   * @param benchmark1.
+   * @param benchmark2.
    */
   public BenchmarkComparison(Benchmark benchmark1, Benchmark benchmark2) {
     this.benchmark1 = benchmark1;
@@ -37,7 +36,7 @@ public class BenchmarkComparison {
   }
   
   /**
-   *
+   * Writes the comparison of two time durations into the LOG.
    */
   public void writeDurationComparisonToLOG(){
     long delta1 = benchmark1.getDuration();
@@ -46,14 +45,13 @@ public class BenchmarkComparison {
     String processName2 = benchmark2.getProcessName();
     
     if (delta1 < delta2) {
-      // swap
+      // Swap variables to ensure the correct ordering of both time durations.
       long temp = delta1;
       delta1 = delta2;
       delta2 = temp;
     }
-      int percentage = (int) (delta1/delta2)*100;
-      LOG.log(BENCHMARK,"Process "+processName1+" with "+ delta1 + " ns took " + (delta1-delta2) + " ns longer ("+ percentage+ "%)");
-      LOG.log(BENCHMARK,"than process" + processName2 + "with " + delta2 + " ns.");
-    
+    int percentage = (int) (delta1/delta2)*100;
+    LOG.log(BENCHMARK,"Process "+processName1+" with "+ delta1 + " ns took " + (delta1-delta2) + " ns longer ("+ percentage+ "%)");
+    LOG.log(BENCHMARK,"than process" + processName2 + "with " + delta2 + " ns.");
   }
 }

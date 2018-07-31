@@ -16,8 +16,8 @@
 package de.polygdbp;
 
 /**
- *
- * @author Tim Niehoff, Hyeon Ung Kim
+ * Produces preciser exceptions for the de.polygdbp.Main when facing unexpected arguments of
+ * the user.
  */
 public class UnexpectedParameterException extends RuntimeException {
   
