@@ -16,8 +16,10 @@
 package de.polygdbp;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import static de.polygdbp.Main.LOG;
 import org.bson.Document;
 
 /**
@@ -25,17 +27,22 @@ import org.bson.Document;
  * @author Tim Niehoff, Hyeon Ung Kim
  */
 public class MongoAPI {
-  private MongoClient mongoClient;
-  private MongoDatabase mongoDb;
+  private final MongoClient mongoClient;
+  private final MongoDatabase mongoDb;
   private MongoCollection<Document> currentMongoCollection;
   
   /**
    *
+   * @param uri
+   * @param uri
    */
-  public MongoAPI() {
-    this.mongoClient = new MongoClient();
+  public MongoAPI(String uri) {
+    this.mongoClient = new MongoClient(new MongoClientURI(uri));
     this.mongoDb = mongoClient.getDatabase("polyg-benchmark");
     this.currentMongoCollection = null;
+    // Checking if Connection is refused by provoking a potential com.mongodb.MongoSocketOpenException
+    mongoClient.listDatabaseNames();
+
   }
   
   /**

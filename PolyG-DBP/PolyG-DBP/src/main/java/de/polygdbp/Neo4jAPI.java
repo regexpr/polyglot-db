@@ -28,20 +28,14 @@ public class Neo4jAPI {
   private Driver driver;
   
   //connects to Neo4j with credentials
-  
-  public Neo4jAPI(Driver driver) {
-    this.driver = driver;
-  }
-  
-  
+
   /**
    *
    * @param uri
-   * @param user
-   * @param password
    */
-  public void connectToNeo4j(String uri, String user, String password) {
-    driver = GraphDatabase.driver( uri, AuthTokens.basic( user, password ) );
+  
+  public Neo4jAPI(String uri) {
+    this.driver = GraphDatabase.driver(uri);
   }
   
   /**
