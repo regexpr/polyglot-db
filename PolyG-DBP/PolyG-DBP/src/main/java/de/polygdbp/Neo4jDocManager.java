@@ -19,16 +19,31 @@ import static de.polygdbp.Main.LOG;
 import java.io.IOException;
 
 /**
- *
- * @author Tim Niehoff, Hyeon Ung Kim
+ * Calls the external mongo-connector with the neo4j doc manager. 
+ * @see <a href="https://github.com/mongodb-labs/mongo-connector"> Mongo-Connector at Github</a>
+ * @see <a href="https://github.com/neo4j-contrib/neo4j_doc_manager"> Neo4j Doc Manager at Github</a>
  */
 public class Neo4jDocManager {
-  
+  private String mongoAddress;
+  private String neo4jAddress;
+
   /**
-   *
+   * Constructor.
+   * @param mongoAddress. Valid example: localhost:27017
+   * @param neo4jAddress. Valid example: localhost:7474. Important: No Bolt port!!!
    */
-  public static void startMongoConnector(){
-   ProcessBuilder pb = new ProcessBuilder("mongo-connector", "-m","localhost:27017","-t", "http://localhost:7474/db/data", "-d", "neo4j_doc_manager", "--verbose");  
+  public Neo4jDocManager(String mongoAddress, String neo4jAddress) {
+    this.mongoAddress = mongoAddress;
+    this.neo4jAddress = neo4jAddress;
+  }
+ 
+  /**
+   * The Processbuilder will execute a new thread to call the external mongo-connector.
+   * The user must ensure that it has mongo-connector, as well as neo4j doc manager installed.
+   */
+  public void startMongoConnector(){
+   ProcessBuilder pb = new ProcessBuilder("mongo-connector", "-m",mongoAddress,"-t", "http://"+neo4jAddress+"/db/data", "-d", "neo4j_doc_manager", "--verbose");  
+   // ensures Log data
     pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
     pb.redirectError(ProcessBuilder.Redirect.INHERIT);
     try {

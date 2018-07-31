@@ -1,6 +1,5 @@
 package de.polygdbp;
 
-import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.GraphDatabase;
 
@@ -21,33 +20,30 @@ import org.neo4j.driver.v1.GraphDatabase;
 */
 
 /**
- *
- * @author Tim Niehoff, Hyeon Ung Kim
+ * Establishes a connection with a running Neo4J instance. It contains several API methods.
  */
 public class Neo4jAPI {
-  private Driver driver;
-  
-  //connects to Neo4j with credentials
+  private final Driver driver;
 
-  /**
-   *
-   * @param uri
-   */
   
+  /**
+   * The Constructor tries to connect to a running Neo4J instance.
+   * @param uri Address of the running Neo4J. Valid example: "bolt://localhost:7687".
+   */
   public Neo4jAPI(String uri) {
     this.driver = GraphDatabase.driver(uri);
   }
   
   /**
-   *
-   * @return
+   * Getter method of the Neo4j Driver (API)
+   * @return neo4j driver
    */
   public Driver getNeo4jDriver() {
     return driver;
   }
   
   /**
-   *
+   * Closes a connection to the current Neo4j instance.
    */
   public void closeNeo4j() {
     driver.close();

@@ -29,19 +29,21 @@ import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
 
 /**
- * Loads a dataset into the MongoDB.
- *
+ * Loads a dataset into the MongoDB. The dataset path must be given. 
+ * It can consist of several .JSON documents.
+ * Optional: Import just a specific number of lines of the given .JSON files.
+ * For that the user must ensure that every line of the .JSON is a complete JSON object.
  */
 public class MongoImporter {
   private final int lines;
   private final String pathDataset;
-  private MongoAPI mongoApi;
+  private final MongoAPI mongoApi;
   
   /**
-   *
-   * @param mongoApi
-   * @param lines
-   * @param path
+   * Constructor.
+   * @param mongoApi. Initialized de.polygdbp.MongoAPI.
+   * @param lines. Number of lines that will be imported from every .JSON document.
+   * @param path. Path to the directory with .JSON dataset.
    */
   public MongoImporter(MongoAPI mongoApi, int lines, String path) {
     this.lines = lines;
@@ -50,22 +52,30 @@ public class MongoImporter {
   }
   
   /**
-   *
+   * Import .JSON objects into the running MongoDB.
+   * For every file in the dataset directory of the given path,
+   * transform every line (until file end or user's number of maximum lines) 
+   * into a Document and finally add it into the related Collection.
    */
   public void importData(){
+    // get all files from the given path
     File folder = new File(pathDataset);
-    List<File> files = new ArrayList<File>(Arrays.asList(folder.listFiles()));
+    List<File> files = new ArrayList<>(Arrays.asList(folder.listFiles()));
+    // iterate all found files
     while(files.iterator().hasNext()){
       File file = files.iterator().next();
       FileInputStream fis;
       String collectionName = FilenameUtils.getBaseName(file.getName());
+      // ensure that the right MongoDB collection is selected
       mongoApi.setCurrentMongoCollection(collectionName);
-      List<Document> documents = new ArrayList<Document>();
-      String tempLine = null;
+      List<Document> documents = new ArrayList<>();
+      String tempLine;
       int i = 0;
       try {
         fis = new FileInputStream(file);
         BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+        // Iterate all lines and use them as Strings 
+        // to pass them over to the current MongoDB document collection
         while ((tempLine = in.readLine()) != null) {
           if ((lines > -1) && (i >= lines)){
             break;
@@ -73,13 +83,16 @@ public class MongoImporter {
           documents.add(Document.parse(tempLine));
         }
         mongoApi.getCurrentMongoCollection().insertMany(documents);
-        // close stream
+        // Close streams
         in.close();
         fis.close();
+        // Catch important exceptions
       } catch (FileNotFoundException ex) {
         LOG.error("Dataset File not found" + ex.getMessage() + ex.getCause());
+        System.exit(-1);
       } catch (IOException ex) {
         LOG.error("IOException: " + ex.getMessage() + ex.getCause());
+        System.exit(-1);
       }
     }
   }
