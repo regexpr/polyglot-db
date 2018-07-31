@@ -50,7 +50,6 @@ public class Main extends RuntimeException {
   // Remote Neo4j Address
   private String neo4jAddressRemote;
   private int reduceLines;
-  private int simulationPercentage;
   /**
    * Mandatory parameter that has to be set by the user.
    */
@@ -66,7 +65,6 @@ public class Main extends RuntimeException {
     neo4jAddressBolt = "";
     neo4jAddressRemote = "";
     reduceLines = -1;
-    simulationPercentage = -1;
   }
   
   /**
@@ -148,19 +146,17 @@ public class Main extends RuntimeException {
     builder.append("java -jar PolyG-DBP-0.1.jar list\n")
             .append("\tlists all queries provided by PolyG-DBP.");
     
-    builder.append("java -jar PolyG-DBP-0.1.jar benchmark [Options] ")
-            .append("Query\n")
+    builder.append("java -jar PolyG-DBP-0.1.jar [Options] QUERY\n")
             .append("\tBenchmark with the given query.\n")
-            .append("Example: java -jar PolyG-DBP-0.1.jar benchmark q1");
+            .append("Example: java -jar PolyG-DBP-0.1.jar q1");
     
     builder.append("OPTIONS (can be specified in any order):\n")
-            .append("-i, --input\t\tPath to the directory with JSON file(s).\n")
-            .append("-nb, --neo4jAddressBolt1\t\tAdress of the neo4j instance with the bolt address.\n")
-            .append("-nr, --neo4jAddressRemote\t\tAdress of the neo4j instance with the remote address.\n")
-            .append("-m, --mongoAddress\t\tAdress of the mongodb instance\n")
-            .append("-md, --mongoDatabase\t\tName of the mongodb database\n")
-            .append("-s, --simulate\t\tSimulates daily Update from Mongo to Neo4j\n")
-            .append("-r, --reduce\t\tReduces each input file to certain number of lines\n");
+            .append("-i, --input\t\tPath to the directory with JSON file(s). Example: \"-i /yelp\"\n")
+            .append("-nb, --neo4jAddressBolt1\t\tAdress of the neo4j instance with the bolt address. Example: \"-nb localhost:7687\"\n")
+            .append("-nr, --neo4jAddressRemote\t\tAdress of the neo4j instance with the remote address. Example: \"-nr localhost:7474\"\n")
+            .append("-m, --mongoAddress\t\tAdress of the mongodb instance. Example: \"-m localhost:27017\"\n")
+            .append("-md, --mongoDatabase\t\tName of the mongodb database. Example: \"-md yelp\"\n")
+            .append("-r, --reduce\t\tImport just a certain amount of lines of each input JSON. Example: \"-r 300\"\n");
     System.out.println(builder);
   }
   
@@ -257,14 +253,6 @@ public class Main extends RuntimeException {
           }
           reduceLines = Integer.parseInt(currentArgument);
           break;
-        case "-s": case "--simulate":
-          if (simulationPercentage != -1) {
-            LOG.error("Unexpected user input. You can only specify one simulation percentage!");
-            throw new UnexpectedParameterException("Multiple simulation percentages");
-          }
-          simulationPercentage = Integer.parseInt(currentArgument);
-          break;
-        default:
       }
       lastArgument = currentArgument;
     }
