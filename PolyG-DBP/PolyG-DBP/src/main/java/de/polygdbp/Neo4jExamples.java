@@ -20,5 +20,13 @@ package de.polygdbp;
  * @author Tim Niehoff, Hyeon Ung Kim
  */
 public class Neo4jExamples {
+  private String q1 = "MATCH (u:User)-[:WROTE]-(r:Review)-[:REVIEWS]-(Business) WHERE id(u)=214195 AND r.stars > 2 Return Business";
   
+  
+  public String getQuery(String q) {
+    switch(q) {
+    case "q1": return q1;
+    }
+    return q;
+  }
 }
