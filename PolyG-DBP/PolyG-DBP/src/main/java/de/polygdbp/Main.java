@@ -75,7 +75,7 @@ public class Main extends RuntimeException {
     if (neo4jAddress.isEmpty())
       neo4jAddress = "bolt://localhost:7687";
     // Connect to a running MongoDB by calling MongoAPI constructor
-    MongoAPI mongoApi = new MongoAPI(mongoAddress);
+    MongoAPI mongoApi = new MongoAPI(mongoAddress, "polyg-dbp");
     // Connect to a running Neo4j by calling Neo4jAPI constructor
     Neo4jAPI neo4jApi = new Neo4jAPI(neo4jAddress);
     // <========================= BEGIN Importing .JSONs into MongoDB =========================> 
@@ -96,7 +96,8 @@ public class Main extends RuntimeException {
       LOG.info("This may take some time");
       Benchmark benchMongoConnector = new Benchmark("Mongo-Connector/Neo4j Doc Manager");
       benchMongoConnector.start();
-      Neo4jDocManager.startMongoConnector();
+      Neo4jDocManager docManager = new Neo4jDocManager("localhost:27017", "localhost:7474");
+      docManager.startMongoConnector();
       benchMongoConnector.writeDurationToLOG('s');
       // <========================= END Mongo Connector =========================> 
     }
@@ -153,7 +154,7 @@ public class Main extends RuntimeException {
     
     builder.append("OPTIONS (can be specified in any order):\n")
             .append("-i, --input\t\tPath to the input file(s).\n")
-            .append("-n, --neo4jAddress\t\tAdress of the neo4j instance\n")
+            .append("-n, --neo4jAddress\t\tAdress of the neo4j instance with bolt port.\n")
             .append("-m, --mongoAddress\t\tAdress of the mongodb instance\n")
             .append("-s, --simulate\t\tSimulates daily Update from Mongo to Neo4j\n")
             .append("-r, --reduce\t\tReduces each input file to certain number of lines\n");

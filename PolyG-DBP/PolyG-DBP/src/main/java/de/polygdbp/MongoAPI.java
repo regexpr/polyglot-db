@@ -32,14 +32,23 @@ public class MongoAPI {
   /**
    * The constructor tries to connect to the MongoDB.
    * @param uri. Address of the running MongoDB. Valid example: "mongodb://localhost:27017".
+   * @param dbName. Name of the current MongoDB database name.
    */
-  public MongoAPI(String uri) {
+  public MongoAPI(String uri, String dbName) {
     this.mongoClient = new MongoClient(new MongoClientURI(uri));
-    this.mongoDb = mongoClient.getDatabase("polyg-benchmark");
+    this.mongoDb = mongoClient.getDatabase(dbName);
     this.currentMongoCollection = null;
     // Checking if Connection is refused by provoking a potential com.mongodb.MongoSocketOpenException
     mongoClient.listDatabaseNames();
 
+  }
+
+  /**
+   * Getter method of the current MongoClient.
+   * @return MongoClient.
+   */
+  public MongoClient getMongoClient() {
+    return mongoClient;
   }
   
   /**
