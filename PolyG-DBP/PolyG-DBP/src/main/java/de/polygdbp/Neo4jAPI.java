@@ -28,6 +28,11 @@ public class Neo4jAPI {
   private Driver driver;
   
   //connects to Neo4j with credentials
+
+  /**
+   *
+   * @param uri
+   */
   
   public Neo4jAPI(String uri) {
     this.driver = GraphDatabase.driver(uri);

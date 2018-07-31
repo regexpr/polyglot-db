@@ -30,7 +30,11 @@ public class Main extends RuntimeException {
   * performance results through the level results.
   */
   protected static final Logger LOG = LogManager.getLogger(Main.class);
-  protected static final Level BenchmarkResult = Level.forName("BENCHMARK-RESULT", 774);
+
+  /**
+   *
+   */
+  protected static final Level BENCHMARK = Level.forName("BENCHMARK-RESULT", 774);
   /**
    * Parameters to specify a run of PolyG-DBP. All of them are optional.
    */

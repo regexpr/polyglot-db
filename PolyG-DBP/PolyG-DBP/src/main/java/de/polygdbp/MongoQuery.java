@@ -84,7 +84,6 @@ public class MongoQuery {
   /**
    *
    * @param phrase
-   * @param collectionName
    */
   public void customMongoAggregation(String phrase) {
 	MongoQueryBuilder mqb = new MongoQueryBuilder(phrase);

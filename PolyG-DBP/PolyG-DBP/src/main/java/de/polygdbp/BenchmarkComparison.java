@@ -15,8 +15,8 @@
  */
 package de.polygdbp;
 
-import static de.polygdbp.Main.BenchmarkResult;
 import static de.polygdbp.Main.LOG;
+import static de.polygdbp.Main.BENCHMARK;
 
 /**
  *
@@ -26,11 +26,19 @@ public class BenchmarkComparison {
   private final Benchmark benchmark1;
   private final Benchmark benchmark2;
 
+  /**
+   *
+   * @param benchmark1
+   * @param benchmark2
+   */
   public BenchmarkComparison(Benchmark benchmark1, Benchmark benchmark2) {
     this.benchmark1 = benchmark1;
     this.benchmark2 = benchmark2;
   }
   
+  /**
+   *
+   */
   public void writeDurationComparisonToLOG(){
     long delta1 = benchmark1.getDuration();
     long delta2 = benchmark2.getDuration();
@@ -44,8 +52,8 @@ public class BenchmarkComparison {
       delta2 = temp;
     }
       int percentage = (int) (delta1/delta2)*100;
-      LOG.log(BenchmarkResult,"Process "+processName1+" with "+ delta1 + " ns took " + (delta1-delta2) + " ns longer ("+ percentage+ "%)");
-      LOG.log(BenchmarkResult,"than process" + processName2 + "with " + delta2 + " ns.");
+      LOG.log(BENCHMARK,"Process "+processName1+" with "+ delta1 + " ns took " + (delta1-delta2) + " ns longer ("+ percentage+ "%)");
+      LOG.log(BENCHMARK,"than process" + processName2 + "with " + delta2 + " ns.");
     
   }
 }

@@ -33,6 +33,8 @@ public class MongoAPI {
   
   /**
    *
+   * @param uri
+   * @param uri
    */
   public MongoAPI(String uri) {
     this.mongoClient = new MongoClient(new MongoClientURI(uri));

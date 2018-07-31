@@ -24,6 +24,9 @@ import java.io.IOException;
  */
 public class Neo4jDocManager {
   
+  /**
+   *
+   */
   public static void startMongoConnector(){
    ProcessBuilder pb = new ProcessBuilder("mongo-connector", "-m","localhost:27017","-t", "http://localhost:7474/db/data", "-d", "neo4j_doc_manager", "--verbose");  
     pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);

@@ -15,8 +15,8 @@
 */
 package de.polygdbp;
 
-import static de.polygdbp.Main.BenchmarkResult;
 import static de.polygdbp.Main.LOG;
+import static de.polygdbp.Main.BENCHMARK;
 
 /**
  * Klasse, die Methoden zur Performanzmessung bereithält.
@@ -28,6 +28,10 @@ public class Benchmark {
   private boolean running;
   private final String processName;
 
+  /**
+   *
+   * @param processName
+   */
   public Benchmark(String processName) {
     this.startTime = 0;
     this.stopTime = 0;
@@ -53,10 +57,18 @@ public class Benchmark {
     this.duration = stopTime-startTime;
   }
 
+  /**
+   *
+   * @return
+   */
   public long getDuration() {
     return duration;
   }
 
+  /**
+   *
+   * @return
+   */
   public String getProcessName() {
     return processName;
   }
@@ -64,22 +76,23 @@ public class Benchmark {
   
   /**
    *
+   * @param accuracy
    */
   public void writeDurationToLOG(char accuracy) {
     if (running) {
       stop();
     }
-    LOG.log(BenchmarkResult,"Elapsed time for the process "+processName+" :");
+    LOG.log(BENCHMARK,"Elapsed time for the process "+processName+" :");
     switch (accuracy) {
       case 's':
-        LOG.log(BenchmarkResult,(duration/1000000000) + " seconds");
+        LOG.log(BENCHMARK,(duration/1000000000) + " seconds");
         break;
       case 'm':
-        LOG.log(BenchmarkResult,(duration/1000000) + " milliseconds");
+        LOG.log(BENCHMARK,(duration/1000000) + " milliseconds");
         
         break;
       case 'n': default:
-        LOG.log(BenchmarkResult,(duration) + " nanoseconds");
+        LOG.log(BENCHMARK,(duration) + " nanoseconds");
         break;
     }
     
