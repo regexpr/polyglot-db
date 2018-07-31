@@ -15,37 +15,10 @@
  */
 package de.polygdbp;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 /**
  *
  * @author Tim Niehoff, Hyeon Ung Kim
  */
-public class MongoImporterTest {
-    
-    public MongoImporterTest() {
-    }
-
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-  }
-
-  @AfterClass
-  public static void tearDownClass() throws Exception {
-  }
-    
-
-  /**
-   * Test of importData method, of class MongoImporter.
-   */
-  @Test
-  public void testImportData() throws Exception {
-    MongoImporter instance = null;
-    //instance.importData();
-    // TODO review the generated test code and remove the default call to fail.
-    
-  }
-    
+public class Neo4jExamples {
+  
 }

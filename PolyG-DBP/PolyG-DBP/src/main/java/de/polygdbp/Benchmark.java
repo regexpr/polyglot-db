@@ -19,44 +19,49 @@ package de.polygdbp;
  * Klasse, die Methoden zur Performanzmessung bereithält.
  */
 public class Benchmark {
-  // https://stackoverflow.com/questions/8255738/is-there-a-stopwatch-in-java
   private long startTime = 0;
   private long stopTime = 0;
   private boolean running = false;
   
-  
+  /**
+   *
+   */
   public void start() {
     this.startTime = System.nanoTime();
     this.running = true;
   }
   
-  
+  /**
+   *
+   */
   public void stop() {
     this.stopTime = System.nanoTime();
     this.running = false;
   }
   
-  
-  //elapsed time in nanoseconds
-  public long getElapsedTime() {
-    long elapsed;
+  /**
+   *
+   */
+  public void getElapsedSecondsString() {
+    long seconds;
     if (running) {
-      elapsed = (System.nanoTime() - startTime);
+      seconds = (System.nanoTime() - startTime);
     } else {
-      elapsed = (stopTime - startTime);
+      seconds = (stopTime - startTime);
     }
-    return elapsed;
+    Main.LOG.info("elapsed Time in nanoseconds:\n"+(seconds/1000000000l));
   }
-  
-  
-  //elaspsed time in seconds
-  public long getElapsedTimeSecs() {
-    long elapsed;
+
+  /**
+   *
+   */
+  public void getElapsedNanoSecondsString() {
+    long nanoseconds;
     if (running) {
-      elapsed = ((System.nanoTime() - startTime) / 1000);
+      nanoseconds = (System.nanoTime() - startTime);
     } else {
-      elapsed = ((stopTime - startTime) / 1000);
+      nanoseconds = (stopTime - startTime);
     }
-    return elapsed;
+    Main.LOG.info("elapsed Time in nanoseconds:\n"+ nanoseconds);
   }
 }
