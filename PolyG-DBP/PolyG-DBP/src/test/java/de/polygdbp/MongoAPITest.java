@@ -19,6 +19,7 @@ import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;

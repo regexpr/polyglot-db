@@ -164,7 +164,7 @@ public class Main extends RuntimeException {
       help();
       throw new UnexpectedParameterException("No query");
     }
-    
+
     if (args.length % 2 == 0) {
       LOG.error("Unexpected user input. Number of arguments must be odd - one for query, two for each option");
       help();

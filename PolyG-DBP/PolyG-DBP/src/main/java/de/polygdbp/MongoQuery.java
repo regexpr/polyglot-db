@@ -76,9 +76,9 @@ public class MongoQuery {
   public FindIterable<Document> simpleMongoQueryFindAll(String collectionName, String key, String value) {
     mongoApi.setCurrentMongoCollection(collectionName);
     MongoCollection<Document> collection = mongoApi.getCurrentMongoCollection();
-//		collection.find(eq(key, value)).forEach(printBlock);
-FindIterable<Document> results = collection.find(eq(key, value));
-return results;
+	//		collection.find(eq(key, value)).forEach(printBlock);
+	FindIterable<Document> results = collection.find(eq(key, value));
+	return results;
   };
   
   /**
@@ -86,13 +86,14 @@ return results;
    * @param phrase
    * @param collectionName
    */
-  public void customMongoAggregation(String phrase, String collectionName) {
+  public void customMongoAggregation(String phrase) {
+	MongoQueryBuilder mqb = new MongoQueryBuilder(phrase);
+	String collectionName = mqb.getFirstPart()[1];
+	
     mongoApi.setCurrentMongoCollection(collectionName);
     MongoCollection<Document> collection = mongoApi.getCurrentMongoCollection();
-    MongoQueryBuilder mqb = new MongoQueryBuilder(phrase);
     
     List<Document> query = new ArrayList<Document>();
-    List<Document> query2 = new ArrayList<Document>();
     
     mqb.buildMongoQuery();
     query = mqb.getMongoQuery();
