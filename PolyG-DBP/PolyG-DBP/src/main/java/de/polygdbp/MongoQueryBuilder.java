@@ -261,7 +261,7 @@ public class MongoQueryBuilder {
   *
   */  
   public String[] getFirstPart() {
-	return firstPart;
+    return firstPart;
   }
   
   /**

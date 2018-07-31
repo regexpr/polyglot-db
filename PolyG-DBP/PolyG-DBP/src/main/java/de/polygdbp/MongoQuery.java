@@ -87,8 +87,8 @@ public class MongoQuery {
    * @param collectionName
    */
   public void customMongoAggregation(String phrase) {
-	MongoQueryBuilder mqb = new MongoQueryBuilder(phrase);
-	String collectionName = mqb.getFirstPart()[1];
+    MongoQueryBuilder mqb = new MongoQueryBuilder(phrase);
+    String collectionName = mqb.getFirstPart()[1];
 	
     mongoApi.setCurrentMongoCollection(collectionName);
     MongoCollection<Document> collection = mongoApi.getCurrentMongoCollection();
