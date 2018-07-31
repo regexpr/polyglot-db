@@ -258,6 +258,13 @@ public class MongoQueryBuilder {
   }
   
   /**
+  *
+  */  
+  public String[] getFirstPart() {
+	return firstPart;
+  }
+  
+  /**
    *
    * @param s
    * @return

@@ -19,6 +19,7 @@ import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -42,6 +43,7 @@ public class MongoAPITest {
   /**
    * Test of getCurrentMongoCollection method, of class MongoAPI.
    */
+  @Ignore
   @Test
   public void testGetCurrentMongoCollection() {
     System.out.println("getCurrentMongoCollection");
@@ -56,6 +58,7 @@ public class MongoAPITest {
   /**
    * Test of setCurrentMongoCollection method, of class MongoAPI.
    */
+  @Ignore
   @Test
   public void testSetCurrentMongoCollection() {
     System.out.println("setCurrentMongoCollection");

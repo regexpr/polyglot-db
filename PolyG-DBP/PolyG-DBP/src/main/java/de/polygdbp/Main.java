@@ -137,18 +137,18 @@ public class Main extends RuntimeException {
    */
   public void checkUserInput(final String[] args) {
     // User input handling
-    if ((args == null) || (args.length == 0) || (!args[0].startsWith("q"))){
-      LOG.error("Unexpected user input. No query set.");
-      help();
-      throw new UnexpectedParameterException("No query");
-    }
-    if (args[0].equalsIgnoreCase("list")){
+   if (args[0].equalsIgnoreCase("list")){
       list();
       System.exit(0);
     }
     if (args[0].equalsIgnoreCase("help")) {
       help();
       System.exit(0);
+    }
+    if ((args == null) || (args.length == 0) || (!args[0].startsWith("q"))){
+      LOG.error("Unexpected user input. No query set.");
+      help();
+      throw new UnexpectedParameterException("No query");
     }
     if (args.length % 2 == 0) {
       LOG.error("Unexpected user input. Number of arguments must be odd - one for query, two for each option");
