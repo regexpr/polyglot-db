@@ -22,6 +22,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -47,10 +48,10 @@ public class MongoAPITest {
   @Test
   public void testGetCurrentMongoCollection() {
     System.out.println("getCurrentMongoCollection");
-    MongoAPI instance = new MongoAPI();
+    //MongoAPI instance = new MongoAPI();
     MongoCollection<Document> expResult = null;
-    MongoCollection<Document> result = instance.getCurrentMongoCollection();
-    assertEquals(expResult, result);
+   // MongoCollection<Document> result = instance.getCurrentMongoCollection();
+    //assertEquals(expResult, result);
     // TODO review the generated test code and remove the default call to fail.
     fail("The test case is a prototype.");
   }
@@ -63,8 +64,8 @@ public class MongoAPITest {
   public void testSetCurrentMongoCollection() {
     System.out.println("setCurrentMongoCollection");
     String currentMongoCollection = "";
-    MongoAPI instance = new MongoAPI();
-    instance.setCurrentMongoCollection(currentMongoCollection);
+    //MongoAPI instance = new MongoAPI();
+    //instance.setCurrentMongoCollection(currentMongoCollection);
     // TODO review the generated test code and remove the default call to fail.
     fail("The test case is a prototype.");
   }

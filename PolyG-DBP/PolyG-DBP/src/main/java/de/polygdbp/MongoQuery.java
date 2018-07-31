@@ -28,7 +28,7 @@ import org.bson.Document;
  * @author Tim Niehoff, Hyeon Ung Kim
  */
 public class MongoQuery {
-  
+
   MongoAPI mongoApi;
   
   /**
@@ -84,7 +84,6 @@ public class MongoQuery {
   /**
    *
    * @param phrase
-   * @param collectionName
    */
   public void customMongoAggregation(String phrase) {
 	MongoQueryBuilder mqb = new MongoQueryBuilder(phrase);
@@ -102,3 +101,4 @@ public class MongoQuery {
     
   }
 }
+
