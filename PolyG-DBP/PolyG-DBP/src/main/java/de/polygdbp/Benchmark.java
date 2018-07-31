@@ -51,7 +51,7 @@ public class Benchmark {
     }
     Main.LOG.info("elapsed Time in nanoseconds:\n"+(seconds/1000000000l));
   }
-
+  
   /**
    *
    */

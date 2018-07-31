@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
  * Dient als ausführbare Hauptklasse des PolyG-DB Projektes.
  */
 public class Main extends RuntimeException {
-
+  
   /**
    *
    */
@@ -33,7 +33,7 @@ public class Main extends RuntimeException {
   private String neo4jAddress;
   private int reduceLines;
   private int simulationPercentage;
-
+  
   /**
    *
    */
@@ -46,7 +46,7 @@ public class Main extends RuntimeException {
   }
   
   /**
-   * 
+   *
    */
   public void run(){
     MongoAPI mongoApi = new MongoAPI();
@@ -68,7 +68,7 @@ public class Main extends RuntimeException {
       bench.stop();
       bench.getElapsedSecondsString();
     }
-   
+    
     // Aufruf Neo4jAPI.java + MongoAPI.java
     // Aufruf Neo4jQuery.java + MongoQuery.java
     // Aufruf Neo4jExamples.java + MongoExamples.java
@@ -78,7 +78,7 @@ public class Main extends RuntimeException {
   }
   
   /**
-   * Runs PolyG-DBP. 
+   * Runs PolyG-DBP.
    * @param args contains users command line arguments.
    */
   public static void main(String[] args){
@@ -114,7 +114,7 @@ public class Main extends RuntimeException {
             .append("-r, --reduce\t\tReduces each input file to certain number of lines\n");
     System.out.println(builder);
   }
-
+  
   /**
    *
    */
@@ -130,7 +130,7 @@ public class Main extends RuntimeException {
     builder.append("[q5]:\n");
     System.out.println(builder);
   }
-
+  
   /**
    *
    * @param args
@@ -196,7 +196,7 @@ public class Main extends RuntimeException {
           break;
         case "-s": case "--simulate":
           if (simulationPercentage != -1) {
-           LOG.error("Unexpected user input. You can only specify one simulation percentage!");
+            LOG.error("Unexpected user input. You can only specify one simulation percentage!");
             throw new UnexpectedParameterException("Multiple simulation percentages");
           }
           simulationPercentage = Integer.parseInt(arg);
