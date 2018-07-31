@@ -15,13 +15,26 @@
 */
 package de.polygdbp;
 
+import static de.polygdbp.Main.BenchmarkResult;
+import static de.polygdbp.Main.LOG;
+
 /**
  * Klasse, die Methoden zur Performanzmessung bereithält.
  */
 public class Benchmark {
-  private long startTime = 0;
-  private long stopTime = 0;
-  private boolean running = false;
+  private long startTime;
+  private long stopTime;
+  private long duration;
+  private boolean running;
+  private final String processName;
+
+  public Benchmark(String processName) {
+    this.startTime = 0;
+    this.stopTime = 0;
+    this.duration = 0;
+    this.running = false;
+    this.processName = processName;
+  }
   
   /**
    *
@@ -37,31 +50,38 @@ public class Benchmark {
   public void stop() {
     this.stopTime = System.nanoTime();
     this.running = false;
+    this.duration = stopTime-startTime;
   }
+
+  public long getDuration() {
+    return duration;
+  }
+
+  public String getProcessName() {
+    return processName;
+  }
+  
   
   /**
    *
    */
-  public void getElapsedSecondsString() {
-    long seconds;
+  public void writeDurationToLOG(char accuracy) {
     if (running) {
-      seconds = (System.nanoTime() - startTime);
-    } else {
-      seconds = (stopTime - startTime);
+      stop();
     }
-    Main.LOG.info("elapsed Time in nanoseconds:\n"+(seconds/1000000000l));
-  }
-  
-  /**
-   *
-   */
-  public void getElapsedNanoSecondsString() {
-    long nanoseconds;
-    if (running) {
-      nanoseconds = (System.nanoTime() - startTime);
-    } else {
-      nanoseconds = (stopTime - startTime);
+    LOG.log(BenchmarkResult,"Elapsed time for the process "+processName+" :");
+    switch (accuracy) {
+      case 's':
+        LOG.log(BenchmarkResult,(duration/1000000000) + " seconds");
+        break;
+      case 'm':
+        LOG.log(BenchmarkResult,(duration/1000000) + " milliseconds");
+        
+        break;
+      case 'n': default:
+        LOG.log(BenchmarkResult,(duration) + " nanoseconds");
+        break;
     }
-    Main.LOG.info("elapsed Time in nanoseconds:\n"+ nanoseconds);
+    
   }
 }

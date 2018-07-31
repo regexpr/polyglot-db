@@ -16,6 +16,7 @@
 package de.polygdbp;
 
 import java.util.Arrays;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,6 +30,7 @@ public class Main extends RuntimeException {
   * performance results through the level results.
   */
   protected static final Logger LOG = LogManager.getLogger(Main.class);
+  protected static final Level BenchmarkResult = Level.forName("BENCHMARK-RESULT", 774);
   /**
    * Parameters to specify a run of PolyG-DBP. All of them are optional.
    */
@@ -51,6 +53,7 @@ public class Main extends RuntimeException {
     neo4jAddress = "";
     reduceLines = -1;
     simulationPercentage = -1;
+    
   }
   
   /**
@@ -60,7 +63,6 @@ public class Main extends RuntimeException {
    */
   public void run(){
     
-    Benchmark bench = new Benchmark();
     if (mongoAddress.isEmpty())
       mongoAddress = "mongodb://localhost:27017";
     if (neo4jAddress.isEmpty())
@@ -69,40 +71,54 @@ public class Main extends RuntimeException {
     MongoAPI mongoApi = new MongoAPI(mongoAddress);
     // Connect to a running Neo4j by calling Neo4jAPI constructor
     Neo4jAPI neo4jApi = new Neo4jAPI(neo4jAddress);
-    // <-- BEGIN importing .JSONS into MongoDB -->
+    // <========================= BEGIN Importing .JSONs into MongoDB =========================> 
     if (pathDataset.isEmpty()){
       LOG.info("No dataset path set with --input. So we will import nothing.");
     } else {
       LOG.info("Dataset path set. Starting to import.");
       LOG.info("This may take some time");
       MongoImporter mongoImporter = new MongoImporter(mongoApi, reduceLines, pathDataset);
-      bench.start();
+      Benchmark benchMongoImporter = new Benchmark("MongoImporter");
+      benchMongoImporter.start();
       mongoImporter.importData();
-      bench.stop();
-      bench.getElapsedSecondsString();
-      // <-- END importing .JSONS into MongoDB -->
+      benchMongoImporter.writeDurationToLOG('s');
+      // <========================= END Importing .JSONs into MongoDB =========================> 
+      // <========================= BEGIN Mongo-Connector =========================> 
       // <-- BEGIN Mongo-Connector -->
       LOG.info("Execute Mongo-Connector with Neo4j Doc Manager to import MongoDB database into Neo4j database");
       LOG.info("This may take some time");
-      bench.start();
+      Benchmark benchMongoConnector = new Benchmark("Mongo-Connector/Neo4j Doc Manager");
+      benchMongoConnector.start();
       Neo4jDocManager.startMongoConnector();
-      bench.stop();
-      bench.getElapsedSecondsString();
-      // <-- END Mongo-Connector -->
+      benchMongoConnector.writeDurationToLOG('s');
+      // <========================= END Mongo Connector =========================> 
     }
-
+    
+    // <========================= BEGIN Queries =========================> 
+    MongoQuery mongoQuery = new MongoQuery(mongoApi);
+    Neo4jQuery neo4jQuery = new Neo4jQuery(neo4jApi);
+    
     LOG.info("Executing MongoDB Query.");
+    Benchmark benchMongoQuery = new Benchmark("Execution of a MongoDB Query " + queryName);
+    benchMongoQuery.start();
+    // @TODO: pass correct query from MongoExamples associated with the related queryName
+    mongoQuery.customMongoAggregation(queryName);
+    benchMongoQuery.writeDurationToLOG('n');
     
-    // Aufruf Neo4jAPI.java + MongoAPI.java
-    // Aufruf Neo4jQuery.java + MongoQuery.java
-    // Aufruf Neo4jExamples.java + MongoExamples.java
-    //Neo4jquery.execute(Neo4jexample.giveme(query1));
-    // neo4jquery.executeQuery(
-    
+    Benchmark benchNeoQuery = new Benchmark("Execution of a Neo4j Query" + queryName);
+    benchNeoQuery.start();
+    // @TODO: pass correct query from Neo4j associated with the related queryName
+    neo4jQuery.customNeo4jQuery(queryName);
+    benchNeoQuery.writeDurationToLOG('n');
+    // Compare Neo4j and MongoDB Query Execution
+    BenchmarkComparison benchCompare = new BenchmarkComparison(benchMongoQuery, benchNeoQuery);
+    benchCompare.writeDurationComparisonToLOG();
+    // <========================= END Queries =========================> 
+    LOG.info("Stopping PolyG-DBP");
   }
   
   /**
-   * Runs PolyG-DBP.
+   * Starting method of the PolyG-DBP. 
    * @param args contains users command line arguments.
    */
   public static void main(String[] args){
@@ -114,7 +130,7 @@ public class Main extends RuntimeException {
   }
   
   /**
-   *
+   * help() prints help instructions to the console with expected valid CLI arguments.
    */
   public void help() {
     StringBuilder builder = new StringBuilder();
@@ -145,7 +161,7 @@ public class Main extends RuntimeException {
   public void list() {
     StringBuilder builder = new StringBuilder();
     builder.append("\n\nAVAILABLE QUERIES FOR THE YELP DATASET\n");
-    builder.append("===========================================\n\n");
+    builder.append("=======================================================================================================\n\n");
     builder.append("[q1]:\n");
     builder.append("[q2]:\n");
     builder.append("[q3]:\n");
