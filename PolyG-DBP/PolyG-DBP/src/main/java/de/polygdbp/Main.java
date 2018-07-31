@@ -32,7 +32,7 @@ public class Main extends RuntimeException {
   protected static final Logger LOG = LogManager.getLogger(Main.class);
 
   /**
-   *
+   * Custom LogLevel to indicate relevant Benchmark lines.
    */
   protected static final Level BENCHMARK = Level.forName("BENCHMARK-RESULT", 774);
   /**
@@ -57,7 +57,6 @@ public class Main extends RuntimeException {
     neo4jAddress = "";
     reduceLines = -1;
     simulationPercentage = -1;
-    
   }
   
   /**
@@ -97,18 +96,16 @@ public class Main extends RuntimeException {
       benchMongoConnector.writeDurationToLOG('s');
       // <========================= END Mongo Connector =========================> 
     }
-    
     // <========================= BEGIN Queries =========================> 
     MongoQuery mongoQuery = new MongoQuery(mongoApi);
     Neo4jQuery neo4jQuery = new Neo4jQuery(neo4jApi);
-    
     LOG.info("Executing MongoDB Query.");
     Benchmark benchMongoQuery = new Benchmark("Execution of a MongoDB Query " + queryName);
     benchMongoQuery.start();
     // @TODO: pass correct query from MongoExamples associated with the related queryName
     mongoQuery.customMongoAggregation(queryName);
     benchMongoQuery.writeDurationToLOG('n');
-    
+
     Benchmark benchNeoQuery = new Benchmark("Execution of a Neo4j Query" + queryName);
     benchNeoQuery.start();
     // @TODO: pass correct query from Neo4j associated with the related queryName
@@ -122,7 +119,7 @@ public class Main extends RuntimeException {
   }
   
   /**
-   * Starting method of the PolyG-DBP. 
+   * Starting method of the PolyG-DBP. Initializes Main Class and runs checkUserInput() and run().
    * @param args contains users command line arguments.
    */
   public static void main(String[] args){
