@@ -38,7 +38,7 @@ public class Main extends RuntimeException {
   /**
    * Custom LogLevel to indicate relevant Benchmark lines.
    */
-  protected static final Level BENCHMARK = Level.forName("BENCHMARK-RESULT", 774);
+  protected static final Level BENCHMARK = Level.forName("BENCHMARK-RESULT", 400);
   /**
    * Parameters to specify a run of PolyG-DBP. All of them are optional.
    */
@@ -106,14 +106,15 @@ public class Main extends RuntimeException {
     LOG.info("Executing MongoDB Query.");
     Benchmark benchMongoQuery = new Benchmark("Execution of a MongoDB Query " + queryName);
     benchMongoQuery.start();
-    // @TODO: pass correct query from MongoExamples associated with the related queryName
-    mongoQuery.customMongoAggregation(queryName);
+    MongoExamples mongoExamples = new MongoExamples();
+    String mongoQueryString = mongoExamples.getQuery(queryName);
+    mongoQuery.customMongoAggregation(mongoQueryString);
     benchMongoQuery.writeDurationToLOG('n');
-    
     Benchmark benchNeoQuery = new Benchmark("Execution of a Neo4j Query" + queryName);
     benchNeoQuery.start();
-    // @TODO: pass correct query from Neo4j associated with the related queryName
-    neo4jQuery.customNeo4jQuery(queryName);
+    Neo4jExamples neo4jExamples = new Neo4jExamples();
+    String neo4jQueryString = neo4jExamples.getQuery(queryName);
+    //neo4jQuery.customNeo4jQuery(neo4jQueryString);
     benchNeoQuery.writeDurationToLOG('n');
     // Compare Neo4j and MongoDB Query Execution
     BenchmarkComparison benchCompare = new BenchmarkComparison(benchMongoQuery, benchNeoQuery);
@@ -263,6 +264,6 @@ public class Main extends RuntimeException {
     if (neo4jAddressRemote.isEmpty())
       neo4jAddressRemote = "localhost:7474";
     if (mongoDatabase.isEmpty())
-      mongoDatabase = "polyg-dbp";
+      mongoDatabase = "yelp";
   }
 }
