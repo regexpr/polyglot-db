@@ -29,16 +29,27 @@ public class MongoAPI {
   private MongoDatabase mongoDb;
   private MongoCollection<Document> currentMongoCollection;
 
+  /**
+   *
+   */
   public MongoAPI() {
     this.mongoClient = new MongoClient();
     this.mongoDb = mongoClient.getDatabase("polyg-benchmark");
     this.currentMongoCollection = null;
   }
 
+  /**
+   *
+   * @return
+   */
   public MongoCollection<Document> getCurrentMongoCollection() {
     return currentMongoCollection;
   }
 
+  /**
+   *
+   * @param currentMongoCollection
+   */
   public void setCurrentMongoCollection(String currentMongoCollection) {
     this.currentMongoCollection = mongoDb.getCollection(currentMongoCollection);
   }

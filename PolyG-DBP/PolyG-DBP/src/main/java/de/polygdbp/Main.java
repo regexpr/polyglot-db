@@ -23,6 +23,10 @@ import org.apache.logging.log4j.Logger;
  * Dient als ausführbare Hauptklasse des PolyG-DB Projektes.
  */
 public class Main extends RuntimeException {
+
+  /**
+   *
+   */
   protected static final Logger LOG = LogManager.getLogger(Main.class);
   private String pathDataset;
   private String mongoAddress;
@@ -30,6 +34,9 @@ public class Main extends RuntimeException {
   private int reduceLines;
   private int simulationPercentage;
 
+  /**
+   *
+   */
   public Main() {
     pathDataset = "";
     mongoAddress = "";
@@ -38,6 +45,9 @@ public class Main extends RuntimeException {
     simulationPercentage = -1;
   }
   
+  /**
+   * 
+   */
   public void run(){
     MongoAPI mongoApi = new MongoAPI();
     Benchmark bench = new Benchmark();
@@ -58,6 +68,12 @@ public class Main extends RuntimeException {
       bench.stop();
       bench.getElapsedSecondsString();
     }
+   
+    // Aufruf Neo4jAPI.java + MongoAPI.java
+    // Aufruf Neo4jQuery.java + MongoQuery.java
+    // Aufruf Neo4jExamples.java + MongoExamples.java
+    //Neo4jquery.execute(Neo4jexample.giveme(query1));
+    // neo4jquery.executeQuery(
     // <-- END importing .JSONS into MongoDB -->
   }
   
@@ -73,6 +89,9 @@ public class Main extends RuntimeException {
     main.run();
   }
   
+  /**
+   *
+   */
   public void help() {
     StringBuilder builder = new StringBuilder();
     builder.append("USAGE:\n")
@@ -95,6 +114,10 @@ public class Main extends RuntimeException {
             .append("-r, --reduce\t\tReduces each input file to certain number of lines\n");
     System.out.println(builder);
   }
+
+  /**
+   *
+   */
   public void list() {
     StringBuilder builder = new StringBuilder();
     
@@ -107,6 +130,11 @@ public class Main extends RuntimeException {
     builder.append("[q5]:\n");
     System.out.println(builder);
   }
+
+  /**
+   *
+   * @param args
+   */
   public void checkUserInput(final String[] args) {
     // User input handling
     if ((args == null) || (args.length == 0) || (!args[0].startsWith("q"))){

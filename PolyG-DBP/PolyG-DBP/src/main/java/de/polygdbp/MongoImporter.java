@@ -36,13 +36,21 @@ public class MongoImporter {
   private final String pathDataset;
   private MongoAPI mongoApi;
 
-  
+  /**
+   *
+   * @param mongoApi
+   * @param lines
+   * @param path
+   */
   public MongoImporter(MongoAPI mongoApi, int lines, String path) {
     this.lines = lines;
     this.mongoApi = mongoApi;
     this.pathDataset = path;
   }
   
+  /**
+   *
+   */
   public void importData(){
     File folder = new File(pathDataset);
     List<File> files = new ArrayList<File>(Arrays.asList(folder.listFiles()));

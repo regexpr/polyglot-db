@@ -23,16 +23,25 @@ public class Benchmark {
   private long stopTime = 0;
   private boolean running = false;
   
+  /**
+   *
+   */
   public void start() {
     this.startTime = System.nanoTime();
     this.running = true;
   }
   
+  /**
+   *
+   */
   public void stop() {
     this.stopTime = System.nanoTime();
     this.running = false;
   }
   
+  /**
+   *
+   */
   public void getElapsedSecondsString() {
     long seconds;
     if (running) {
@@ -42,6 +51,10 @@ public class Benchmark {
     }
     Main.LOG.info("elapsed Time in nanoseconds:\n"+(seconds/1000000000l));
   }
+
+  /**
+   *
+   */
   public void getElapsedNanoSecondsString() {
     long nanoseconds;
     if (running) {
