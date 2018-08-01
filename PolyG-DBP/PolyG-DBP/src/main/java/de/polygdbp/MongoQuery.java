@@ -40,6 +40,14 @@ public class MongoQuery {
     this.mongoApi = mongoApi;
   }
   
+  // Override apply()to add all query results to the output class variable result".
+  Block<Document> printBlock = new Block<Document>() {
+    @Override
+    public void apply(final Document document) {
+      results.add(document.toString());
+    }
+  };
+  
   /**
    * Gets a single Object from the MongoDB with corresponding key-value.
    * @param collectionName
@@ -89,13 +97,6 @@ public class MongoQuery {
     collection.aggregate(query).forEach(printBlock); 
   }
   
-  // Override apply()to add all query results to the output class variable result".
-  Block<Document> printBlock = new Block<Document>() {
-    @Override
-    public void apply(final Document document) {
-      results.add(document.toString());
-    }
-  };
   
   /**
    * Getter method of the query results.
