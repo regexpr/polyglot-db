@@ -16,6 +16,7 @@
 package de.polygdbp;
 
 import java.util.Arrays;
+import java.util.List;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -110,17 +111,21 @@ public class Main extends RuntimeException {
     String mongoQueryString = mongoExamples.getQuery(queryName);
     mongoQuery.customMongoAggregation(mongoQueryString);
     benchMongoQuery.writeDurationToLOG('n');
+    LOG.info("Results of the MongoDB Query:\n"+mongoQuery.getResults());
     Benchmark benchNeoQuery = new Benchmark("Execution of a Neo4j Query" + queryName);
     benchNeoQuery.start();
     Neo4jExamples neo4jExamples = new Neo4jExamples();
     String neo4jQueryString = neo4jExamples.getQuery(queryName);
-    //neo4jQuery.customNeo4jQuery(neo4jQueryString);
+    List<Object> neo4jResults = neo4jQuery.customNeo4jQuery(neo4jQueryString);
     benchNeoQuery.writeDurationToLOG('n');
+    LOG.info("Results of the Neo4j Query:\n");
+    neo4jResults.toString();
     // Compare Neo4j and MongoDB Query Execution
     BenchmarkComparison benchCompare = new BenchmarkComparison(benchMongoQuery, benchNeoQuery);
     benchCompare.writeDurationComparisonToLOG();
     // <========================= END Queries =========================>
     LOG.info("Stopping PolyG-DBP");
+    LOG.info("The results are written in the file benchmark.log");
   }
   
   /**
