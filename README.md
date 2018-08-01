@@ -51,15 +51,21 @@ java -jar PolyG-DBP-0.1.jar
 * java -jar PolyG-DBP-0.1.jar list:
             lists all queries provided by PolyG-DBP.;
 * java -jar PolyG-DBP-0.1.jar [Options] QUERY
-            Benchmark with the given query.
-            Example: java -jar PolyG-DBP-0.1.jar q1;
+            Benchmark with the given query. Example
+            <pre>java -jar PolyG-DBP-0.1.jar q1</pre>
 # Options (can be given in any order)
-* -i, --inputPath to the directory with JSON file(s). Example: \"-i /yelp\"
-* -nb, --neo4jAddressBolt1Adress of the neo4j instance with the bolt address. Example: \"-nb localhost:7687\"
-* -nr, --neo4jAddressRemoteAdress of the neo4j instance with the remote address. Example: \"-nr localhost:7474\"
-* -m, --mongoAddressAdress of the mongodb instance. Example: \"-m localhost:27017\"
-* -md, --mongoDatabaseName of the mongodb database. Example: \"-md yelp\"
-* -r, --reduceImport just a certain amount of lines of each input JSON. Example: \"-r 300\"
+* -i, --inputPath to the directory with JSON file(s). Example: 
+<pre>java -jar PolyG-DBP-0.1.jar q1 -i /yelp</pre>
+* -nb, --neo4jAddressBolt1Adress of the neo4j instance with the bolt address. Example: 
+<pre>java -jar PolyG-DBP-0.1.jar q1 -nb localhost:7687</pre>
+* -nr, --neo4jAddressRemoteAdress of the neo4j instance with the remote address. Example: 
+<pre>java -jar PolyG-DBP-0.1.jar q1 -nr localhost:7474</pre>
+* -m, --mongoAddressAdress of the mongodb instance. Example: 
+<pre>java -jar PolyG-DBP-0.1.jar q1 -m localhost:27017</pre>
+* -md, --mongoDatabaseName of the mongodb database. Example: 
+<pre>java -jar PolyG-DBP-0.1.jar q1 -md yelp</pre>
+* -r, --reduceImport just a certain amount of lines of each input JSON. Example: 
+<pre>java -jar PolyG-DBP-0.1.jar q1 -r 300</pre>
     
  # Available Queries for Yelp Dataset for both Data bases:
  * q1: Output me all business names and ids a <specific user> rated with minumum of <stars>
