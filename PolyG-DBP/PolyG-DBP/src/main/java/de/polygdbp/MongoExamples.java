@@ -16,26 +16,33 @@
 package de.polygdbp;
 
 /**
- *
- * @author Tim Niehoff, Hyeon Ung Kim
+ * Contains all hard-coded quering examples for the MongoDB to make Quering easier. 
+ * They refer to the <code>>Yelp Dataset</code>.
  */
 public class MongoExamples {
-  // give me all business names and ids a <specific user> rated with minumum of <stars>
-  private String q1 = "db.review.aggregate([{$match : {$and: [{\"user_id\":\"nOTl4aPC4tKHK35T3bNauQ\"},{\"stars\": {$gt: 4}}]}}, {$lookup: {from:\"business\", localField: \"business_id\", foreignField: \"business_id\", as: \"business\"}}, {$addFields: {\"business\":\"$business\"}}, {$project:{\"business.name\":1, \"business.business_id\":1}}])"; 
+  // Output all business names and ids a <specific user> rated with minumum of <stars>
+  private final String q1 = "db.review.aggregate([{$match : {$and: [{\"user_id\":\"nOTl4aPC4tKHK35T3bNauQ\"},{\"stars\": {$gt: 4}}]}}, {$lookup: {from:\"business\", localField: \"business_id\", foreignField: \"business_id\", as: \"business\"}}, {$addFields: {\"business\":\"$business\"}}, {$project:{\"business.name\":1, \"business.business_id\":1}}])"; 
   
-  // give me the average stars of all businesses
-  private String q2 = "db.business.aggregate({$group:{_id: null,\"average_stars\":{$avg: \"$stars\"}}})";
+  // Output the average stars of all businesses
+  private final String q2 = "db.business.aggregate({$group:{_id: null,\"average_stars\":{$avg: \"$stars\"}}})";
   
-  // give me the average stars of all businesses that grouped by category
-  private String q3 = "db.business.aggregate({$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},\"average_stars\":{ $avg: \"$stars\" }}})";
+  // Output the average stars of all businesses that grouped by category
+  private final String q3 = "db.business.aggregate({$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},\"average_stars\":{ $avg: \"$stars\" }}})";
   
-  // find me all businesses that are in the category Cannabis Tours and give me the average of all stars grouped by all the categories that they are in
-  private String q4 = "db.business.aggregate({$match:{categories:\"Cannabis Tours\"}},{$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},\"average_stars\":{ $avg: \"$stars\" }}})";
+  // Output all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in
+  private final String q4 = "db.business.aggregate({$match:{categories:\"Cannabis Tours\"}},{$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},\"average_stars\":{ $avg: \"$stars\" }}})";
   
+  /**
+   * Get the Query by the related shortcut.
+   * @param q Shortcut for the Query. Valid Example: "q1".
+   * @return Query result in String.
+   */
   public String getQuery(String q) {
     switch(q) {
     case "q1": return q1;
     case "q2": return q2;
+    case "q3": return q3;
+    case "q4": return q4;
     }
     return q;
   }
