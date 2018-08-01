@@ -21,6 +21,9 @@ import java.util.List;
 import org.bson.Document;
 /**
  *
+ * This Class enables the user to enter custom Mongodb aggregation queries in a Java framework
+ * this allows the user to focus more on the designing of the queries, without having to translate it
+ * 
  * @author Tim Niehoff, Hyeon Ung Kim
  */
 public class MongoQueryBuilder {
@@ -37,7 +40,8 @@ public class MongoQueryBuilder {
   private List<String> appendCommands = Arrays.asList("$lookup", "$addFields", "$project");
   
   /**
-   *
+   * The constructor will take the query and cut it into it's pieces and save them in the tokens
+   * 
    * @param mongoQuery
    */
   public MongoQueryBuilder(String mongoQuery) {
@@ -49,7 +53,8 @@ public class MongoQueryBuilder {
   }
   
   /**
-   *
+   * this will build the Document for the query 
+   * as long as the counter hasn't reached the end, it will keep adding Documents
    */
   public void buildMongoQuery() {
     this.globalDoc = new ArrayList<Document>();
@@ -60,16 +65,17 @@ public class MongoQueryBuilder {
   
   /**
    *
-   * @return
+   * @return Document which is being built
    */
   public List<Document> getMongoQuery() {
     return globalDoc;
   }
   
   /**
-   *
+   * this is used to enter the tokens into the Document as a String
+   * 
    * @param token
-   * @return
+   * @return the token without quotation marks and brackets/parentheses
    */
   public String cleanToken(String token) {
     StringBuilder sb = new StringBuilder(token);
@@ -104,8 +110,9 @@ public class MongoQueryBuilder {
    *2. {
    *3. }
    *4. ]
+   *
    * @param token
-   * @return
+   * @return the bracket count of the token
    */
   public int[] countBrackets(String token) {
     int[] bracketCounter = new int[] {0,0,0,0};
@@ -130,6 +137,7 @@ public class MongoQueryBuilder {
   }
   
   /**
+   * this updates the global bracket counter, to keep the bracket counts of the tokens, which have been inserted into documents
    *
    * @param bracketCounter
    */
@@ -137,59 +145,92 @@ public class MongoQueryBuilder {
     for(int i = 0; i<4; i++) globalBracketCounter[i]+=bracketCounter[i];
   }
   
+ /**
+  * this is used to decide what to build
+  * 
+  * return value used for switch cases
+  * 1: [ found ==> Array as List
+  * 2: { found ==> new Document
+  * 3: } found ==> stop signal
+  * 4: ] found ==> stop signal
+  * 0: none found ==> append to the Document
+  * 
+  * @param bracketCounter
+  */  
+  public int evalBracketCounter(int[] bracketCounter) {
+    if(bracketCounter[0]>0) return 1;
+    if(bracketCounter[1]>0) return 2;
+    if(bracketCounter[2]>0) return 3;
+    if(bracketCounter[3]>0) return 4;
+    else return 0; 
+  }
+  
+  
   /**
    *
-   * @return
+   *
+   * @return the complete Document
    */
   public Document buildDocument() {
     Document doc = null;
-    String thisItem = tokens[counter];
-    String nextItem = tokens[counter+1];
     
-    int[] thisBracketCount = countBrackets(thisItem);
-    int[] nextBracketCount = countBrackets(nextItem);
+    // look at current and next token
+    String key = tokens[counter];
+    String value = tokens[counter+1];
     
-    updateGlobalBracketCounter(thisBracketCount);
+    // counting the brackets               
+    int[] thisBracketCount = countBrackets(key);
+    int[] nextBracketCount = countBrackets(value);
     
-    String cleanedThisItem = cleanToken(thisItem);
-    Object cleanedNextItem = cleanToken(nextItem);
+    // cleaning the tokens
+    String cleanedKey = cleanToken(key);
+    // the value has to be checked if it is an Integer value
+    Object cleanedValue = cleanToken(value);          
     
-    if(isInteger(cleanedNextItem.toString())) {
-      cleanedNextItem = Integer.parseInt(cleanedNextItem.toString());
+    if(isInteger(cleanedValue.toString())) {
+            cleanedValue = Integer.parseInt(cleanedValue.toString());
     }
     else {
-      cleanedNextItem = cleanedNextItem.toString();
+            cleanedValue = cleanedValue.toString();
     }
     
-    if(counter >= tokens.length) {
-      return doc;
-    }
+    // deciding what to build
+    switch(evalBracketCounter(nextBracketCount)){
     
-    else if(appendCommands.contains(cleanedThisItem)) {
-      counter++;
-      doc = new Document(cleanedThisItem, appendedDocument());
-    }
-    else if(nextBracketCount[0]>0) {
-      counter++;
-      doc = new Document(cleanedThisItem, documentsAsList());
-    }
-    else if (nextBracketCount[1]>0) {
-      counter++;
-      doc = new Document(cleanedThisItem, buildDocument());
-    }
-    else if (nextBracketCount[2]>0) {
-      counter+=2;
-      updateGlobalBracketCounter(nextBracketCount);
-      doc = new Document(cleanedThisItem, cleanedNextItem);
-    }
-    
-    
+      // the value is a list
+      case 1:{
+        counter++;
+        updateGlobalBracketCounter(thisBracketCount);
+        doc = new Document(cleanedKey, documentsAsList());
+        break;
+      }
+      // the value is another Document
+      case 2:{
+        counter++;
+        updateGlobalBracketCounter(thisBracketCount);
+        doc = new Document(cleanedKey, buildDocument());
+        break;
+      }
+      // the value is just a value with the end of the Document
+      case 3:{
+        counter+=2;
+        updateGlobalBracketCounter(nextBracketCount);
+        doc = new Document(cleanedKey, cleanedValue);
+        break;
+      }
+      // the value ist just a value without the end of a Document
+      case 0:{
+          doc =appendedDocument();                        
+      }
+      
+      default:break;
+      }
     return doc;
   }
   
   /**
-   *
-   * @return
+   * 
+   * @return Documents as a List
    */
   public List<Document> documentsAsList(){
     List<Document> result = new ArrayList<Document>();
@@ -203,35 +244,60 @@ public class MongoQueryBuilder {
   }
   
   /**
-   *
-   * @return
+   * 
+   * 
+   * @return an appended Document
    */
   public Document appendedDocument() {
-    String thisItem = tokens[counter];
-    String nextItem = tokens[counter+1];
-    int[] thisBracketCount = countBrackets(thisItem);
-    int[] nextBracketCount = countBrackets(nextItem);
+    String key = tokens[counter];
+    String value = tokens[counter+1];
+    String thirdItem = tokens[counter+2];
+    String fourthItem = tokens[counter+3];
+    
+    int[] thisBracketCount = countBrackets(key);
+    int[] nextBracketCount = countBrackets(value);
+    int[] thirdBracketCount = countBrackets(thirdItem);
+    int[] fourthBracketCount = countBrackets(fourthItem);
     
     updateGlobalBracketCounter(thisBracketCount);
     updateGlobalBracketCounter(nextBracketCount);
-    Document tempDoc = new Document(cleanToken(thisItem), cleanToken(nextItem));
+    Document tempDoc = new Document(cleanToken(key), cleanToken(value));
     counter+=2;
     
+    // checks if the second value closes the Document
+    if(fourthBracketCount[1]>0) {
+            counter++;
+            updateGlobalBracketCounter(thirdBracketCount);
+            tempDoc.append(cleanToken(thirdItem), buildDocument());
+            
+            // checks if it already reached the end, or it still needs to append Documents
+            if(counter>=tokens.length) {
+                    return tempDoc;
+            }
+            else {
+                    value = tokens[counter+1];
+                    nextBracketCount = countBrackets(value);     
+            }
+            
+    }
+    
+    
+    // as long as there was no closing bracket, it will keep appending Documents
     while(nextBracketCount[2]<1) {
-      thisItem = tokens[counter];
-      nextItem = tokens[counter+1];
-      String cleanedThisItem = cleanToken(thisItem);
-      String cleanedNextItem = cleanToken(nextItem);
-      thisBracketCount = countBrackets(thisItem);
-      nextBracketCount = countBrackets(nextItem);
-      
-      updateGlobalBracketCounter(thisBracketCount);
-      updateGlobalBracketCounter(nextBracketCount);
-      
-      tempDoc.append(cleanedThisItem, cleanedNextItem);
-      
-      nextBracketCount = countBrackets(nextItem);
-      counter+=2;
+            key = tokens[counter];
+            value = tokens[counter+1];
+            String cleanedKey = cleanToken(key);
+            String cleanedValue = cleanToken(value);
+            thisBracketCount = countBrackets(key);
+            nextBracketCount = countBrackets(value);
+            
+            updateGlobalBracketCounter(thisBracketCount);
+            updateGlobalBracketCounter(nextBracketCount);
+            
+            tempDoc.append(cleanedKey, cleanedValue);
+            
+            nextBracketCount = countBrackets(value);
+            counter+=2;
     }
     
     return tempDoc;
@@ -239,6 +305,9 @@ public class MongoQueryBuilder {
   
   /**
    *
+   *this cuts the query into 2 parts, for example
+   *1st part: db.collection.aggregate
+   *2nd part: [{$match:...},{...}]
    */
   public void cutQuery() {
     String delims1 = "\\(";
@@ -251,6 +320,10 @@ public class MongoQueryBuilder {
   
   /**
    *
+   *cuts the 2nd part into it's tokens for example
+   *{$match
+   *{name
+   *Jim}}
    */
   public void setTokens() {
     String delims = "[+(\\:, )]+";
@@ -259,7 +332,7 @@ public class MongoQueryBuilder {
   
   /**
   *
-   * @return 
+   * @return 1st part
   */  
   public String[] getFirstPart() {
     return firstPart;
@@ -268,7 +341,7 @@ public class MongoQueryBuilder {
   /**
    *
    * @param s
-   * @return
+   * @return returns true if it is an Integer else false
    */
   public static boolean isInteger(String s) {
     return isInteger(s,10);
@@ -278,7 +351,7 @@ public class MongoQueryBuilder {
    *
    * @param s
    * @param radix
-   * @return
+   * @return checks a String if it is just a number
    */
   public static boolean isInteger(String s, int radix) {
     if(s.isEmpty()) return false;
