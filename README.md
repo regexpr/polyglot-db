@@ -6,6 +6,8 @@ See https://dbs.uni-leipzig.de/study/ss_2018/bigdprak
 ## Contributor
 * Hyeon Ung Kim (LastMinuteHero)
 * Tim Niehoff (regexpr)
+## Teacher
+* J.Zschache
 
 # Requirements
 * Maven
