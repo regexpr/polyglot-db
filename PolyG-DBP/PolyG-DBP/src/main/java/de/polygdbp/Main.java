@@ -118,8 +118,8 @@ public class Main extends RuntimeException {
     String neo4jQueryString = neo4jExamples.getQuery(queryName);
     List<Object> neo4jResults = neo4jQuery.customNeo4jQuery(neo4jQueryString);
     benchNeoQuery.writeDurationToLOG('n');
-    LOG.info("Results of the Neo4j Query:\n");
-    neo4jResults.toString();
+    LOG.info("Results of the Neo4j Query:");
+    LOG.info(neo4jResults.toString());
     // Compare Neo4j and MongoDB Query Execution
     BenchmarkComparison benchCompare = new BenchmarkComparison(benchMongoQuery, benchNeoQuery);
     benchCompare.writeDurationComparisonToLOG();
