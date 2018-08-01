@@ -55,7 +55,7 @@ java -jar PolyG-DBP-0.1.jar
             <pre>java -jar PolyG-DBP-0.1.jar q1</pre>
 # Options (can be given in any order)
 * -i, --inputPath to the directory with JSON file(s). Example: 
-<pre>java -jar PolyG-DBP-0.1.jar q1 -i /yelp</pre>
+<pre>java -jar PolyG-DBP-0.1.jar q1 -i yelp</pre>
 * -nb, --neo4jAddressBolt1Adress of the neo4j instance with the bolt address. Example: 
 <pre>java -jar PolyG-DBP-0.1.jar q1 -nb localhost:7687</pre>
 * -nr, --neo4jAddressRemoteAdress of the neo4j instance with the remote address. Example: 
