@@ -62,8 +62,10 @@ public class MongoImporter {
     File folder = new File(pathDataset);
     List<File> files = new ArrayList<>(Arrays.asList(folder.listFiles()));
     // iterate all found files
-    while(files.iterator().hasNext()){
-      File file = files.iterator().next();
+    //while(files.iterator().hasNext()){
+    for (int k=0;k<files.size();k++) {
+      File file = files.get(k);
+      LOG.debug(file.toString());
       FileInputStream fis;
       String collectionName = FilenameUtils.getBaseName(file.getName());
       // ensure that the right MongoDB collection is selected
@@ -82,7 +84,9 @@ public class MongoImporter {
           }
           documents.add(Document.parse(tempLine));
         }
+        LOG.debug("Start importing Collection"+collectionName);
         mongoApi.getCurrentMongoCollection().insertMany(documents);
+        LOG.debug("Finished importing Collection"+collectionName);
         // Close streams
         in.close();
         fis.close();
@@ -94,6 +98,7 @@ public class MongoImporter {
         LOG.error("IOException: " + ex.getMessage() + ex.getCause());
         System.exit(-1);
       }
+      // end while
     }
   }
 }

@@ -173,11 +173,10 @@ public class Main extends RuntimeException {
     StringBuilder builder = new StringBuilder();
     builder.append("\n\nAVAILABLE QUERIES FOR THE YELP DATASET\n");
     builder.append("=======================================================================================================\n\n");
-    builder.append("[q1]:\n");
-    builder.append("[q2]:\n");
-    builder.append("[q3]:\n");
-    builder.append("[q4]:\n");
-    builder.append("[q5]:\n");
+    builder.append("q1:\t\tOutput me all business names and ids a <specific user> rated with minumum of <stars>\n");
+    builder.append("q2:\t\tOutput the average stars of all businesses\n");
+  //builder.append("[q3] REMOVED:\t\t\n");
+  //builder.append("[q4] REMOVED:\t\t\n");
     System.out.println(builder);
   }
   

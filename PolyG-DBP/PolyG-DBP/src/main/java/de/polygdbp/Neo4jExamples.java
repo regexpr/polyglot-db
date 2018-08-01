@@ -15,6 +15,8 @@
 */
 package de.polygdbp;
 
+import static de.polygdbp.Main.LOG;
+
 /**
  * Contains all hard-coded quering examples for the Neo4j to make Quering easier. 
  * They refer to the <code>>Yelp Dataset</code>.
@@ -27,10 +29,10 @@ public class Neo4jExamples {
   private final String q2 = "match (b:business) return avg(b.stars)";
   
   //Output the average stars of all businesses that grouped by category
-  private final String q3 = "match (b:business) return avg(b.stars)";
+  //private final String q3 = "";
   
   // Output all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in
-  private final String q4 = "MATCH (u:User)-[:WROTE]-(r:Review)-[:REVIEWS]-(Business) WHERE id(u)=214195 AND r.stars > 2 Return Business";
+  //private final String q4 = "";
   
   /**
    * Get the Query by the related shortcut.
@@ -40,9 +42,13 @@ public class Neo4jExamples {
   public String getQuery(String q) {
     switch(q) {
     case "q1": return q1;
-    case "q2": return q1;
-    case "q3": return q1;
-    case "q4": return q1;
+    case "q2": return q2; 
+    //case "q3": return q3;
+    //case "q4": return q4;
+    default: {
+      LOG.error("Could not find query for Neo4j.");
+      System.exit(-1);
+    }
     }
     return q;
   }
