@@ -8,28 +8,59 @@ See https://dbs.uni-leipzig.de/study/ss_2018/bigdprak
 * Tim Niehoff (regexpr)
 
 # Requirements
+* Maven
 * MongoDB
 * Neo4J
 * neo4j doc manager
 
+Please visit our Wiki to find out which Versions of the requiremental software we have used:
+https://github.com/regexpr/polyglot-db/wiki/Helpful-Links
+
 # Installing
 <pre>
 git clone https://github.com/regexpr/polyglot-db
-</pre
+cd polyglot-db/PolyG-DBP/PolyG-DBP/
+mvn install
+</pre>
 
-# Usage
+# Run
 1. Run one Neo4j database in the background:
 <pre>
-mongod --replSet Rocket --config ~/bigdata/mongo/mongodb.conf                 
+neo4j/bin/neo4j console
 </pre>
-<pre>
-</pre>
+
 2.a Run one mongod replica set in the background
 <pre>
-mongod --replSet timRocket --config ~/bigdata/mongo/mongodb.conf
+mongod --replSet exSet --config ~/bigdata/mongo/mongodb.conf
 </pre>
 2.b Initialize the replica set
 <pre>
 mongo
 rs.initiate()
 </pre>
+
+3. Run PolyG-DBP
+<pre>
+cd polyglot-db/PolyG-DBP/PolyG-DBP/target
+java -jar PolyG-DBP-0.1.jar
+</pre>
+
+# Usage
+* java -jar PolyG-DBP-0.1.jar help:
+            Displays this help;
+* java -jar PolyG-DBP-0.1.jar list:
+            lists all queries provided by PolyG-DBP.;
+* java -jar PolyG-DBP-0.1.jar [Options] QUERY
+            Benchmark with the given query.
+            Example: java -jar PolyG-DBP-0.1.jar q1;
+# Options (can be given in any order)
+* -i, --inputPath to the directory with JSON file(s). Example: \"-i /yelp\"
+* -nb, --neo4jAddressBolt1Adress of the neo4j instance with the bolt address. Example: \"-nb localhost:7687\"
+* -nr, --neo4jAddressRemoteAdress of the neo4j instance with the remote address. Example: \"-nr localhost:7474\"
+* -m, --mongoAddressAdress of the mongodb instance. Example: \"-m localhost:27017\"
+* -md, --mongoDatabaseName of the mongodb database. Example: \"-md yelp\"
+* -r, --reduceImport just a certain amount of lines of each input JSON. Example: \"-r 300\"
+    
+ # Available Queries for Yelp Dataset for both Data bases:
+ * q1: Output me all business names and ids a <specific user> rated with minumum of <stars>
+ * q2: Output the average stars of all businesses
