@@ -20,5 +20,21 @@ package de.polygdbp;
  * @author Tim Niehoff, Hyeon Ung Kim
  */
 public class Neo4jExamples {
+  private String q11 = "MATCH (u:User)-[:WROTE]-(r:Review)-[:REVIEWS]-(Business) WHERE id(u)=214195 AND r.stars > 2 Return Business";
   
+  // give me all business names and ids a <specific user> rated with minumum of <stars>
+  private String q1 = "MATCH (u:user)--(r:review)--(b:business) where u._id=\"nOTl4aPC4tKHK35T3bNauQ\" and r.stars > 4 return b.name, b._id";
+  
+  //give me the average stars of all businesses
+  private String q2 = "match (b:business) return avg(b.stars)";
+  
+  //give me the average stars of all businesses that grouped by category
+  private String q3 = "match (";
+  
+  public String getQuery(String q) {
+    switch(q) {
+    case "q1": return q1;
+    }
+    return q;
+  }
 }

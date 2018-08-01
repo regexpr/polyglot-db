@@ -20,5 +20,23 @@ package de.polygdbp;
  * @author Tim Niehoff, Hyeon Ung Kim
  */
 public class MongoExamples {
+  // give me all business names and ids a <specific user> rated with minumum of <stars>
+  private String q1 = "db.review.aggregate([{$match : {$and: [{\"user_id\":\"nOTl4aPC4tKHK35T3bNauQ\"},{\"stars\": {$gt: 4}}]}}, {$lookup: {from:\"business\", localField: \"business_id\", foreignField: \"business_id\", as: \"business\"}}, {$addFields: {\"business\":\"$business\"}}, {$project:{\"business.name\":1, \"business.business_id\":1}}])"; 
   
+  // give me the average stars of all businesses
+  private String q2 = "db.business.aggregate({$group:{_id: null,\"average_stars\":{$avg: \"$stars\"}}})";
+  
+  // give me the average stars of all businesses that grouped by category
+  private String q3 = "db.business.aggregate({$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},\"average_stars\":{ $avg: \"$stars\" }}})";
+  
+  // find me all businesses that are in the category Cannabis Tours and give me the average of all stars grouped by all the categories that they are in
+  private String q4 = "db.business.aggregate({$match:{categories:\"Cannabis Tours\"}},{$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},\"average_stars\":{ $avg: \"$stars\" }}})";
+  
+  public String getQuery(String q) {
+    switch(q) {
+    case "q1": return q1;
+    case "q2": return q2;
+    }
+    return q;
+  }
 }
