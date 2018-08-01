@@ -16,6 +16,7 @@
 package de.polygdbp;
 
 import java.util.Arrays;
+import java.util.List;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -110,17 +111,21 @@ public class Main extends RuntimeException {
     String mongoQueryString = mongoExamples.getQuery(queryName);
     mongoQuery.customMongoAggregation(mongoQueryString);
     benchMongoQuery.writeDurationToLOG('n');
+    LOG.info("Results of the MongoDB Query:\n"+mongoQuery.getResults());
     Benchmark benchNeoQuery = new Benchmark("Execution of a Neo4j Query" + queryName);
     benchNeoQuery.start();
     Neo4jExamples neo4jExamples = new Neo4jExamples();
     String neo4jQueryString = neo4jExamples.getQuery(queryName);
-    //neo4jQuery.customNeo4jQuery(neo4jQueryString);
+    List<Object> neo4jResults = neo4jQuery.customNeo4jQuery(neo4jQueryString);
     benchNeoQuery.writeDurationToLOG('n');
+    LOG.info("Results of the Neo4j Query:\n");
+    neo4jResults.toString();
     // Compare Neo4j and MongoDB Query Execution
     BenchmarkComparison benchCompare = new BenchmarkComparison(benchMongoQuery, benchNeoQuery);
     benchCompare.writeDurationComparisonToLOG();
     // <========================= END Queries =========================>
     LOG.info("Stopping PolyG-DBP");
+    LOG.info("The results are written in the file benchmark.log");
   }
   
   /**
@@ -168,11 +173,10 @@ public class Main extends RuntimeException {
     StringBuilder builder = new StringBuilder();
     builder.append("\n\nAVAILABLE QUERIES FOR THE YELP DATASET\n");
     builder.append("=======================================================================================================\n\n");
-    builder.append("[q1]:\n");
-    builder.append("[q2]:\n");
-    builder.append("[q3]:\n");
-    builder.append("[q4]:\n");
-    builder.append("[q5]:\n");
+    builder.append("q1:\t\tOutput me all business names and ids a <specific user> rated with minumum of <stars>\n");
+    builder.append("q2:\t\tOutput the average stars of all businesses\n");
+  //builder.append("[q3] REMOVED:\t\t\n");
+  //builder.append("[q4] REMOVED:\t\t\n");
     System.out.println(builder);
   }
   

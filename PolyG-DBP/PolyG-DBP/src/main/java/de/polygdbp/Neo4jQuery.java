@@ -24,14 +24,13 @@ import org.neo4j.driver.v1.Transaction;
 import org.neo4j.driver.v1.TransactionWork;
 
 /**
- *
- * @author Tim Niehoff, Hyeon Ung Kim
+ * Execute queries for the Neo4j and get the results back.
  */
 public class Neo4jQuery {
   Neo4jAPI neo4jApi;
   
   /**
-   *
+   * Constructor needs neo4jApi.
    * @param neo4jApi
    */
   public Neo4jQuery(Neo4jAPI neo4jApi) {
@@ -39,7 +38,7 @@ public class Neo4jQuery {
   }
   
   /**
-   *
+   * Standard query method.
    * @param query
    * @return
    */
