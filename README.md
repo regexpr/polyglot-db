@@ -7,7 +7,7 @@ See https://dbs.uni-leipzig.de/study/ss_2018/bigdprak
 * Hyeon Ung Kim (LastMinuteHero)
 * Tim Niehoff (regexpr)
 ## Teacher
-* J.Zschache
+* J. Zschache
 
 # Requirements
 * Maven
