@@ -13,4 +13,23 @@ See https://dbs.uni-leipzig.de/study/ss_2018/bigdprak
 * neo4j doc manager
 
 # Installing
+<pre>
+git clone https://github.com/regexpr/polyglot-db
+</pre
 
+# Usage
+1. Run one Neo4j database in the background:
+<pre>
+mongod --replSet Rocket --config ~/bigdata/mongo/mongodb.conf                 
+</pre>
+<pre>
+</pre>
+2.a Run one mongod replica set in the background
+<pre>
+mongod --replSet timRocket --config ~/bigdata/mongo/mongodb.conf
+</pre>
+2.b Initialize the replica set
+<pre>
+mongo
+rs.initiate()
+</pre>
