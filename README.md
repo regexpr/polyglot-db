@@ -35,7 +35,7 @@ neo4j/bin/neo4j console
 <pre>
 mongod --replSet exSet --config ~/bigdata/mongo/mongodb.conf
 </pre>
-2.b Initialize the replica set
+2.b For the first time, initialize the replica set
 <pre>
 mongo
 rs.initiate()
