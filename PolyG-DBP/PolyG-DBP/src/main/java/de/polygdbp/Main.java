@@ -187,6 +187,13 @@ public class Main extends RuntimeException {
    */
   public void checkUserInput(final String[] args) {
     // User input handling
+    if ((args == null) || (args.length == 0)){
+      LOG.error("Unexpected user input. No query set.");
+      help();
+      throw new UnexpectedParameterException("No query");
+    } else {
+      queryName = args[0];
+    }
     if (args[0].equalsIgnoreCase("list")){
       list();
       System.exit(0);
@@ -195,7 +202,7 @@ public class Main extends RuntimeException {
       help();
       System.exit(0);
     }
-    if ((args == null) || (args.length == 0) || (!args[0].startsWith("q"))){
+    if (!args[0].startsWith("q")){
       LOG.error("Unexpected user input. No query set.");
       help();
       throw new UnexpectedParameterException("No query");
