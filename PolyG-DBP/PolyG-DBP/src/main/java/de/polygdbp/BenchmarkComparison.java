@@ -50,8 +50,8 @@ public class BenchmarkComparison {
       delta1 = delta2;
       delta2 = temp;
     }
-    long percentage = ((delta1/delta2)*100);
-    LOG.log(BENCHMARK,"Process "+processName1+" with "+ delta1 + " ns took " + (delta1-delta2) + " ns longer ("+ percentage+ "%) "
+    double percentage = ((double)delta1/delta2)*100;
+    LOG.log(BENCHMARK,"Process "+processName1+" with "+ delta1 + " ns\n took " + (delta1-delta2) + " ns longer ("+ percentage+ "%) "
     +"than process" + processName2 + "with " + delta2 + " ns.");
   }
 }
