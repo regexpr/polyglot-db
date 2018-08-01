@@ -31,6 +31,8 @@ public class MongoQuery {
 
   MongoAPI mongoApi;
   
+  private ArrayList<String> results = new ArrayList<String>();
+  
   /**
    *
    * @param mongoApi
@@ -43,7 +45,7 @@ public class MongoQuery {
   Block<Document> printBlock = new Block<Document>() {
     @Override
     public void apply(final Document document) {
-      System.out.println(document.toJson());
+      results.add(document.toString());
     }
   };
   //gets a single Object from the MongoDB with corresponding key-value
@@ -99,6 +101,10 @@ public class MongoQuery {
     
     collection.aggregate(query).forEach(printBlock);
     
+  }
+  
+  public ArrayList<String> getResults(){
+    return results;
   }
 }
 
