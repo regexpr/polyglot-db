@@ -81,5 +81,12 @@ public ExpectedException expectedEx = ExpectedException.none();
     expectedEx.expectMessage("No query");
     instance.checkUserInput(args);
   }
+
+  /**
+   * Test of run method, of class Main.
+   */
+  @Test
+  public void testRun() {
+  }
   
 }

@@ -19,7 +19,7 @@ import static de.polygdbp.Main.LOG;
 import static de.polygdbp.Main.BENCHMARK;
 
 /**
- * Klasse, die Methoden zur Performanzmessung bereithält.
+ * Supports time measuring for one certain process.
  */
 public class Benchmark {
   private long startTime;
@@ -27,10 +27,10 @@ public class Benchmark {
   private long duration;
   private boolean running;
   private final String processName;
-
+  
   /**
-   *
-   * @param processName
+   * Constructor.
+   * @param processName will be shown in the LOG.
    */
   public Benchmark(String processName) {
     this.startTime = 0;
@@ -41,7 +41,7 @@ public class Benchmark {
   }
   
   /**
-   *
+   * Starts measuring time.
    */
   public void start() {
     this.startTime = System.nanoTime();
@@ -49,25 +49,25 @@ public class Benchmark {
   }
   
   /**
-   *
+   * Calculates the duration by determining the stopTime.
    */
   public void stop() {
     this.stopTime = System.nanoTime();
     this.running = false;
     this.duration = stopTime-startTime;
   }
-
+  
   /**
-   *
-   * @return
+   * Getter method of the duration.
+   * @return class variable long duration
    */
   public long getDuration() {
     return duration;
   }
-
+  
   /**
-   *
-   * @return
+   * Getter method of the process name.
+   * @return class variable string process name.
    */
   public String getProcessName() {
     return processName;
@@ -75,11 +75,15 @@ public class Benchmark {
   
   
   /**
-   *
-   * @param accuracy
+   * Writes the Duration into the log.
+   * @param accuracy to select the preffered time accuration:
+   * 's' - seconds
+   * 'm' - milliseconds
+   * 'n' - nanoseconds
    */
   public void writeDurationToLOG(char accuracy) {
     if (running) {
+      // to determine the stopTime and so the duration.
       stop();
     }
     LOG.log(BENCHMARK,"Elapsed time for the process "+processName+" :");
@@ -89,12 +93,18 @@ public class Benchmark {
         break;
       case 'm':
         LOG.log(BENCHMARK,(duration/1000000) + " milliseconds");
-        
         break;
       case 'n': default:
         LOG.log(BENCHMARK,(duration) + " nanoseconds");
         break;
     }
-    
+  }
+  
+  /**
+   * Overloaded method. See writeDurationToLog(char accuracy) for more information.
+   * Default accuracy: nanoseconds.
+   */
+  public void writeDurationToLOG(){
+    writeDurationToLOG('n');
   }
 }

@@ -24,38 +24,28 @@ import java.util.List;
 import org.bson.Document;
 
 /**
- *
- * @author Tim Niehoff, Hyeon Ung Kim
+ * Execute queries for the MongoDB and get the results back.
  */
 public class MongoQuery {
 
   MongoAPI mongoApi;
   
-  private ArrayList<String> results = new ArrayList<String>();
+  private ArrayList<String> results = new ArrayList<>();
   
   /**
-   *
+   * Constructor needs a valid mongoApi.
    * @param mongoApi
    */
   public MongoQuery(MongoAPI mongoApi) {
     this.mongoApi = mongoApi;
   }
   
-  
-  Block<Document> printBlock = new Block<Document>() {
-    @Override
-    public void apply(final Document document) {
-      results.add(document.toString());
-    }
-  };
-  //gets a single Object from the MongoDB with corresponding key-value
-  
   /**
-   *
+   * Gets a single Object from the MongoDB with corresponding key-value.
    * @param collectionName
    * @param key
    * @param value
-   * @return
+   * @return Document
    */
   public Document simpleMongoQueryFindOne(String collectionName, String key, String value) {
     mongoApi.setCurrentMongoCollection(collectionName);
@@ -65,27 +55,24 @@ public class MongoQuery {
     return result;
   };
   
-  
-  //gets all Objects from the MongoDB with corresponding key-value
-  
   /**
-   *
+   * Gets all Objects from the MongoDB with corresponding key-value.
    * @param collectionName
    * @param key
    * @param value
-   * @return
+   * @return List of Documents
    */
   public FindIterable<Document> simpleMongoQueryFindAll(String collectionName, String key, String value) {
     mongoApi.setCurrentMongoCollection(collectionName);
     MongoCollection<Document> collection = mongoApi.getCurrentMongoCollection();
 	//		collection.find(eq(key, value)).forEach(printBlock);
-	FindIterable<Document> results = collection.find(eq(key, value));
-	return results;
+	FindIterable<Document> finalResults = collection.find(eq(key, value));
+	return finalResults;
   };
   
   /**
-   *
-   * @param phrase
+   * Standard query method.
+   * @param phrase The Query.
    */
   public void customMongoAggregation(String phrase) {
     MongoQueryBuilder mqb = new MongoQueryBuilder(phrase);
@@ -99,10 +86,21 @@ public class MongoQuery {
     mqb.buildMongoQuery();
     query = mqb.getMongoQuery();
     
-    collection.aggregate(query).forEach(printBlock);
-    
+    collection.aggregate(query).forEach(printBlock); 
   }
   
+  // Override apply()to add all query results to the output class variable result".
+  Block<Document> printBlock = new Block<Document>() {
+    @Override
+    public void apply(final Document document) {
+      results.add(document.toString());
+    }
+  };
+  
+  /**
+   * Getter method of the query results.
+   * @return
+   */
   public ArrayList<String> getResults(){
     return results;
   }
