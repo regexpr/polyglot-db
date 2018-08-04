@@ -23,16 +23,16 @@ import static de.polygdbp.Main.LOG;
  */
 public class MongoExamples {
   // Output all business names and ids a <specific user> rated with minumum of <stars>
-  private final String q1 = "db.review.aggregate([{$match : {$and: [{\"user_id\":\"nOTl4aPC4tKHK35T3bNauQ\"},{\"stars\": {$gt: 4}}]}}, {$lookup: {from:\"business\", localField: \"business_id\", foreignField: \"business_id\", as: \"business\"}}, {$addFields: {\"business\":\"$business\"}}, {$project:{\"business.name\":1, \"business.business_id\":1}}])"; 
+  private final String q1 = "db.review.aggregate([{$match:{$and:[{\"user_id\":\"nOTl4aPC4tKHK35T3bNauQ\"},{\"stars\":{$gt:4}}]}},{$lookup:{from:\"business\",localField:\"business_id\",foreignField:\"business_id\",as:\"business\"}},{$addFields:{\"business\":\"$business\"}},{$project:{\"business.name\":1,\"business.business_id\":1}}])"; 
   
   // Output the average stars of all businesses
-  private final String q2 = "db.business.aggregate({$group:{_id: null,\"average_stars\":{$avg: \"$stars\"}}})";
+  private final String q2 = "db.business.aggregate({$group:{_id:null,\"average_stars\":{$avg:\"$stars\"}}})";
   
   // Output the average stars of all businesses that grouped by category
-  private final String q3 = "db.business.aggregate({$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},average_stars:{$avg: \"$stars\"}}})";
+  private final String q3 = "db.business.aggregate({$unwind:\"$categories\"},{$group:{_id:{categories:\"$categories\"},average_stars:{$avg:\"$stars\"}}})";
   
   // Output all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in
-  private final String q4 = "db.business.aggregate({$match:{categories:\"Cannabis Tours\"}},{$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},\"average_stars\":{ $avg: \"$stars\" }}})";
+  private final String q4 = "db.business.aggregate({$match:{categories:\"Cannabis Tours\"}},{$unwind:\"$categories\"},{$group:{_id:{categories:\"$categories\"},\"average_stars\":{$avg:\"$stars\"}}})";
   
   /**
    * Get the Query by the related shortcut.

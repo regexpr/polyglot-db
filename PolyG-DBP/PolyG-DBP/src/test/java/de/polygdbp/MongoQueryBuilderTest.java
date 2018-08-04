@@ -25,10 +25,10 @@ import static org.junit.Assert.*;
 public class MongoQueryBuilderTest {
   
   private String[] query = new String[] {
-      "db.collection.function({key: value})",
-      "db.collection.function([{$operator1: {key1, value1, key2, value2},[{$operator2: {$operator3: {$operator4: {key3, value3}}},{key4, value4},{$operator5: [{key5, value5},{key6, value6}]}}])",
-      "db.business.aggregate({$group:{_id: null,\"average_stars\":{$avg: \"$stars\"}}})",
-      "db.review.aggregate([{$match : {$and: [{\"user_id\":\"nOTl4aPC4tKHK35T3bNauQ\"},{\"stars\": {$gt: 4}}]}}, {$lookup: {from:\"business\", localField: \"business_id\", foreignField: \"business_id\", as: \"business\"}}, {$addFields: {\"business\":\"$business\"}}, {$project:{\"business.name\":1, \"business.business_id\":1}}])"
+      "db.collection.function({key:value})",
+      "db.collection.function([{$operator1:{key1,value1,key2,value2},[{$operator2:{$operator3:{$operator4:{key3,value3}}},{key4,value4},{$operator5:[{key5,value5},{key6,value6}]}}])",
+      "db.business.aggregate({$group:{_id:null,\"average_stars\":{$avg:\"$stars\"}}})",
+      "db.review.aggregate([{$match:{$and:[{\"user_id\":\"nOTl4aPC4tKHK35T3bNauQ\"},{\"stars\":{$gt:4}}]}},{$lookup:{from:\"business\",localField:\"business_id\",foreignField:\"business_id\",as:\"business\"}},{$addFields:{\"business\":\"$business\"}},{$project:{\"business.name\":1,\"business.business_id\":1}}])"
   };
   
   public MongoQueryBuilderTest() {
@@ -123,10 +123,10 @@ public class MongoQueryBuilderTest {
   @Test
   public void testCutQuery() {
     String[] assertInner = new String[] {
-        "{key: value})",
-        "[{$operator1: {key1, value1, key2, value2},[{$operator2: {$operator3: {$operator4: {key3, value3}}},{key4, value4},{$operator5: [{key5, value5},{key6, value6}]}}])",
-        "{$group:{_id: null,\"average_stars\":{$avg: \"$stars\"}}})",
-        "[{$match : {$and: [{\"user_id\":\"nOTl4aPC4tKHK35T3bNauQ\"},{\"stars\": {$gt: 4}}]}}, {$lookup: {from:\"business\", localField: \"business_id\", foreignField: \"business_id\", as: \"business\"}}, {$addFields: {\"business\":\"$business\"}}, {$project:{\"business.name\":1, \"business.business_id\":1}}])"
+        "{key:value})",
+        "[{$operator1:{key1,value1,key2,value2},[{$operator2:{$operator3:{$operator4:{key3,value3}}},{key4,value4},{$operator5:[{key5,value5},{key6,value6}]}}])",
+        "{$group:{_id:null,\"average_stars\":{$avg:\"$stars\"}}})",
+        "[{$match:{$and:[{\"user_id\":\"nOTl4aPC4tKHK35T3bNauQ\"},{\"stars\":{$gt:4}}]}},{$lookup:{from:\"business\",localField:\"business_id\",foreignField:\"business_id\",as:\"business\"}},{$addFields:{\"business\":\"$business\"}},{$project:{\"business.name\":1,\"business.business_id\":1}}])"
         
     };
     String[][] assertFirstPart = new String[][] {

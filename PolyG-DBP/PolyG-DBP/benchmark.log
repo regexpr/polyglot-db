@@ -1,1 +1,44 @@
-2018-08-04 17:55:35.249 [main] ERROR - Unexpected user input. No query set.
+2018-08-04 18:48:33.987 [main] INFO  - Starting Polyglot Logging!
+2018-08-04 18:48:33.989 [main] INFO  - Processing command line arguments: [q4]
+2018-08-04 18:48:34.441 [main] INFO  - No dataset path set with --input. So we will import nothing.
+2018-08-04 18:48:34.444 [main] INFO  - Executing MongoDB Query.
+2018-08-04 18:48:34.690 [main] BENCHMARK-RESULT - Elapsed time for the process Execution of a MongoDB Query q4 :
+2018-08-04 18:48:34.691 [main] BENCHMARK-RESULT - 245264179 nanoseconds
+2018-08-04 18:48:34.691 [main] INFO  - Results of the MongoDB Query:
+
+2018-08-04 18:48:34.691 [main] INFO  - { "_id" : { "categories" : "Health & Medical", "average_stars" : 3.0 } }
+2018-08-04 18:48:34.691 [main] INFO  - { "_id" : { "categories" : "Herbal Shops", "average_stars" : 3.0 } }
+2018-08-04 18:48:34.692 [main] INFO  - { "_id" : { "categories" : "Medical Cannabis Referrals", "average_stars" : 3.0 } }
+2018-08-04 18:48:34.692 [main] INFO  - { "_id" : { "categories" : "Tours", "average_stars" : 5.0 } }
+2018-08-04 18:48:34.692 [main] INFO  - { "_id" : { "categories" : "Bus Tours", "average_stars" : 5.0 } }
+2018-08-04 18:48:34.692 [main] INFO  - { "_id" : { "categories" : "Cannabis Dispensaries", "average_stars" : 3.5 } }
+2018-08-04 18:48:34.692 [main] INFO  - { "_id" : { "categories" : "Hotels & Travel", "average_stars" : 5.0 } }
+2018-08-04 18:48:34.692 [main] INFO  - { "_id" : { "categories" : "Cannabis Tours", "average_stars" : 3.0 } }
+2018-08-04 18:48:34.693 [main] INFO  - { "_id" : { "categories" : "Medical Centers", "average_stars" : 5.0 } }
+2018-08-04 18:48:34.693 [main] INFO  - { "_id" : { "categories" : "Shopping", "average_stars" : 5.0 } }
+2018-08-04 18:48:34.693 [main] INFO  - { "_id" : { "categories" : "Cannabis Clinics", "average_stars" : 5.0 } }
+2018-08-04 18:48:34.693 [main] INFO  - { "_id" : { "categories" : "Cannabis Tours", "average_stars" : 2.5 } }
+2018-08-04 18:48:34.693 [main] INFO  - { "_id" : { "categories" : "Cannabis Dispensaries", "average_stars" : 5.0 } }
+2018-08-04 18:48:34.694 [main] INFO  - { "_id" : { "categories" : "Cannabis Tours", "average_stars" : 5.0 } }
+2018-08-04 18:48:34.694 [main] INFO  - { "_id" : { "categories" : "Cannabis Clinics", "average_stars" : 3.5 } }
+2018-08-04 18:48:34.694 [main] INFO  - { "_id" : { "categories" : "Health & Medical", "average_stars" : 5.0 } }
+2018-08-04 18:48:34.694 [main] INFO  - { "_id" : { "categories" : "Shopping", "average_stars" : 2.5 } }
+2018-08-04 18:48:34.694 [main] INFO  - { "_id" : { "categories" : "Cannabis Dispensaries", "average_stars" : 2.5 } }
+2018-08-04 18:48:34.695 [main] INFO  - { "_id" : { "categories" : "Health & Medical", "average_stars" : 2.5 } }
+2018-08-04 18:48:34.695 [main] INFO  - { "_id" : { "categories" : "Medical Cannabis Referrals", "average_stars" : 2.5 } }
+2018-08-04 18:48:34.695 [main] INFO  - { "_id" : { "categories" : "Shopping", "average_stars" : 3.0 } }
+2018-08-04 18:48:34.695 [main] INFO  - { "_id" : { "categories" : "Cannabis Clinics", "average_stars" : 2.5 } }
+2018-08-04 18:48:34.695 [main] INFO  - { "_id" : { "categories" : "Cannabis Tours", "average_stars" : 3.5 } }
+2018-08-04 18:48:34.695 [main] INFO  - { "_id" : { "categories" : "Cannabis Clinics", "average_stars" : 3.0 } }
+2018-08-04 18:48:34.695 [main] INFO  - { "_id" : { "categories" : "Shopping", "average_stars" : 3.5 } }
+2018-08-04 18:48:34.696 [main] INFO  - { "_id" : { "categories" : "Health & Medical", "average_stars" : 3.5 } }
+2018-08-04 18:48:34.696 [main] INFO  - { "_id" : { "categories" : "Medical Cannabis Referrals", "average_stars" : 5.0 } }
+2018-08-04 18:48:34.696 [main] INFO  - { "_id" : { "categories" : "Cannabis Dispensaries", "average_stars" : 3.0 } }
+2018-08-04 18:48:34.725 [main] BENCHMARK-RESULT - Elapsed time for the process Execution of a Neo4j Queryq4 :
+2018-08-04 18:48:34.725 [main] BENCHMARK-RESULT - 29043797 nanoseconds
+2018-08-04 18:48:34.726 [main] INFO  - Results of the Neo4j Query:
+
+2018-08-04 18:48:34.726 [main] INFO  - [{c2.id=Tours, avg(Business.stars)=5.0}, {c2.id=Tours, avg(Business.stars)=5.0}, {c2.id=Cannabis Dispensaries, avg(Business.stars)=4.0}, {c2.id=Cannabis Dispensaries, avg(Business.stars)=4.0}, {c2.id=Medical Centers, avg(Business.stars)=5.0}, {c2.id=Medical Centers, avg(Business.stars)=5.0}, {c2.id=Herbal Shops, avg(Business.stars)=3.0}, {c2.id=Herbal Shops, avg(Business.stars)=3.0}, {c2.id=Medical Cannabis Referrals, avg(Business.stars)=3.875}, {c2.id=Medical Cannabis Referrals, avg(Business.stars)=3.875}, {c2.id=Hotels & Travel, avg(Business.stars)=5.0}, {c2.id=Hotels & Travel, avg(Business.stars)=5.0}, {c2.id=Shopping, avg(Business.stars)=4.0}, {c2.id=Shopping, avg(Business.stars)=4.0}, {c2.id=Bus Tours, avg(Business.stars)=5.0}, {c2.id=Bus Tours, avg(Business.stars)=5.0}, {c2.id=Cannabis Clinics, avg(Business.stars)=4.142857142857143}, {c2.id=Cannabis Clinics, avg(Business.stars)=4.142857142857143}, {c2.id=Health & Medical, avg(Business.stars)=4.142857142857143}, {c2.id=Health & Medical, avg(Business.stars)=4.142857142857143}]
+2018-08-04 18:48:34.727 [main] BENCHMARK-RESULT - Process Execution of a MongoDB Query q4 with 245264179 ns took 216220382 ns longer (800%) than processExecution of a Neo4j Queryq4with 29043797 ns.
+2018-08-04 18:48:34.727 [main] INFO  - Stopping PolyG-DBP
+2018-08-04 18:48:34.727 [main] INFO  - The results are written in the file benchmark.log

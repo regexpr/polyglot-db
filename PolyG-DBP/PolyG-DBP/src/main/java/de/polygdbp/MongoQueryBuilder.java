@@ -348,7 +348,7 @@ public final class MongoQueryBuilder {
    *Jim}}
    */
   public void setTokens() {
-    String delims = "[+(\\:, )]+";
+    String delims = "[+(\\:,)]+";
     tokens = inner.split(delims);
   }
   
