@@ -141,7 +141,8 @@ public final class MongoQueryBuilder {
    */
   public void updateGlobalBracketCounter(int[] bracketCounter){
     for(int i = 0; i<4; i++) globalBracketCounter[i]+=bracketCounter[i];
-    this.openCloseCounter += (bracketCounter[1]-bracketCounter[2]);
+    this.openCloseCounter += bracketCounter[1];
+    this.openCloseCounter -= bracketCounter[2];
   }
   
   /**
@@ -160,8 +161,8 @@ public final class MongoQueryBuilder {
   public int evalBracketCounter(int[] bracketCounter) {
     if(bracketCounter[0]>0) return 1;
     if(bracketCounter[1]>0) return 2;
-    if(bracketCounter[2]>0) return 3;
     if(bracketCounter[3]>0) return 4;
+    if(bracketCounter[2]>0) return 3;
     else return 0;
   }
   
@@ -222,6 +223,14 @@ public final class MongoQueryBuilder {
           counter+=2;
           doc = new Document(cleanedKey, cleanedValue);
         }
+        break;
+      }
+      
+      case 4:{
+        counter+=2;
+        updateGlobalBracketCounter(thisBracketCount);
+        updateGlobalBracketCounter(nextBracketCount);
+        doc = new Document(cleanedKey, cleanedValue);
         break;
       }
       // the value ist just a value without the end of a Document
@@ -287,7 +296,7 @@ public final class MongoQueryBuilder {
       tempDoc.append(cleanToken(thirdItem), buildDocument());
       
       // checks if it already reached the end, or it still needs to append Documents
-      if(counter>=tokens.length) {
+      if(counter>=tokens.length || globalBracketCounter[3]>0) {
         return tempDoc;
       }
       else {
