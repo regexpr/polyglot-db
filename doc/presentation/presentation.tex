@@ -1,0 +1,84 @@
+\documentclass[12pt,usenames,dvipsnames]{beamer}
+
+%\usetheme[progressbar=frametitle]{metropolis}
+\usetheme[subsectionpage=progressbar]{metropolis}
+
+\metroset{block=fill}
+%\begin{itemize}[<+- | alert@+>]
+
+
+\usepackage[utf8]{inputenc}
+% Für Häkchen
+\usepackage{ pifont }
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+% Farben
+\usepackage{xcolor}
+
+\usepackage{graphicx}
+\graphicspath{ {.} }
+
+\setbeamertemplate{itemize item}{\tiny$\bullet$}
+\setbeamertemplate{itemize subitem}{\tiny$\bullet$}
+
+\title{Polyglot Databases}
+%\subtitle{}
+\author{Hyeon Ung Kim, Tim Niehoff}
+%\institute{}
+\date{6. August 2018}
+
+\makeatletter
+\setbeamertemplate{section page}{
+  \centering
+  \begin{minipage}{22em}
+    \raggedright
+    \usebeamercolor[fg]{section title}
+    \usebeamerfont{section title}
+    \centering\insertsectionhead\\[-1ex]
+    \centering\usebeamertemplate*{progress bar in section page}
+    \par
+    \ifx\insertsubsectionhead\@empty\else%
+      \usebeamercolor[fg]{subsection title}%
+      \usebeamerfont{subsection title}%
+      \centering\insertsubsectionhead
+    \fi
+  \end{minipage}
+  \par
+  \vspace{\baselineskip}
+}
+\makeatother
+
+\begin{document}
+
+	\maketitle
+			
+%	\begin{frame}{Gliederung}
+%		\setbeamertemplate{section in toc}[sections numbered]
+%\setbeamertemplate{subsection in toc}[subsections numbered]
+%		\tableofcontents
+%	\end{frame}
+	\begin{frame}{Folie 1}
+	\begin{itemize}[<+- | alert@+>]
+	\item Folie 1 Item
+	\end{itemize}	
+	\end{frame}
+
+	\section{Zusammenfassung, Literatur und Diskussion/Fragen}
+	\begin{frame}{Zusammenfassung}
+	\begin{itemize}[<+- | alert@+>]
+	\item Zsf Item
+	\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Literatur}
+	\begin{itemize}
+		\item Literatur Item
+	\end{itemize}
+	\end{frame}
+
+\begin{frame}[standout]
+  Fragen und Diskussion
+\end{frame}
+
+
+\end{document}
