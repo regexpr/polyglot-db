@@ -75,7 +75,7 @@ public class Main extends RuntimeException {
    */
   public void run(){
     // Connect to a running MongoDB by calling MongoAPI constructor
-    MongoAPI mongoApi = new MongoAPI("mongodb://"+mongoAddress, "polyg-dbp");
+    MongoAPI mongoApi = new MongoAPI("mongodb://"+mongoAddress, "yelp");
     // Connect to a running Neo4j by calling Neo4jAPI constructor
     Neo4jAPI neo4jApi = new Neo4jAPI("bolt://"+neo4jAddressBolt);
     // <========================= BEGIN Importing .JSONs into MongoDB =========================>
@@ -111,14 +111,17 @@ public class Main extends RuntimeException {
     String mongoQueryString = mongoExamples.getQuery(queryName);
     mongoQuery.customMongoAggregation(mongoQueryString);
     benchMongoQuery.writeDurationToLOG('n');
-    LOG.info("Results of the MongoDB Query:\n"+mongoQuery.getResults());
+    LOG.info("Results of the MongoDB Query:\n");
+    for(int i=0; i<mongoQuery.getResults().size(); i++) {
+      LOG.info(mongoQuery.getResults().get(i));
+    }
     Benchmark benchNeoQuery = new Benchmark("Execution of a Neo4j Query" + queryName);
     benchNeoQuery.start();
     Neo4jExamples neo4jExamples = new Neo4jExamples();
     String neo4jQueryString = neo4jExamples.getQuery(queryName);
     List<Object> neo4jResults = neo4jQuery.customNeo4jQuery(neo4jQueryString);
     benchNeoQuery.writeDurationToLOG('n');
-    LOG.info("Results of the Neo4j Query:");
+    LOG.info("Results of the Neo4j Query:\n");
     LOG.info(neo4jResults.toString());
     // Compare Neo4j and MongoDB Query Execution
     BenchmarkComparison benchCompare = new BenchmarkComparison(benchMongoQuery, benchNeoQuery);
