@@ -29,10 +29,10 @@ public class MongoExamples {
   private final String q2 = "db.business.aggregate({$group:{_id: null,\"average_stars\":{$avg: \"$stars\"}}})";
   
   // Output the average stars of all businesses that grouped by category
-  //private final String q3 = "db.business.aggregate({$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},\"average_stars\":{ $avg: \"$stars\" }}})";
+  private final String q3 = "db.business.aggregate({$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},average_stars:{$avg: \"$stars\"}}})";
   
   // Output all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in
-  //private final String q4 = "db.business.aggregate({$match:{categories:\"Cannabis Tours\"}},{$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},\"average_stars\":{ $avg: \"$stars\" }}})";
+  private final String q4 = "db.business.aggregate({$match:{categories:\"Cannabis Tours\"}},{$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},\"average_stars\":{ $avg: \"$stars\" }}})";
   
   /**
    * Get the Query by the related shortcut.
@@ -43,8 +43,8 @@ public class MongoExamples {
     switch(q) {
     case "q1": return q1;
     case "q2": return q2;
-    //case "q3": return q3;
-    //case "q4": return q4;
+    case "q3": return q3;
+    case "q4": return q4;
         default: {
       LOG.error("Could not find query for MongoDB.");
       System.exit(-1);

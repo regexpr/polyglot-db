@@ -16,8 +16,11 @@
 package de.polygdbp;
 
 import com.mongodb.Block;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.util.JSON;
+
 import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,7 @@ public class MongoQuery {
 
   MongoAPI mongoApi;
   
-  private ArrayList<String> results = new ArrayList<>();
+  private ArrayList<String> results = new ArrayList<String>();
   
   /**
    * Constructor needs a valid mongoApi.
@@ -39,6 +42,14 @@ public class MongoQuery {
   public MongoQuery(MongoAPI mongoApi) {
     this.mongoApi = mongoApi;
   }
+  
+  // Override apply()to add all query results to the output class variable result".
+  Block<Document> printBlock = new Block<Document>() {
+    @Override
+    public void apply(final Document document) {
+      results.add(document.toJson());
+    }
+  };
   
   /**
    * Gets a single Object from the MongoDB with corresponding key-value.
@@ -86,16 +97,16 @@ public class MongoQuery {
     mqb.buildMongoQuery();
     query = mqb.getMongoQuery();
     
-    collection.aggregate(query).forEach(printBlock); 
+    AggregateIterable<Document> result = collection.aggregate(query);
+    for (Document dbObject : result)
+    {
+        results.add(dbObject.toJson());
+    }
+
+
   }
   
-  // Override apply()to add all query results to the output class variable result".
-  Block<Document> printBlock = new Block<Document>() {
-    @Override
-    public void apply(final Document document) {
-      results.add(document.toString());
-    }
-  };
+
   
   /**
    * Getter method of the query results.
