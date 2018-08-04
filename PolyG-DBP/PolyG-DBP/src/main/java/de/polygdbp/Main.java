@@ -75,7 +75,7 @@ public class Main extends RuntimeException {
    */
   public void run(){
     // Connect to a running MongoDB by calling MongoAPI constructor
-    MongoAPI mongoApi = new MongoAPI("mongodb://"+mongoAddress, "yelp");
+    MongoAPI mongoApi = new MongoAPI("mongodb://"+mongoAddress, mongoDatabase);
     // Connect to a running Neo4j by calling Neo4jAPI constructor
     Neo4jAPI neo4jApi = new Neo4jAPI("bolt://"+neo4jAddressBolt);
     // <========================= BEGIN Importing .JSONs into MongoDB =========================>
@@ -178,8 +178,8 @@ public class Main extends RuntimeException {
     builder.append("=======================================================================================================\n\n");
     builder.append("q1:\t\tOutput me all business names and ids a <specific user> rated with minumum of <stars>\n");
     builder.append("q2:\t\tOutput the average stars of all businesses\n");
-  //builder.append("[q3] REMOVED:\t\t\n");
-  //builder.append("[q4] REMOVED:\t\t\n");
+    builder.append("q3:\t\tOutput the average stars of all businesses that grouped by category\n");
+    builder.append("q4:\t\tOutput all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in\n");
     System.out.println(builder);
   }
   
