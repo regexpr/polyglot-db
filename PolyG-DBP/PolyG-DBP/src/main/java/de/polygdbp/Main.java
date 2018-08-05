@@ -219,12 +219,12 @@ public class Main extends RuntimeException {
             .append("Example: java -jar PolyG-DBP-0.1.jar custom.\n");
     
     builder.append("OPTIONS (can be specified in any order):\n")
-            .append("-i, --input\t\tPath to the directory with JSON file(s). Example: \"-i /yelp\"\n")
-            .append("-m, --mongoAddress\t\tAdress of the mongodb instance. Example: \"-m localhost:27017\"\n")
-            .append("-md, --mongoDatabase\t\tName of the mongodb database. Example: \"-md yelp\"\n")
-            .append("-nb, --neo4jAddressBolt1\t\tAdress of the neo4j instance with the bolt address. Example: \"-nb localhost:7687\"\n")
-            .append("-nr, --neo4jAddressRemote\t\tAdress of the neo4j instance with the remote address. Example: \"-nr localhost:7474\"\n")
-            .append("-r, --reduce\t\tImport just a certain amount of lines of each input JSON. Example: \"-r 300\"\n");
+            .append("-i, --input\tPath to the directory with JSON file(s). Example: \"-i /yelp\"\n")
+            .append("-m, --mongoAddress\tAdress of the mongodb instance. Example: \"-m localhost:27017\"\n")
+            .append("-md, --mongoDatabase\tName of the mongodb database. Example: \"-md yelp\"\n")
+            .append("-nb, --neo4jAddressBolt1\tAdress of the neo4j instance with the bolt address. Example: \"-nb localhost:7687\"\n")
+            .append("-nr, --neo4jAddressRemote\tAdress of the neo4j instance with the remote address. Example: \"-nr localhost:7474\"\n")
+            .append("-r, --reduce\tImport just a certain amount of lines of each input JSON. Example: \"-r 300\"\n");
     System.out.println(builder);
   }
   
@@ -236,14 +236,14 @@ public class Main extends RuntimeException {
     builder.append("\n\nAVAILABLE QUERIES FOR THE YELP DATASET\n");
     builder.append("Vist https://www.yelp.com/dataset to read more.\n");
     builder.append("=======================================================================================================\n\n");
-    builder.append("q1:\t\tOutput all business names and ids a <specific user> rated with minumum of <stars>\n");
-    builder.append("q2:\t\tOutput the average stars of all businesses\n");
-    builder.append("q3:\t\tOutput the average stars of all businesses that grouped by category\n");
-    builder.append("q4:\t\tOutput the average stars of all businesses grouped by category descending order\n");
-    builder.append("q5:\t\tOutput all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in\n");
-    builder.append("q6:\t\tOutput all businesses that were reviewed more than 700 times\n");
-    builder.append("q7:\t\tThe same query as above, but this time we count the reviews in the reviews collection");
-    builder.append("qa:\t\tRun all queries above.\n");
+    builder.append("q1:\tOutput all business names and ids a <specific user> rated with minumum of <stars>\n");
+    builder.append("q2:\tOutput the average stars of all businesses\n");
+    builder.append("q3:\tOutput the average stars of all businesses that grouped by category\n");
+    builder.append("q4:\tOutput the average stars of all businesses grouped by category descending order\n");
+    builder.append("q5:\tOutput all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in\n");
+    builder.append("q6:\tOutput all businesses that were reviewed more than 700 times\n");
+    builder.append("q7:\tThe same query as above, but this time we count the reviews in the reviews collection\n");
+    builder.append("qa:\tRun all queries above.\n");
     
     System.out.println(builder);
   }
