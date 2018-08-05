@@ -15,6 +15,7 @@
  */
 package de.polygdbp;
 
+import de.polygdbp.MongoDB.MongoImporter;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

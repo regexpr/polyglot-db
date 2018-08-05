@@ -13,9 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package de.polygdbp;
+package de.polygdbp.Neo4J;
 
-import static de.polygdbp.Main.LOG;
+import static de.polygdbp.Main.PolyGDBP.LOG;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

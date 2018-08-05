@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package de.polygdbp;
+package de.polygdbp.Benchmark;
 
-import static de.polygdbp.Main.LOG;
-import static de.polygdbp.Main.BENCHMARK;
+import static de.polygdbp.Main.PolyGDBP.LOG;
+import static de.polygdbp.Main.PolyGDBP.BENCHMARK;
 
 /**
  * Supports time measuring for one certain process.

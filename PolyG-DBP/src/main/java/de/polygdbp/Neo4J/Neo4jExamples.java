@@ -13,9 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package de.polygdbp;
+package de.polygdbp.Neo4J;
 
-import static de.polygdbp.Main.LOG;
+import static de.polygdbp.Main.PolyGDBP.LOG;
 
 /**
  * Contains all hard-coded querying examples for the Neo4j to make Querying easier.

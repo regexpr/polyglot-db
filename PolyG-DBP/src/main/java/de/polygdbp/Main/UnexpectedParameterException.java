@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package de.polygdbp;
+package de.polygdbp.Main;
 
 /**
  * Produces preciser exceptions for the de.polygdbp.Main when facing unexpected arguments of

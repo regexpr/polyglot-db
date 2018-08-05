@@ -13,8 +13,18 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package de.polygdbp;
+package de.polygdbp.Main;
 
+import de.polygdbp.Benchmark.Benchmark;
+import de.polygdbp.Benchmark.BenchmarkComparison;
+import de.polygdbp.Neo4J.Neo4jExamples;
+import de.polygdbp.Neo4J.Neo4jDocManager;
+import de.polygdbp.Neo4J.Neo4jQuery;
+import de.polygdbp.Neo4J.Neo4jAPI;
+import de.polygdbp.MongoDB.MongoExamples;
+import de.polygdbp.MongoDB.MongoImporter;
+import de.polygdbp.MongoDB.MongoAPI;
+import de.polygdbp.MongoDB.MongoQuery;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -24,24 +34,24 @@ import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 
 /**
- * Serves as executable Main class of the PolyG-DB project.
+ * Serves as executable PolyGDBP class of the PolyG-DB project.
  * @author Tim Niehoff, Hyeon Ung Kim
  * Please note, that in all other Java Classes @author is left out in the javadoc as the
  * License header already contains the contributors.
  *
  */
-public class Main extends RuntimeException {
+public class PolyGDBP extends RuntimeException {
   /**
    * Logger tracks all stages of a PolyG-DBP run by the level "info",
    * in some circumstances errors by the same-named level and
    * performance results through the level results.
    */
-  protected static final Logger LOG = LogManager.getLogger(Main.class);
+  public static final Logger LOG = LogManager.getLogger(PolyGDBP.class);
   
   /**
    * Custom LogLevel to indicate relevant Benchmark lines.
    */
-  protected static final Level BENCHMARK = Level.forName("BENCHMARK-RESULT", 400);
+  public static final Level BENCHMARK = Level.forName("BENCHMARK-RESULT", 400);
   /**
    * Parameters to specify a run of PolyG-DBP. All of them are optional.
    */
@@ -66,7 +76,7 @@ public class Main extends RuntimeException {
   /**
    * Constructor initializes variables that can later be filled by the users CLI.
    */
-  public Main() {
+  public PolyGDBP() {
     pathDataset = "";
     mongoAddress = "";
     mongoDatabase="";
@@ -113,13 +123,9 @@ public class Main extends RuntimeException {
     }
     // <========================= BEGIN Executing Queries =========================>
     if (!this.preBuiltQuery.isEmpty()){
-      LOG.debug("HIER");
-      LOG.debug(preBuiltQuery);
-      LOG.debug("END");
       MongoExamples mongoExamples = new MongoExamples();
       Neo4jExamples neo4jExamples = new Neo4jExamples();
       if (this.preBuiltQuery.equalsIgnoreCase("qa")){
-        LOG.debug("HIER2");
         // Execute all prebuilt queries
         // 7 is the number of all prebuilt queries.
         // @TODO: Refactor. No hard numbers, please.
@@ -130,7 +136,6 @@ public class Main extends RuntimeException {
         }
       } else {
         // Execute Prebuilt Query.
-        LOG.debug("HIER3");
         this.mongoQuery = mongoExamples.getQuery(preBuiltQuery);
         this.neo4jQuery = neo4jExamples.getQuery(preBuiltQuery);
         executeQuery(mongoApi, neo4jApi);
@@ -186,11 +191,11 @@ public class Main extends RuntimeException {
     
   }
   /**
-   * Starting method of the PolyG-DBP. Initializes Main Class and runs checkUserInput() and run().
+   * Starting method of the PolyG-DBP. Initializes PolyGDBP Class and runs checkUserInput() and run().
    * @param args contains users command line arguments.
    */
   public static void main(String[] args){
-    Main main = new Main();
+    PolyGDBP main = new PolyGDBP();
     LOG.info("Starting Polyglot Logging!");
     LOG.debug("Processing command line arguments: "+Arrays.toString(args));
     main.checkUserInput(args);

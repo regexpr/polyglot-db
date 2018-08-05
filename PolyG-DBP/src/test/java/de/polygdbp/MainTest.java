@@ -15,6 +15,8 @@
  */
 package de.polygdbp;
 
+import de.polygdbp.Main.PolyGDBP;
+import de.polygdbp.Main.UnexpectedParameterException;
 import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.Before;
@@ -32,14 +34,14 @@ public class MainTest {
 public ExpectedException expectedEx = ExpectedException.none();
 
   /**
-   * Test of main method, of class Main.
+   * Test of main method, of class PolyGDBP.
    */
   @Ignore
   @Test
   public void testMain() {
     System.out.println("main");
     String[] args = null;
-    Main instance = new Main();
+    PolyGDBP instance = new PolyGDBP();
     expectedEx.expect(RuntimeException.class);
     expectedEx.expectMessage("No query");
     instance.main(args);
@@ -47,35 +49,35 @@ public ExpectedException expectedEx = ExpectedException.none();
   }
 
   /**
-   * Test of help method, of class Main.
+   * Test of help method, of class PolyGDBP.
    */
   @Test
   public void testHelp() {
     System.out.println("help");
-    Main instance = new Main();
+    PolyGDBP instance = new PolyGDBP();
     instance.list();
     
   }
 
   /**
-   * Test of list method, of class Main.
+   * Test of list method, of class PolyGDBP.
    */
   @Test
   public void testList() {
     System.out.println("list");
-    Main instance = new Main();
+    PolyGDBP instance = new PolyGDBP();
     instance.list();
     
   }
 
   /**
-   * Test of checkUserInput method, of class Main.
+   * Test of checkUserInput method, of class PolyGDBP.
    */
   @Test
   public void testCheckUserInput() throws UnexpectedParameterException {
     System.out.println("checkUserInput");
     String[] args = {"blub"};
-    Main instance = new Main();
+    PolyGDBP instance = new PolyGDBP();
     
     expectedEx.expect(RuntimeException.class);
     expectedEx.expectMessage("No query");
@@ -83,14 +85,14 @@ public ExpectedException expectedEx = ExpectedException.none();
   }
 
   /**
-   * Test of run method, of class Main.
+   * Test of run method, of class PolyGDBP.
    */
   @Test
   public void testRun() {
   }
 
   /**
-   * Test of executeQuery method, of class Main.
+   * Test of executeQuery method, of class PolyGDBP.
    */
   @Test
   public void testExecuteQuery() {

@@ -78,7 +78,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>de.polygdbp.Main</mainClass>
+                            <mainClass>de.polygdbp.Main.PolyGDBP</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

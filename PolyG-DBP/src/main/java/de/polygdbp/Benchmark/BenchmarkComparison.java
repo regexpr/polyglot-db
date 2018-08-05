@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package de.polygdbp;
+package de.polygdbp.Benchmark;
 
-import static de.polygdbp.Main.LOG;
-import static de.polygdbp.Main.BENCHMARK;
+import static de.polygdbp.Main.PolyGDBP.LOG;
+import static de.polygdbp.Main.PolyGDBP.BENCHMARK;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -66,7 +66,7 @@ public class BenchmarkComparison {
   /**
    * Appends the Durations and Process names of two Benchmarks as a JSON object into the benchmarkResults.log.
    */
-  void writeToResultsFile() {
+  public void writeToResultsFile() {
     // check if file already exists
     // if not create benchmarkResults.log
     // write into benchmarkResults.log
