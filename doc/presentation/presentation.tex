@@ -22,7 +22,7 @@
 \setbeamertemplate{itemize subitem}{\tiny$\bullet$}
 
 \title{PolyGlot-Database Performance}
-\subtitle{Framework zum Vergleichen von Anfragedauern auf MongoDB und Neo4J}
+\subtitle{Benchmark Framework - MongoDB vs Neo4J}
 \author{Hyeon Ung Kim, Tim Niehoff}
 %\institute{}
 \date{6. August 2018}
@@ -60,17 +60,15 @@
 	\section{Aufgabenstellung}
 	\begin{frame}{Heranführung}
 	\begin{itemize}[<+- | alert@+>]
-	\item Verschiedene Anwendungen erfordern versch. Typen
-von Datenbanken: Relational, Key-Value, Document, Graph\footnote{ Inhalt der Folie von \url{https://dbs.uni-leipzig.de/file/Intro_bdprak_final.pdf}}
-	\item In der Praxis: Gleichzeitige Verwendung versch. Typen
-	\item Vorteil: Optimale DB für jeden Anwendungsfall
-	\begin{itemize} [<+- | alert@+>]
+	\item Verschiedene DB Typen mit unterschiedlichen Vorteilen\footnote{ Inhalt der Folie von \url{https://dbs.uni-leipzig.de/file/Intro_bdprak_final.pdf}}
+		\begin{itemize} [<+- | alert@+>]
 	\item Relational: Sicherheit, homogene Daten
 	\item Document: Flexibles Schema, Suchfunktionen
 	\item Graph: Beziehungen, Traversal
 	\end{itemize}
-	\item Aufgabe: Welchen Vorteil hat die Verwendung einer
-Graphdatenbank gegenüber einer Dokumenten-Datenbank?
+	\item Polyglot: Verwendung mehrerer DB-Typen für untersch. Anwendungsfälle
+	\item Aufgabe: Vergleich einer
+Graphdatenbank mit einer Dokumenten-Datenbank
 	\end{itemize}	
 	\end{frame}
 		\begin{frame}{gegebene Werkzeuge}
@@ -81,31 +79,28 @@ Graphdatenbank gegenüber einer Dokumenten-Datenbank?
 \end{tabular}
 \end{table}
 	\end{frame}
-\begin{frame}{Stichpunkte zur vorigen Folie}
-\begin{itemize}[<+- | alert@+>]
+\begin{frame}<presentation:0>
+\begin{itemize}
 \item Mongo + Neo4j Driver
 \item teilweise nicht ausgereift. Für das garantieren von beliebigen Queries muss geparst werden
-
 \end{itemize}
-
 \end{frame}
-\section{Problem: Gleicher Datensatz auf beiden DB?}
+\section{Herausforderung: Gleicher Datensatz auf beiden DB}
 \subsection{Mongo Connector + Neo4j Doc Manager}
 \begin{frame}{Mongo Connector + Neo4j Doc Manager}
-\begin{itemize}
-\item Softwarelösung von MongoDB und Neo4j
-\item synchronisiert mithilfe von Mongo Replica Sets von Mongo in Neo4j
-\item muss kein Datenmodell angegeben werden. Funzt Generisch
+\begin{itemize}[<+- | alert@+>]
+\item Software jeweils von MongoDB und Neo4j
+\item Dauerhafte Synchronisation zwischen Mongo und Neo4j möglich
+\item Generisches Erstellen des Neo4j Datenmodells 
 \end{itemize}
 \end{frame}
 \subsection{Apoc}
 \begin{frame}
-
 \begin{itemize}[<+- | alert@+>]
-\item Software von Neo4j zum Import von JSONs in die Neo4j
-\item keine Synchronisierung zwischen Mongo und Neo4j
-\item Nutzer muss Neo4j Datenmodell erstellen
-\item durch nutzerspezifisches Datenmodell kann man die Graphdatenbankvorteile auskosten
+\item Software von Neo4j zum Import von JSONs in Neo4j
+\item keine automatische Synchronisierung zwischen Mongo und Neo4j
+\item kein generisches Datenmodell
+\item Vorteil des nutzerspezifischen Datenmodells: Ausnutzen graphdatenbankspezifischer Performanzvorteile
 \end{itemize}
 
 \end{frame}
