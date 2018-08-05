@@ -142,7 +142,8 @@ public class Main extends RuntimeException {
     
     LOG.info("Executing MongoDB Query and measuring time.");
     // Mongo Benchmark
-    Benchmark benchMongoQuery = new Benchmark("Execution of a MongoDB Query " + this.mongoQuery);
+    //Benchmark benchMongoQuery = new Benchmark("Execution of a MongoDB Query " + this.mongoQuery);
+    Benchmark benchMongoQuery = new Benchmark("MongoDB");
     List<Document> mongoQueryList = mongoQueryHandler.buildQuery(this.mongoQuery);
     benchMongoQuery.start();
     mongoQueryHandler.executeQuery(mongoQueryList);
@@ -154,7 +155,8 @@ public class Main extends RuntimeException {
     }
     LOG.info("Executing Neo4j Query and measuring time.");
     // Neo4j Benchmark
-    Benchmark benchNeoQuery = new Benchmark("Execution of a Neo4j Query" + this.neo4jQuery);
+    //Benchmark benchNeoQuery = new Benchmark("Execution of a Neo4j Query" + this.neo4jQuery);
+    Benchmark benchNeoQuery = new Benchmark("Neo4j");
     benchNeoQuery.start();
     List<Object> neo4jResults = neo4jQueryHandler.customNeo4jQuery(neo4jQuery);
     benchNeoQuery.writeDurationToLOG('n');
