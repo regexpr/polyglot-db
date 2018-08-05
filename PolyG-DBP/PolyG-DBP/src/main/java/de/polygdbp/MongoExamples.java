@@ -58,6 +58,7 @@ public class MongoExamples {
     case "q5": return q5;
     case "q6": return q6;
     case "q7": return q7;
+    case "qa": return "";
         default: {
       LOG.error("Could not find query for MongoDB.");
       System.exit(-1);
