@@ -16,13 +16,13 @@
 \usepackage{xcolor}
 
 \usepackage{graphicx}
-\graphicspath{ {.} }
+\graphicspath{ {images/} }
 
 \setbeamertemplate{itemize item}{\tiny$\bullet$}
 \setbeamertemplate{itemize subitem}{\tiny$\bullet$}
 
-\title{Polyglot Databases}
-%\subtitle{}
+\title{PolyGlot-Database Performance}
+\subtitle{Framework zum Vergleichen von Anfragedauern auf MongoDB und Neo4J}
 \author{Hyeon Ung Kim, Tim Niehoff}
 %\institute{}
 \date{6. August 2018}
@@ -57,25 +57,100 @@
 %\setbeamertemplate{subsection in toc}[subsections numbered]
 %		\tableofcontents
 %	\end{frame}
-	\begin{frame}{Folie 1}
+	\section{Aufgabenstellung}
+	\begin{frame}{Heranführung}
 	\begin{itemize}[<+- | alert@+>]
-	\item Folie 1 Item
+	\item Verschiedene Anwendungen erfordern versch. Typen
+von Datenbanken: Relational, Key-Value, Document, Graph\footnote{ Inhalt der Folie von \url{https://dbs.uni-leipzig.de/file/Intro_bdprak_final.pdf}}
+	\item In der Praxis: Gleichzeitige Verwendung versch. Typen
+	\item Vorteil: Optimale DB für jeden Anwendungsfall
+	\begin{itemize} [<+- | alert@+>]
+	\item Relational: Sicherheit, homogene Daten
+	\item Document: Flexibles Schema, Suchfunktionen
+	\item Graph: Beziehungen, Traversal
+	\end{itemize}
+	\item Aufgabe: Welchen Vorteil hat die Verwendung einer
+Graphdatenbank gegenüber einer Dokumenten-Datenbank?
 	\end{itemize}	
 	\end{frame}
+		\begin{frame}{gegebene Werkzeuge}
+		\begin{table}[]
+\begin{tabular}{ll}
+\includegraphics[width=0.2\textwidth]{java}  & \includegraphics[width=0.3\textwidth]{yelp} \\
+\includegraphics[width=0.4\textwidth]{mongodb}  & \includegraphics[width=0.35\textwidth]{neo4j}
+\end{tabular}
+\end{table}
+	\end{frame}
+\begin{frame}{Stichpunkte zur vorigen Folie}
+\begin{itemize}[<+- | alert@+>]
+\item Mongo + Neo4j Driver
+\item teilweise nicht ausgereift. Für das garantieren von beliebigen Queries muss geparst werden
 
-	\section{Zusammenfassung, Literatur und Diskussion/Fragen}
+\end{itemize}
+
+\end{frame}
+\section{Problem: Gleicher Datensatz auf beiden DB?}
+\subsection{Mongo Connector + Neo4j Doc Manager}
+\begin{frame}{Mongo Connector + Neo4j Doc Manager}
+\begin{itemize}
+\item Softwarelösung von MongoDB und Neo4j
+\item synchronisiert mithilfe von Mongo Replica Sets von Mongo in Neo4j
+\item muss kein Datenmodell angegeben werden. Funzt Generisch
+\end{itemize}
+\end{frame}
+\subsection{Apoc}
+\begin{frame}
+
+\begin{itemize}[<+- | alert@+>]
+\item Software von Neo4j zum Import von JSONs in die Neo4j
+\item keine Synchronisierung zwischen Mongo und Neo4j
+\item Nutzer muss Neo4j Datenmodell erstellen
+\item durch nutzerspezifisches Datenmodell kann man die Graphdatenbankvorteile auskosten
+\end{itemize}
+
+\end{frame}
+\section{Resultat: PolyGDBP}
+\subsection{Pipline und Workflow}
+\begin{frame}
+\begin{itemize}[<+- | alert@+>]
+\item File Struktur (Main, Mongo, Neo4j, Benchmark)
+\item Command line Interface
+\item nur Queryangabe ist pflicht, alles andere optional.
+\item gibt vorgefertigte Queries für Yelp Datensatz
+\item Nutzer kann JSON Datensatz importieren
+\item Wird in MongoCollections verarbeitet und durch MongoConnector erfolgt danach das Übertragen in Neo4j
+\item Queries werden ausgeführt
+\item vor und jedem dieser Schritte zeit gestoppt, geloggt und schließlich ausgegeben
+\item kann mithilfe unserer Javascript Anwendung visualisiert werden.
+\end{itemize}
+\end{frame}
+\section{Lets run it. With the help of YELP}
+\subsection{Datensatz + DatenModell}
+\begin{frame}
+\begin{itemize}[<+- | alert@+>]
+\item YELP = Suchmaschine und Empfehlungsportal für Restaurants und Geschäfte 
+\item YELP Datensatz X GB groß
+\item besteht aus X .jsons: users, business, review, ...
+\item Beispiele eines JSON Business Objektes:
+\item ...
+\end{itemize}
+\end{frame}
+\begin{frame}{Neo4j Datenmodell}
+\includegraphics[width=1\textwidth]{neo4jModell}
+
+\end{frame}
+\subsection{Ergebnisse}
+	\section{Zusammenfassung}
 	\begin{frame}{Zusammenfassung}
 	\begin{itemize}[<+- | alert@+>]
-	\item Zsf Item
+	\item Verschiedene DB-Typen haben versch. Vor- und Nachteile
+	\item PolyG-DBP ist ein Framework zum Vergleich einer Dokument-DB mit einer Graphdatenbank
+	\item konkret: MongoDB und Neo4j werden getestet
+	\item Nutzer kann prebuilt queries ausführen lassen oder eigene Queries testen lassen
+	\item Ausführungszeiten der Queries werden gemessen und verglichen
+	\item Unsere Tests mithilfe von PolyG-DBP und Yelp zeigen: Neo4j und MongoDB siegen bei bestimmten Arten von Queries
 	\end{itemize}
 	\end{frame}
-	
-	\begin{frame}{Literatur}
-	\begin{itemize}
-		\item Literatur Item
-	\end{itemize}
-	\end{frame}
-
 \begin{frame}[standout]
   Fragen und Diskussion
 \end{frame}

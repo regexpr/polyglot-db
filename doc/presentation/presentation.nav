@@ -1,0 +1,72 @@
+\headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\headcommand {\beamer@framepages {1}{1}}
+\headcommand {\beamer@sectionpages {1}{1}}
+\headcommand {\beamer@subsectionpages {1}{1}}
+\headcommand {\sectionentry {1}{Aufgabenstellung}{2}{Aufgabenstellung}{0}}
+\headcommand {\slideentry {1}{0}{1}{2/2}{}{0}}
+\headcommand {\beamer@framepages {2}{2}}
+\headcommand {\slideentry {1}{0}{2}{3/9}{}{0}}
+\headcommand {\beamer@framepages {3}{9}}
+\headcommand {\slideentry {1}{0}{3}{10/10}{}{0}}
+\headcommand {\beamer@framepages {10}{10}}
+\headcommand {\slideentry {1}{0}{4}{11/12}{}{0}}
+\headcommand {\beamer@framepages {11}{12}}
+\headcommand {\beamer@sectionpages {2}{12}}
+\headcommand {\beamer@subsectionpages {2}{12}}
+\headcommand {\sectionentry {2}{Problem: Gleicher Datensatz auf beiden DB?}{13}{Problem: Gleicher Datensatz auf beiden DB?}{0}}
+\headcommand {\slideentry {2}{0}{1}{13/13}{}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\beamer@subsectionpages {13}{13}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{14}{Mongo Connector + Neo4j Doc Manager}}
+\headcommand {\slideentry {2}{1}{1}{14/14}{Mongo Connector + Neo4j Doc Manager}{0}}
+\headcommand {\beamer@framepages {14}{14}}
+\headcommand {\slideentry {2}{1}{2}{15/15}{Mongo Connector + Neo4j Doc Manager}{0}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\beamer@subsectionpages {14}{15}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{16}{Apoc}}
+\headcommand {\slideentry {2}{2}{1}{16/16}{Apoc}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\slideentry {2}{2}{2}{17/20}{Apoc}{0}}
+\headcommand {\beamer@framepages {17}{20}}
+\headcommand {\beamer@sectionpages {13}{20}}
+\headcommand {\beamer@subsectionpages {16}{20}}
+\headcommand {\sectionentry {3}{Resultat: PolyGDBP}{21}{Resultat: PolyGDBP}{0}}
+\headcommand {\slideentry {3}{0}{1}{21/21}{}{0}}
+\headcommand {\beamer@framepages {21}{21}}
+\headcommand {\beamer@subsectionpages {21}{21}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{22}{Pipline und Workflow}}
+\headcommand {\slideentry {3}{1}{1}{22/22}{Pipline und Workflow}{0}}
+\headcommand {\beamer@framepages {22}{22}}
+\headcommand {\slideentry {3}{1}{2}{23/31}{Pipline und Workflow}{0}}
+\headcommand {\beamer@framepages {23}{31}}
+\headcommand {\beamer@sectionpages {21}{31}}
+\headcommand {\beamer@subsectionpages {22}{31}}
+\headcommand {\sectionentry {4}{Lets run it. With the help of YELP}{32}{Lets run it. With the help of YELP}{0}}
+\headcommand {\slideentry {4}{0}{1}{32/32}{}{0}}
+\headcommand {\beamer@framepages {32}{32}}
+\headcommand {\beamer@subsectionpages {32}{32}}
+\headcommand {\beamer@subsectionentry {0}{4}{1}{33}{Datensatz + DatenModell}}
+\headcommand {\slideentry {4}{1}{1}{33/33}{Datensatz + DatenModell}{0}}
+\headcommand {\beamer@framepages {33}{33}}
+\headcommand {\slideentry {4}{1}{2}{34/38}{Datensatz + DatenModell}{0}}
+\headcommand {\beamer@framepages {34}{38}}
+\headcommand {\slideentry {4}{1}{3}{39/39}{Datensatz + DatenModell}{0}}
+\headcommand {\beamer@framepages {39}{39}}
+\headcommand {\beamer@subsectionpages {33}{39}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{40}{Ergebnisse}}
+\headcommand {\slideentry {4}{2}{1}{40/40}{Ergebnisse}{0}}
+\headcommand {\beamer@framepages {40}{40}}
+\headcommand {\beamer@sectionpages {32}{40}}
+\headcommand {\beamer@subsectionpages {40}{40}}
+\headcommand {\sectionentry {5}{Zusammenfassung}{41}{Zusammenfassung}{0}}
+\headcommand {\slideentry {5}{0}{1}{41/41}{}{0}}
+\headcommand {\beamer@framepages {41}{41}}
+\headcommand {\slideentry {5}{0}{2}{42/47}{}{0}}
+\headcommand {\beamer@framepages {42}{47}}
+\headcommand {\slideentry {5}{0}{3}{48/48}{}{0}}
+\headcommand {\beamer@framepages {48}{48}}
+\headcommand {\beamer@partpages {1}{48}}
+\headcommand {\beamer@subsectionpages {41}{48}}
+\headcommand {\beamer@sectionpages {41}{48}}
+\headcommand {\beamer@documentpages {48}}
+\headcommand {\gdef \inserttotalframenumber {9}}

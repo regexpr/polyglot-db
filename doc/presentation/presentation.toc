@@ -1,0 +1,10 @@
+\beamer@sectionintoc {1}{Aufgabenstellung}{2}{0}{1}
+\beamer@sectionintoc {2}{Problem: Gleicher Datensatz auf beiden DB?}{13}{0}{2}
+\beamer@subsectionintoc {2}{1}{Mongo Connector + Neo4j Doc Manager}{14}{0}{2}
+\beamer@subsectionintoc {2}{2}{Apoc}{16}{0}{2}
+\beamer@sectionintoc {3}{Resultat: PolyGDBP}{21}{0}{3}
+\beamer@subsectionintoc {3}{1}{Pipline und Workflow}{22}{0}{3}
+\beamer@sectionintoc {4}{Lets run it. With the help of YELP}{32}{0}{4}
+\beamer@subsectionintoc {4}{1}{Datensatz + DatenModell}{33}{0}{4}
+\beamer@subsectionintoc {4}{2}{Ergebnisse}{40}{0}{4}
+\beamer@sectionintoc {5}{Zusammenfassung}{41}{0}{5}
