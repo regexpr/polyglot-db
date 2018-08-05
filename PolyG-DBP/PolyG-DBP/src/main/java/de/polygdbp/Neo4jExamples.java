@@ -31,15 +31,19 @@ public class Neo4jExamples {
   private final String q2 = "MATCH (b:Business) return avg(b.stars)";
   
   //Output the average stars of all businesses that grouped by category
+  //private final String q3 = "MATCH (b:business) UNWIND b.categories AS cat RETURN cat, avg(b.stars)";
   private final String q3 = "MATCH (b:Business)--(c:Category) return c.id, avg(b.stars)";
   
   //Output the average stars of all businesses grouped by category descending order
+  // private final String q4 = "MATCH (b:business) UNWIND b.categories AS cat RETURN cat, avg(b.stars) AS average_stars ORDER BY average_stars DESC";
   private final String q4 = "MATCH (b:Business)--(c:Category) return c.id, avg(b.stars) AS average_stars ORDER BY average_stars DESC";
   
   //Output all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in
+  //private final String q5 = "MATCH (b:business) WHERE "Shopping" IN b.categories UNWIND b.categories AS cat RETURN cat, avg(b.stars)";
   private final String q5 = "MATCH (c1:Category)--(Business)--(c2:Category) WHERE c1.id ='Cannabis Tours' RETURN c2.id, avg(Business.stars)";
   
   //Output all businesses that were reviewed more than 700 times
+  //private final String q6 = "MATCH (b:business) Where b.review_count>700 Return b.name, b.id";
   private final String q6 = "MATCH (b:Business) Where b.review_count>700 Return b.name, b.id";
   
   //same query as above, but this time we count the reviews by the edges
