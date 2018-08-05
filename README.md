@@ -52,9 +52,13 @@ java -jar PolyG-DBP-0.1.jar
             Displays this help;
 * java -jar PolyG-DBP-0.1.jar list:
             lists all queries provided by PolyG-DBP.;
-* java -jar PolyG-DBP-0.1.jar [Options] QUERY
+* java -jar PolyG-DBP-0.1.jar QUERY [Options]
             Benchmark with the given query. Example
             <pre>java -jar PolyG-DBP-0.1.jar q1</pre>
+* java -jar PolyG-DBP-0.1.jar custom [Options]
+	Benchmark with a custom query from PolyG-DBP. 
+            You will be asked to specify your queries for Mongo and Neo4j afterwards.
+Example: java -jar PolyG-DBP-0.1.jar custom.
 # Options (can be given in any order)
 * -i, --inputPath to the directory with JSON file(s). Example: 
 <pre>java -jar PolyG-DBP-0.1.jar q1 -i yelp</pre>
@@ -69,6 +73,12 @@ java -jar PolyG-DBP-0.1.jar
 * -r, --reduceImport just a certain amount of lines of each input JSON. Example: 
 <pre>java -jar PolyG-DBP-0.1.jar q1 -r 300</pre>
     
- # Available Queries for Yelp Dataset for both Data bases:
- * q1: Output me all business names and ids a <specific user> rated with minumum of <stars>
- * q2: Output the average stars of all businesses
+ # Available Queries for Yelp Dataset for both Databases:
+* q1:	Output all business names and ids a <specific user> rated with minumum of <stars>
+* q2:	Output the average stars of all businesses
+* q3:	Output the average stars of all businesses that grouped by category
+* q4:	Output the average stars of all businesses grouped by category descending order
+* q5:	Output all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in
+* q6:	Output all businesses that were reviewed more than 700 times
+* q7:	The same query as above, but this time we count the reviews in the reviews collection
+* qa:	Run all queries above.
