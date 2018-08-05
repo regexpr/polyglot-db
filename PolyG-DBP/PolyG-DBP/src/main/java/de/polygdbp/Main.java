@@ -70,9 +70,13 @@ public class Main extends RuntimeException {
     pathDataset = "";
     mongoAddress = "";
     mongoDatabase="";
+    mongoQuery = "";
     neo4jAddressBolt = "";
     neo4jAddressRemote = "";
+    neo4jQuery = "";
+    preBuiltQuery = "";
     reduceLines = -1;
+    
   }
   
   /**
@@ -109,9 +113,13 @@ public class Main extends RuntimeException {
     }
     // <========================= BEGIN Executing Queries =========================>
     if (!this.preBuiltQuery.isEmpty()){
+      LOG.debug("HIER");
+      LOG.debug(preBuiltQuery);
+      LOG.debug("END");
       MongoExamples mongoExamples = new MongoExamples();
       Neo4jExamples neo4jExamples = new Neo4jExamples();
       if (this.preBuiltQuery.equalsIgnoreCase("qa")){
+        LOG.debug("HIER2");
         // Execute all prebuilt queries
         // 7 is the number of all prebuilt queries.
         // @TODO: Refactor. No hard numbers, please.
@@ -122,6 +130,7 @@ public class Main extends RuntimeException {
         }
       } else {
         // Execute Prebuilt Query.
+        LOG.debug("HIER3");
         this.mongoQuery = mongoExamples.getQuery(preBuiltQuery);
         this.neo4jQuery = neo4jExamples.getQuery(preBuiltQuery);
         executeQuery(mongoApi, neo4jApi);
@@ -133,13 +142,12 @@ public class Main extends RuntimeException {
     // <========================= END Executing Queries =========================>
     
     LOG.info("Stopping PolyG-DBP");
-    LOG.info("The results are written in the file PolyG-DBP.log as well as in benchmark.log.");
+    LOG.info("The results are written in the file PolyG-DBP.log as well as in benchmarkResults.log.");
   }
   
   public void executeQuery(MongoAPI mongoApi, Neo4jAPI neo4jApi){
     MongoQuery mongoQueryHandler = new MongoQuery(mongoApi);
     Neo4jQuery neo4jQueryHandler = new Neo4jQuery(neo4jApi);
-    
     LOG.info("Executing MongoDB Query and measuring time.");
     // Mongo Benchmark
     //Benchmark benchMongoQuery = new Benchmark("Execution of a MongoDB Query " + this.mongoQuery);
@@ -149,7 +157,7 @@ public class Main extends RuntimeException {
     mongoQueryHandler.executeQuery(mongoQueryList);
     benchMongoQuery.writeDurationToLOG('n');
     // Mongo Results
-    LOG.info("Results of the MongoDB Query:\n");
+    LOG.info("Results of the MongoDB Query:");
     for(int i=0; i<mongoQueryHandler.getResults().size(); i++) {
       LOG.info(mongoQueryHandler.getResults().get(i));
     }
@@ -161,14 +169,14 @@ public class Main extends RuntimeException {
     List<Object> neo4jResults = neo4jQueryHandler.customNeo4jQuery(neo4jQuery);
     benchNeoQuery.writeDurationToLOG('n');
     // Neo4j Results
-    LOG.info("Results of the Neo4j Query:\n");
+    LOG.info("Results of the Neo4j Query:");
     LOG.info(neo4jResults.toString());
     
     // Compare Neo4j and MongoDB Query Execution
     BenchmarkComparison benchCompare = new BenchmarkComparison(benchMongoQuery, benchNeoQuery);
     // Write into log
     benchCompare.writeDurationComparisonToLOG();
-    // Write into benchmark.log
+    // Write into benchmarkResults.log
     benchCompare.writeToResultsFile();
     
   }
@@ -242,9 +250,7 @@ public class Main extends RuntimeException {
       LOG.error("Unexpected user input. No query set.");
       help();
       throw new UnexpectedParameterException("No query");
-    } else {
-      preBuiltQuery = args[0];
-    }
+    } 
     if (args[0].equalsIgnoreCase("list")){
       list();
       System.exit(0);
@@ -255,13 +261,12 @@ public class Main extends RuntimeException {
     }
     if (args[0].equalsIgnoreCase("custom")) {
       askForCustomQueries();
-    }
-    if (!args[0].startsWith("q")){
+    } else if (args[0].startsWith("q")){
+      preBuiltQuery = args[0];
+    } else {
       LOG.error("Unexpected user input. No query set.");
       help();
       throw new UnexpectedParameterException("No query");
-    } else {
-      preBuiltQuery = args[0];
     }
     if (args.length % 2 == 0) {
       LOG.error("Unexpected user input. Number of arguments must be odd - one for query, two for each option");
@@ -336,12 +341,14 @@ public class Main extends RuntimeException {
     // Create a Scanner using the InputStream available.
     Scanner scanner = new Scanner( System.in );
     // Don't forget to prompt the user
-    System.out.print( "Please enter your MongoDB query. Do not use white spaces except in names." );
+    System.out.print( "Please enter your MongoDB query. Do not use white spaces except in names.\n" );
+    System.out.print("Example: db.business.aggregate({$group:{_id: null,\"average_stars\":{$avg:\"$stars\"}}})\n");
     // Use the Scanner to read a line of text from the user.
-    mongoQuery = scanner.nextLine();
+    this.mongoQuery = scanner.nextLine();
     // The same procedure as given above.
-    System.out.print( "Please enter your Neo4j query." );
-    neo4jQuery = scanner.nextLine();
+    System.out.print("Please enter your Neo4j query.\n" );
+    System.out.print("Example: MATCH (b:business) return avg(b.stars)\n");
+    this.neo4jQuery = scanner.nextLine();
     LOG.info("Finished handling entering custom queries");
     LOG.info("MongoDB query: "+mongoQuery);
     LOG.info("Neo4j query: "+neo4jQuery);

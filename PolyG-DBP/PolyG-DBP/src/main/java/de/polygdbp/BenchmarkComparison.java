@@ -59,32 +59,18 @@ public class BenchmarkComparison {
       processName1 = processName2;
       processName2 = tempName;
     }
-    double percentage = ((double)delta1/delta2)*100;
+    double percentage = Math.ceil(((double)delta1/delta2)*100);
     LOG.log(BENCHMARK,"Process "+processName1+" with "+ delta1 + " ns\n took " + (delta1-delta2) + " ns longer ("+ percentage+ "%) "
             +"than process" + processName2 + "with " + delta2 + " ns.");
   }
-  
   /**
-   * Returns the Durations and Process names of two Benchmarks as a JSON formatted String.
-   * @return JSON as a String
+   * Appends the Durations and Process names of two Benchmarks as a JSON object into the benchmarkResults.log.
    */
-  public String getBenchmarkDurations(){
-    String result = "";
-    long delta1 = benchmark1.getDuration();
-    long delta2 = benchmark2.getDuration();
-    String processName1 = benchmark1.getProcessName();
-    String processName2 = benchmark2.getProcessName();
-    
-    result = "{"+processName1+":{q1: zeit1, q2:zeit2}, neo4j:{q1:zeit1, q2:zeit2}}";
-    return result;
-    
-  }
-  
   void writeToResultsFile() {
     // check if file already exists
-    // if not create benchmark.log
-    // write into benchmark.log
-    String fileName = "benchmark.log";
+    // if not create benchmarkResults.log
+    // write into benchmarkResults.log
+    String fileName = "benchmarkResults.log";
     String result = "{\""+benchmark1.getProcessName()+"\" : "+benchmark1.getDuration()+",\""+ benchmark2.getProcessName()+"\" : "+benchmark2.getDuration()+"}";
     BufferedWriter bw = null;
     FileWriter fw = null;
@@ -101,7 +87,7 @@ public class BenchmarkComparison {
       fw = new FileWriter(file.getAbsoluteFile(), true);
       bw = new BufferedWriter(fw);
       bw.write(result);
-      LOG.info("query result has been written into benchmark.log");
+      LOG.info("query result has been written into benchmarkResults.log");
     } catch (IOException e) {
       
       e.printStackTrace();
