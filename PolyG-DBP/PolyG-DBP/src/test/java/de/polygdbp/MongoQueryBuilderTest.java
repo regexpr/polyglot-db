@@ -18,6 +18,12 @@ package de.polygdbp;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.bson.Document;
+
 /**
  *
  * @author Tim Niehoff, Hyeon Ung Kim
@@ -39,6 +45,21 @@ public class MongoQueryBuilderTest {
    */
   @Test
   public void testBuildMongoQuery() {
+    ArrayList<ArrayList<Document>> assertAppend = new ArrayList<ArrayList<Document>>();
+    assertAppend.add(new ArrayList<Document>() {{
+      add(new Document("key", "value"));
+    }});
+    assertAppend.add(new ArrayList<Document>() {{ 
+      add(new Document("$operator1", new Document("key1", "value1").append("key2", "value2")));
+      add(new Document("$operator2", new Document("$operator3", new Document("$operator4", new Document("key3","value3"))).append("key4", "value4").append("$operator5", Arrays.asList(new Document("key5","value5").append("key6", "value6")))));
+    }});
+
+    
+    for(int i = 0; i < 1; i++) {
+      MongoQueryBuilder mqb = new MongoQueryBuilder(query[i]);
+      mqb.buildMongoQuery();
+      assertEquals(assertAppend.get(i), mqb.getMongoQuery());
+    }
   }
 
   /**
@@ -96,11 +117,14 @@ public class MongoQueryBuilderTest {
   public void testEvalBracketCounter() {
   }
 
+  
+
   /**
    * Test of buildDocument method, of class MongoQueryBuilder.
    */
   @Test
   public void testBuildDocument() {
+
   }
 
   /**
@@ -115,6 +139,7 @@ public class MongoQueryBuilderTest {
    */
   @Test
   public void testAppendedDocument() {
+    
   }
 
   /**

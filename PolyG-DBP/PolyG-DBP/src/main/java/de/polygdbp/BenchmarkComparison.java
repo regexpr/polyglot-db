@@ -54,6 +54,10 @@ public class BenchmarkComparison {
       long temp = delta1;
       delta1 = delta2;
       delta2 = temp;
+      
+      String tempName = processName1;
+      processName1 = processName2;
+      processName2 = tempName;
     }
     double percentage = ((double)delta1/delta2)*100;
     LOG.log(BENCHMARK,"Process "+processName1+" with "+ delta1 + " ns\n took " + (delta1-delta2) + " ns longer ("+ percentage+ "%) "
