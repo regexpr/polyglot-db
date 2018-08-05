@@ -17,6 +17,7 @@ package de.polygdbp;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,10 +52,15 @@ public class Main extends RuntimeException {
   // Remote Neo4j Address
   private String neo4jAddressRemote;
   private int reduceLines;
+  
   /**
    * Mandatory parameter that has to be set by the user.
    */
-  private String queryName;
+  // For pre-built YELP queries. Could be q1,q2,..., or qa
+  private String preBuiltQuery;
+  // Otherwise custom queries.
+  private String mongoQuery;
+  private String neo4jQuery;
   
   /**
    * Constructor initializes variables that can later be filled by the users CLI.
@@ -91,7 +97,6 @@ public class Main extends RuntimeException {
       benchMongoImporter.writeDurationToLOG('s');
       // <========================= END Importing .JSONs into MongoDB =========================>
       // <========================= BEGIN Mongo-Connector =========================>
-      // <-- BEGIN Mongo-Connector -->
       LOG.info("Execute Mongo-Connector with Neo4j Doc Manager to import MongoDB database into Neo4j database");
       LOG.info("This may take some time");
       Benchmark benchMongoConnector = new Benchmark("Mongo-Connector/Neo4j Doc Manager");
@@ -101,36 +106,68 @@ public class Main extends RuntimeException {
       benchMongoConnector.writeDurationToLOG('s');
       // <========================= END Mongo Connector =========================>
     }
-    // <========================= BEGIN Queries =========================>
-    MongoQuery mongoQuery = new MongoQuery(mongoApi);
-    Neo4jQuery neo4jQuery = new Neo4jQuery(neo4jApi);
-    LOG.info("Executing MongoDB Query.");
-    Benchmark benchMongoQuery = new Benchmark("Execution of a MongoDB Query " + queryName);
-    benchMongoQuery.start();
-    MongoExamples mongoExamples = new MongoExamples();
-    String mongoQueryString = mongoExamples.getQuery(queryName);
-    mongoQuery.customMongoAggregation(mongoQueryString);
-    benchMongoQuery.writeDurationToLOG('n');
-    LOG.info("Results of the MongoDB Query:\n");
-    for(int i=0; i<mongoQuery.getResults().size(); i++) {
-      LOG.info(mongoQuery.getResults().get(i));
+    // <========================= BEGIN Executing Queries =========================>
+    if (!this.preBuiltQuery.isEmpty()){
+      MongoExamples mongoExamples = new MongoExamples();
+      Neo4jExamples neo4jExamples = new Neo4jExamples();
+      if (this.preBuiltQuery.equalsIgnoreCase("qa")){
+        // Execute all prebuilt queries
+        // 7 is the number of all prebuilt queries.
+        // @TODO: Refactor. No hard numbers, please.
+        for (int i=1; i <= 7; i++) {
+          this.mongoQuery = mongoExamples.getQuery("q"+i);
+          this.neo4jQuery = neo4jExamples.getQuery("q"+i);
+          executeQuery(mongoApi, neo4jApi);
+        }
+      } else {
+        // Execute Prebuilt Query.
+        this.mongoQuery = mongoExamples.getQuery(preBuiltQuery);
+        this.neo4jQuery = neo4jExamples.getQuery(preBuiltQuery);
+        executeQuery(mongoApi, neo4jApi);
+      }
+    } else {
+      // Execute Custom Query
+      executeQuery(mongoApi, neo4jApi);
     }
-    Benchmark benchNeoQuery = new Benchmark("Execution of a Neo4j Query" + queryName);
-    benchNeoQuery.start();
-    Neo4jExamples neo4jExamples = new Neo4jExamples();
-    String neo4jQueryString = neo4jExamples.getQuery(queryName);
-    List<Object> neo4jResults = neo4jQuery.customNeo4jQuery(neo4jQueryString);
-    benchNeoQuery.writeDurationToLOG('n');
-    LOG.info("Results of the Neo4j Query:\n");
-    LOG.info(neo4jResults.toString());
-    // Compare Neo4j and MongoDB Query Execution
-    BenchmarkComparison benchCompare = new BenchmarkComparison(benchMongoQuery, benchNeoQuery);
-    benchCompare.writeDurationComparisonToLOG();
-    // <========================= END Queries =========================>
+    // <========================= END Executing Queries =========================>
+    
     LOG.info("Stopping PolyG-DBP");
-    LOG.info("The results are written in the file benchmark.log");
+    LOG.info("The results are written in the file PolyG-DBP.log as well as in benchmark.log.");
   }
   
+  public void executeQuery(MongoAPI mongoApi, Neo4jAPI neo4jApi){
+    MongoQuery mongoQueryHandler = new MongoQuery(mongoApi);
+    Neo4jQuery neo4jQueryHandler = new Neo4jQuery(neo4jApi);
+    
+    LOG.info("Executing MongoDB Query and measuring time.");
+    // Mongo Benchmark
+    Benchmark benchMongoQuery = new Benchmark("Execution of a MongoDB Query " + this.mongoQuery);
+    benchMongoQuery.start();
+    mongoQueryHandler.customMongoAggregation(this.mongoQuery);
+    benchMongoQuery.writeDurationToLOG('n');
+    // Mongo Results
+    LOG.info("Results of the MongoDB Query:\n");
+    for(int i=0; i<mongoQueryHandler.getResults().size(); i++) {
+      LOG.info(mongoQueryHandler.getResults().get(i));
+    }
+    LOG.info("Executing Neo4j Query and measuring time.");
+    // Neo4j Benchmark
+    Benchmark benchNeoQuery = new Benchmark("Execution of a Neo4j Query" + this.neo4jQuery);
+    benchNeoQuery.start();
+    List<Object> neo4jResults = neo4jQueryHandler.customNeo4jQuery(neo4jQuery);
+    benchNeoQuery.writeDurationToLOG('n');
+    // Neo4j Results
+    LOG.info("Results of the Neo4j Query:\n");
+    LOG.info(neo4jResults.toString());
+    
+    // Compare Neo4j and MongoDB Query Execution
+    BenchmarkComparison benchCompare = new BenchmarkComparison(benchMongoQuery, benchNeoQuery);
+    // Write into log
+    benchCompare.writeDurationComparisonToLOG();
+    // Write into benchmark.log
+    benchCompare.writeToResultsFile();
+    
+  }
   /**
    * Starting method of the PolyG-DBP. Initializes Main Class and runs checkUserInput() and run().
    * @param args contains users command line arguments.
@@ -138,7 +175,7 @@ public class Main extends RuntimeException {
   public static void main(String[] args){
     Main main = new Main();
     LOG.info("Starting Polyglot Logging!");
-    LOG.info("Processing command line arguments: "+Arrays.toString(args));
+    LOG.debug("Processing command line arguments: "+Arrays.toString(args));
     main.checkUserInput(args);
     main.run();
   }
@@ -155,16 +192,21 @@ public class Main extends RuntimeException {
     builder.append("java -jar PolyG-DBP-0.1.jar list\n")
             .append("\tlists all queries provided by PolyG-DBP.");
     
-    builder.append("java -jar PolyG-DBP-0.1.jar [Options] QUERY\n")
-            .append("\tBenchmark with the given query.\n")
-            .append("Example: java -jar PolyG-DBP-0.1.jar q1");
+    builder.append("java -jar PolyG-DBP-0.1.jar QUERY [Options]\n")
+            .append("\tBenchmark with a query from PolyG-DBP for the YELP dataset.\n")
+            .append("Example: java -jar PolyG-DBP-0.1.jar q1\n");
+    
+    builder.append("java -jar PolyG-DBP-0.1.jar custom [Options]\n")
+            .append("\tBenchmark with a custom query from PolyG-DBP. "
+                    + "You will be asked to specify your queries for Mongo and Neo4j afterwards.\n")
+            .append("Example: java -jar PolyG-DBP-0.1.jar custom.\n");
     
     builder.append("OPTIONS (can be specified in any order):\n")
             .append("-i, --input\t\tPath to the directory with JSON file(s). Example: \"-i /yelp\"\n")
-            .append("-nb, --neo4jAddressBolt1\t\tAdress of the neo4j instance with the bolt address. Example: \"-nb localhost:7687\"\n")
-            .append("-nr, --neo4jAddressRemote\t\tAdress of the neo4j instance with the remote address. Example: \"-nr localhost:7474\"\n")
             .append("-m, --mongoAddress\t\tAdress of the mongodb instance. Example: \"-m localhost:27017\"\n")
             .append("-md, --mongoDatabase\t\tName of the mongodb database. Example: \"-md yelp\"\n")
+            .append("-nb, --neo4jAddressBolt1\t\tAdress of the neo4j instance with the bolt address. Example: \"-nb localhost:7687\"\n")
+            .append("-nr, --neo4jAddressRemote\t\tAdress of the neo4j instance with the remote address. Example: \"-nr localhost:7474\"\n")
             .append("-r, --reduce\t\tImport just a certain amount of lines of each input JSON. Example: \"-r 300\"\n");
     System.out.println(builder);
   }
@@ -175,11 +217,13 @@ public class Main extends RuntimeException {
   public void list() {
     StringBuilder builder = new StringBuilder();
     builder.append("\n\nAVAILABLE QUERIES FOR THE YELP DATASET\n");
+    builder.append("Vist https://www.yelp.com/dataset to read more.\n");
     builder.append("=======================================================================================================\n\n");
     builder.append("q1:\t\tOutput me all business names and ids a <specific user> rated with minumum of <stars>\n");
     builder.append("q2:\t\tOutput the average stars of all businesses\n");
     builder.append("q3:\t\tOutput the average stars of all businesses that grouped by category\n");
     builder.append("q4:\t\tOutput all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in\n");
+    builder.append("qa:\t\tRun all queries above.\n");
     System.out.println(builder);
   }
   
@@ -195,7 +239,7 @@ public class Main extends RuntimeException {
       help();
       throw new UnexpectedParameterException("No query");
     } else {
-      queryName = args[0];
+      preBuiltQuery = args[0];
     }
     if (args[0].equalsIgnoreCase("list")){
       list();
@@ -205,12 +249,15 @@ public class Main extends RuntimeException {
       help();
       System.exit(0);
     }
+    if (args[0].equalsIgnoreCase("custom")) {
+      askForCustomQueries();
+    }
     if (!args[0].startsWith("q")){
       LOG.error("Unexpected user input. No query set.");
       help();
       throw new UnexpectedParameterException("No query");
     } else {
-      queryName = args[0];
+      preBuiltQuery = args[0];
     }
     if (args.length % 2 == 0) {
       LOG.error("Unexpected user input. Number of arguments must be odd - one for query, two for each option");
@@ -279,5 +326,20 @@ public class Main extends RuntimeException {
       neo4jAddressRemote = "localhost:7474";
     if (mongoDatabase.isEmpty())
       mongoDatabase = "yelp";
+  }
+  
+  private void askForCustomQueries() {
+    // Create a Scanner using the InputStream available.
+    Scanner scanner = new Scanner( System.in );
+    // Don't forget to prompt the user
+    System.out.print( "Please enter your MongoDB query. Do not use white spaces except in names." );
+    // Use the Scanner to read a line of text from the user.
+    mongoQuery = scanner.nextLine();
+    // The same procedure as given above.
+    System.out.print( "Please enter your Neo4j query." );
+    neo4jQuery = scanner.nextLine();
+    LOG.info("Finished handling entering custom queries");
+    LOG.info("MongoDB query: "+mongoQuery);
+    LOG.info("Neo4j query: "+neo4jQuery);
   }
 }

@@ -17,6 +17,10 @@ package de.polygdbp;
 
 import static de.polygdbp.Main.LOG;
 import static de.polygdbp.Main.BENCHMARK;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Compares two measured time durations in form of de.polygdbp.Benchmark with each other.
@@ -53,5 +57,41 @@ public class BenchmarkComparison {
     double percentage = ((double)delta1/delta2)*100;
     LOG.log(BENCHMARK,"Process "+processName1+" with "+ delta1 + " ns\n took " + (delta1-delta2) + " ns longer ("+ percentage+ "%) "
     +"than process" + processName2 + "with " + delta2 + " ns.");
+  }
+  
+  /**
+   * Returns the Durations and Process names of two Benchmarks as a JSON formatted String.
+   * @return JSON as a String
+   */
+  public String getBenchmarkDurations(){
+    String result = "";
+    long delta1 = benchmark1.getDuration();
+    long delta2 = benchmark2.getDuration();
+    String processName1 = benchmark1.getProcessName();
+    String processName2 = benchmark2.getProcessName();
+    
+    result = "{"+processName1+":{q1: zeit1, q2:zeit2}, neo4j:{q1:zeit1, q2:zeit2}}";
+    return result;
+    
+  }
+
+  void writeToResultsFile() {
+    // check if file already exists
+    // if not create benchmark.log
+    // write into benchmark.log
+    File file = new File("benchmark.log");
+    FileWriter writer;
+    try {
+        writer = new FileWriter(file, true);
+        PrintWriter printer = new PrintWriter(writer);
+        printer.append("{\""+benchmark1.getProcessName()+"\" : "+benchmark1.getDuration()+",\""+ benchmark2.getProcessName()+"\" : "+benchmark2.getDuration()+"}");
+        printer.close();
+        LOG.info("Query result written into benchmark.log");
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    
+    
   }
 }

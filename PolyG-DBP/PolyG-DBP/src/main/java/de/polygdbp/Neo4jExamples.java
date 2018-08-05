@@ -47,6 +47,7 @@ public class Neo4jExamples {
     case "q2": return q2; 
     case "q3": return q3;
     case "q4": return q4;
+    case "qa": return "";
     default: {
       LOG.error("Could not find query for Neo4j.");
       System.exit(-1);
