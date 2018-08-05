@@ -244,5 +244,19 @@ public class MongoQueryBuilderTest {
     
     
   }
+
+  /**
+   * Test of getInner method, of class MongoQueryBuilder.
+   */
+  @Test
+  public void testGetInner() {
+  }
+
+  /**
+   * Test of getTokens method, of class MongoQueryBuilder.
+   */
+  @Test
+  public void testGetTokens() {
+  }
   
 }

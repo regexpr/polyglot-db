@@ -54,5 +54,19 @@ public class MongoQueryTest {
   @Test
   public void testGetResults() {
   }
+
+  /**
+   * Test of buildQuery method, of class MongoQuery.
+   */
+  @Test
+  public void testBuildQuery() {
+  }
+
+  /**
+   * Test of executeQuery method, of class MongoQuery.
+   */
+  @Test
+  public void testExecuteQuery() {
+  }
   
 }

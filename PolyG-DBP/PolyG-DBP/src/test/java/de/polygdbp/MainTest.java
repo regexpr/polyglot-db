@@ -88,5 +88,12 @@ public ExpectedException expectedEx = ExpectedException.none();
   @Test
   public void testRun() {
   }
+
+  /**
+   * Test of executeQuery method, of class Main.
+   */
+  @Test
+  public void testExecuteQuery() {
+  }
   
 }

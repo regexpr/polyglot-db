@@ -22,7 +22,7 @@ import static de.polygdbp.Main.LOG;
  * They refer to the <code>Yelp Dataset</code>.
  */
 public class Neo4jExamples {
-  // Output me all business names and ids a <specific user> rated with minumum of <stars>
+  // Output all business names and ids a <specific user> rated with minumum of <stars>
 //  private final String q1 = "MATCH (u:user)--(r:review)--(b:business) where u._id=\"nOTl4aPC4tKHK35T3bNauQ\" and r.stars > 4 return b.name, b._id";
   private final String q1 ="MATCH (u:User)-[:WROTE]-(r:Review)-[:REVIEWS]-(Business) WHERE u.id = 'nOTl4aPC4tKHK35T3bNauQ' AND r.stars > 4 Return Business.name, Business.id";
   
@@ -46,7 +46,7 @@ public class Neo4jExamples {
   //private final String q6 = "MATCH (b:business) Where b.review_count>700 Return b.name, b.id";
   private final String q6 = "MATCH (b:Business) Where b.review_count>700 Return b.name, b.id";
   
-  //same query as above, but this time we count the reviews by the edges
+  // The same query as above, but this time we count the reviews in the reviews collection
   private final String q7 = "MATCH (b:Business)<-[r:REVIEWS]-() WITH b, count(r) as reviewCount WHERE reviewCount>700 RETURN b.id, b.name, reviewCount";
   /**
    * Get the Query by the related shortcut.

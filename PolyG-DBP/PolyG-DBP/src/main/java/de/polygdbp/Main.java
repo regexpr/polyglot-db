@@ -145,6 +145,11 @@ public class Main extends RuntimeException {
     LOG.info("The results are written in the file PolyG-DBP.log as well as in benchmarkResults.log.");
   }
   
+  /**
+   *
+   * @param mongoApi
+   * @param neo4jApi
+   */
   public void executeQuery(MongoAPI mongoApi, Neo4jAPI neo4jApi){
     MongoQuery mongoQueryHandler = new MongoQuery(mongoApi);
     Neo4jQuery neo4jQueryHandler = new Neo4jQuery(neo4jApi);
@@ -231,11 +236,15 @@ public class Main extends RuntimeException {
     builder.append("\n\nAVAILABLE QUERIES FOR THE YELP DATASET\n");
     builder.append("Vist https://www.yelp.com/dataset to read more.\n");
     builder.append("=======================================================================================================\n\n");
-    builder.append("q1:\t\tOutput me all business names and ids a <specific user> rated with minumum of <stars>\n");
+    builder.append("q1:\t\tOutput all business names and ids a <specific user> rated with minumum of <stars>\n");
     builder.append("q2:\t\tOutput the average stars of all businesses\n");
     builder.append("q3:\t\tOutput the average stars of all businesses that grouped by category\n");
-    builder.append("q4:\t\tOutput all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in\n");
+    builder.append("q4:\t\tOutput the average stars of all businesses grouped by category descending order\n");
+    builder.append("q5:\t\tOutput all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in\n");
+    builder.append("q6:\t\tOutput all businesses that were reviewed more than 700 times\n");
+    builder.append("q7:\t\tThe same query as above, but this time we count the reviews in the reviews collection");
     builder.append("qa:\t\tRun all queries above.\n");
+    
     System.out.println(builder);
   }
   

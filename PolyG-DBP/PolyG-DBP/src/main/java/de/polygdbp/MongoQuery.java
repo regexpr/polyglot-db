@@ -81,6 +81,11 @@ public class MongoQuery {
     return finalResults;
   };
   
+  /**
+   *
+   * @param phrase
+   * @return
+   */
   public List<Document> buildQuery(String phrase) {
     MongoQueryBuilder mqb = new MongoQueryBuilder(phrase);
     String collectionName = mqb.getFirstPart()[1];
@@ -92,7 +97,7 @@ public class MongoQuery {
   }
   /**
    * Standard query method.
-   * @param phrase The Query.
+   * @param query
    */
   public void executeQuery(List<Document> query) {
     MongoCollection<Document> collection = mongoApi.getCurrentMongoCollection();

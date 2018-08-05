@@ -376,7 +376,10 @@ public final class MongoQueryBuilder {
     return inner;
   }
   
-  
+  /**
+   *
+   * @return
+   */
   public String[] getTokens() {
     return tokens;
   }

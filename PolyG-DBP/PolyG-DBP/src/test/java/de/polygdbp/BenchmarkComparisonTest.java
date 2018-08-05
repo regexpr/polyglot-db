@@ -33,5 +33,12 @@ public class BenchmarkComparisonTest {
   @Test
   public void testWriteDurationComparisonToLOG() {
   }
+
+  /**
+   * Test of writeToResultsFile method, of class BenchmarkComparison.
+   */
+  @Test
+  public void testWriteToResultsFile() {
+  }
   
 }
