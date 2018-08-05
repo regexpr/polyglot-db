@@ -31,17 +31,18 @@ public class MongoExamples {
   // Output the average stars of all businesses that grouped by category
   private final String q3 = "db.business.aggregate({$unwind:\"$categories\"},{$group:{_id:{categories:\"$categories\"},average_stars:{$avg:\"$stars\"}}})";
   
+  // Output the average stars of all business grouped by category descending order
+  private final String q4 = "db.business.aggregate({$unwind:\"$categories\"},{$group:{_id: {categories:\"$categories\"},\"average_stars\":{ $avg: \"$stars\" }}},{$sort:{average_stars:-1}})";
+  
   // Output all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in
-  private final String q4 = "db.business.aggregate([{$match:{categories:\"Cannabis Tours\"}},{$unwind:\"$categories\"},{$group:{_id:{categories:\"$categories\"},\"average_stars\":{$avg:\"$stars\"}}}])";
+  private final String q5 = "db.business.aggregate([{$match:{categories:\"Cannabis Tours\"}},{$unwind:\"$categories\"},{$group:{_id:{categories:\"$categories\"},\"average_stars\":{$avg:\"$stars\"}}}])";
   
   // Output all businesses reviewed more that 700 times
-  private final String q5 = "db.business.aggregate({$match:{\"review_count\":{$gt:700}}})";
+  private final String q6 = "db.business.aggregate({$match:{\"review_count\":{$gt:700}}})";
   
   // The same query as above, but this time we count the reviews in the reviews collection
-  private final String q6 = "db.review.aggregate([{$group:{_id:\"$business_id\",review_count:{$sum:1}}},{$match:{review_count:{$gt:700}}},{$lookup:{from:\"business\",localField:\"_id\",foreignField:\"business_id\",as:\"business\"}},{$addFields:{business_name:\"$business.name\"}},{$project:{\"business_id\":1,\"business_name\":1,\"review_count\":1}}])";
+  private final String q7 = "db.review.aggregate([{$group:{_id:\"$business_id\",review_count:{$sum:1}}},{$match:{review_count:{$gt:700}}},{$lookup:{from:\"business\",localField:\"_id\",foreignField:\"business_id\",as:\"business\"}},{$addFields:{business_name:\"$business.name\"}},{$project:{\"business_id\":1,\"business_name\":1,\"review_count\":1}}])";
   
-  // Ouput all businesses sorted by their review count
-  private final String q7 = "";
   
   /**
    * Get the Query by the related shortcut.
