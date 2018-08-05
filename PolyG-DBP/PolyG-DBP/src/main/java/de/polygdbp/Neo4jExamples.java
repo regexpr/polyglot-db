@@ -43,11 +43,11 @@ private final String q1 = "MATCH (u:user)--(r:review)--(b:business) where u._id=
   //private final String q5 = "MATCH (c1:Category)--(Business)--(c2:Category) WHERE c1.id ='Cannabis Tours' RETURN c2.id, avg(Business.stars)";
   
   //Output all businesses that were reviewed more than 700 times
-  private final String q6 = "MATCH (b:business) Where b.review_count>700 Return b.name, b.id";
+  private final String q6 = "MATCH (b:business) Where b.review_count>50 Return b.name, b.id";
   //private final String q6 = "MATCH (b:Business) Where b.review_count>700 Return b.name, b.id";
   
   // The same query as above, but this time we count the reviews in the reviews collection
-  private final String q7 = "MATCH (b:business) Where b.review_count>700 Return b.name, b.id";
+  private final String q7 = "MATCH (b:business) Where b.review_count>50 Return b.name, b.id";
   //private final String q7 = "MATCH (b:Business)<-[r:REVIEWS]-() WITH b, count(r) as reviewCount WHERE reviewCount>700 RETURN b.id, b.name, reviewCount";
   /**
    * Get the Query by the related shortcut.
