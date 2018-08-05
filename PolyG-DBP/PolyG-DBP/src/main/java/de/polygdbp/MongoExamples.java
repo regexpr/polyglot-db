@@ -32,7 +32,16 @@ public class MongoExamples {
   private final String q3 = "db.business.aggregate({$unwind:\"$categories\"},{$group:{_id:{categories:\"$categories\"},average_stars:{$avg:\"$stars\"}}})";
   
   // Output all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in
-  private final String q4 = "db.business.aggregate({$match:{categories:\"Cannabis Tours\"}},{$unwind:\"$categories\"},{$group:{_id:{categories:\"$categories\"},\"average_stars\":{$avg:\"$stars\"}}})";
+  private final String q4 = "db.business.aggregate([{$match:{categories:\"Cannabis Tours\"}},{$unwind:\"$categories\"},{$group:{_id:{categories:\"$categories\"},\"average_stars\":{$avg:\"$stars\"}}}])";
+  
+  // Output all businesses reviewed more that 700 times
+  private final String q5 = "db.business.aggregate({$match:{\"review_count\":{$gt:700}}})";
+  
+  // The same query as above, but this time we count the reviews in the reviews collection
+  private final String q6 = "db.review.aggregate([{$group:{_id:\"$business_id\",review_count:{$sum:1}}},{$match:{review_count:{$gt:700}}},{$lookup:{from:\"business\",localField:\"_id\",foreignField:\"business_id\",as:\"business\"}},{$addFields:{business_name:\"$business.name\"}},{$project:{\"business_id\":1,\"business_name\":1,\"review_count\":1}}])";
+  
+  // Ouput all businesses sorted by their review count
+  private final String q7 = "";
   
   /**
    * Get the Query by the related shortcut.
@@ -45,6 +54,9 @@ public class MongoExamples {
     case "q2": return q2;
     case "q3": return q3;
     case "q4": return q4;
+    case "q5": return q5;
+    case "q6": return q6;
+    case "q7": return q7;
         default: {
       LOG.error("Could not find query for MongoDB.");
       System.exit(-1);

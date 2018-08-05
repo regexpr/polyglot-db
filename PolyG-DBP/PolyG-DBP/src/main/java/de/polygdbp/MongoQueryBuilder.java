@@ -16,7 +16,6 @@
 package de.polygdbp;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.bson.Document;
 /**
@@ -296,7 +295,7 @@ public final class MongoQueryBuilder {
       tempDoc.append(cleanToken(thirdItem), buildDocument());
       
       // checks if it already reached the end, or it still needs to append Documents
-      if(counter>=tokens.length || globalBracketCounter[3]>0) {
+      if(counter>=tokens.length || globalBracketCounter[3]>0 || openCloseCounter==0) {
         return tempDoc;
       }
       else {

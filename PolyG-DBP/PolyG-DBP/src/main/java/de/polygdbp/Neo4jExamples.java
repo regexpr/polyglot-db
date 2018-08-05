@@ -36,6 +36,11 @@ public class Neo4jExamples {
   //Output all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in
   private final String q4 = "MATCH (c1:Category)--(Business)--(c2:Category) WHERE c1.id ='Cannabis Tours' RETURN c2.id, avg(Business.stars)";
   
+  //Output all businesses that were reviewed more than 700 times
+  private final String q5 = "MATCH (b:Business) Where b.review_count>700 Return b.name";
+  
+  //same query as above, but this time we count the reviews by the edges
+  private final String q6 = "MATCH (b:Business)<-[r:Reviews]-() WITH b, count(r) as reviewCount WHERE reviewCount>700 RETURN b.id, b.name, reviewCount";
   /**
    * Get the Query by the related shortcut.
    * @param q Shortcut for the Query. Valid Example: "q1".
@@ -47,6 +52,9 @@ public class Neo4jExamples {
     case "q2": return q2; 
     case "q3": return q3;
     case "q4": return q4;
+    case "q5": return q5;
+    case "q6": return q6;
+        
     default: {
       LOG.error("Could not find query for Neo4j.");
       System.exit(-1);
