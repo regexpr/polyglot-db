@@ -47,6 +47,7 @@ public class Neo4jExamples {
   private final String q6 = "MATCH (b:Business) Where b.review_count>700 Return b.name, b.id";
   
   // The same query as above, but this time we count the reviews in the reviews collection
+  //private final String q7 = "MATCH (b:business) Where b.review_count>700 Return b.name, b.id";
   private final String q7 = "MATCH (b:Business)<-[r:REVIEWS]-() WITH b, count(r) as reviewCount WHERE reviewCount>700 RETURN b.id, b.name, reviewCount";
   /**
    * Get the Query by the related shortcut.
@@ -61,6 +62,7 @@ public class Neo4jExamples {
       case "q4": return q4;
       case "q5": return q5;
       case "q6": return q6;
+      case "q7": return q7;
       case "qa": return "";
       
       default: {
