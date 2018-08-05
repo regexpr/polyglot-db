@@ -74,11 +74,11 @@ Example: java -jar PolyG-DBP-0.1.jar custom.
 <pre>java -jar PolyG-DBP-0.1.jar q1 -r 300</pre>
     
  # Available Queries for Yelp Dataset for both Databases:
-* q1:	Output all business names and ids a <specific user> rated with minumum of <stars>
-* q2:	Output the average stars of all businesses
-* q3:	Output the average stars of all businesses that grouped by category
-* q4:	Output the average stars of all businesses grouped by category descending order
-* q5:	Output all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in
-* q6:	Output all businesses that were reviewed more than 700 times
-* q7:	The same query as above, but this time we count the reviews in the reviews collection
+* q1:	Output all business names and ids a <specific user> rated with minumum of <stars>.
+* q2:	Output the average stars of all businesses.
+* q3:	Output the average stars of all businesses that grouped by category.
+* q4:	Output the average stars of all businesses grouped by category descending order.
+* q5:	Output all businesses that are in the category Cannabis Tours and return the average of all stars grouped by all the categories that they are in.
+* q6:	Output all businesses that were reviewed more than 700 times.
+* q7:	The same query as above, but this time we count the reviews in the reviews collection.
 * qa:	Run all queries above.
