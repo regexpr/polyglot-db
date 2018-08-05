@@ -30,7 +30,7 @@ import org.bson.Document;
  * Execute queries for the MongoDB and get the results back.
  */
 public class MongoQuery {
-
+  
   MongoAPI mongoApi;
   
   private ArrayList<String> results = new ArrayList<String>();
@@ -76,36 +76,33 @@ public class MongoQuery {
   public FindIterable<Document> simpleMongoQueryFindAll(String collectionName, String key, String value) {
     mongoApi.setCurrentMongoCollection(collectionName);
     MongoCollection<Document> collection = mongoApi.getCurrentMongoCollection();
-	//		collection.find(eq(key, value)).forEach(printBlock);
-	FindIterable<Document> finalResults = collection.find(eq(key, value));
-	return finalResults;
+    //		collection.find(eq(key, value)).forEach(printBlock);
+    FindIterable<Document> finalResults = collection.find(eq(key, value));
+    return finalResults;
   };
   
+  public List<Document> buildQuery(String phrase) {
+    MongoQueryBuilder mqb = new MongoQueryBuilder(phrase);
+    String collectionName = mqb.getFirstPart()[1];
+    mongoApi.setCurrentMongoCollection(collectionName);
+    List<Document> query = new ArrayList<>();
+    mqb.buildMongoQuery();
+    query = mqb.getMongoQuery();
+    return query;
+  }
   /**
    * Standard query method.
    * @param phrase The Query.
    */
-  public void customMongoAggregation(String phrase) {
-    MongoQueryBuilder mqb = new MongoQueryBuilder(phrase);
-    String collectionName = mqb.getFirstPart()[1];
-	
-    mongoApi.setCurrentMongoCollection(collectionName);
+  public void executeQuery(List<Document> query) {
     MongoCollection<Document> collection = mongoApi.getCurrentMongoCollection();
-    
-    List<Document> query = new ArrayList<Document>();
-    
-    mqb.buildMongoQuery();
-    query = mqb.getMongoQuery();
-    
     AggregateIterable<Document> result = collection.aggregate(query);
     for (Document dbObject : result)
     {
-        results.add(dbObject.toJson());
+      results.add(dbObject.toJson());
     }
-
-
   }
-   
+  
   /**
    * Getter method of the query results.
    * @return

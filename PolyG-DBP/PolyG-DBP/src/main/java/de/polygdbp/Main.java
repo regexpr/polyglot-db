@@ -21,6 +21,7 @@ import java.util.Scanner;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.bson.Document;
 
 /**
  * Serves as executable Main class of the PolyG-DB project.
@@ -142,8 +143,9 @@ public class Main extends RuntimeException {
     LOG.info("Executing MongoDB Query and measuring time.");
     // Mongo Benchmark
     Benchmark benchMongoQuery = new Benchmark("Execution of a MongoDB Query " + this.mongoQuery);
+    List<Document> mongoQueryList = mongoQueryHandler.buildQuery(this.mongoQuery);
     benchMongoQuery.start();
-    mongoQueryHandler.customMongoAggregation(this.mongoQuery);
+    mongoQueryHandler.executeQuery(mongoQueryList);
     benchMongoQuery.writeDurationToLOG('n');
     // Mongo Results
     LOG.info("Results of the MongoDB Query:\n");
