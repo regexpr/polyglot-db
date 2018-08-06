@@ -16,7 +16,7 @@ See https://dbs.uni-leipzig.de/study/ss_2018/bigdprak
 * neo4j doc manager
 
 Please visit our Wiki to find out which Versions of the requiremental software we have used:
-https://github.com/regexpr/polyglot-db/wiki/Helpful-Links
+https://github.com/regexpr/polyglot-db/wiki/
 
 # Installing
 <pre>
