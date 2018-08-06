@@ -21,7 +21,7 @@ https://github.com/regexpr/polyglot-db/wiki/Helpful-Links
 # Installing
 <pre>
 git clone https://github.com/regexpr/polyglot-db
-cd polyglot-db/PolyG-DBP/PolyG-DBP/
+cd polyglot-db/PolyG-DBP/
 mvn install
 </pre>
 
@@ -33,7 +33,7 @@ neo4j/bin/neo4j console
 
 2.a Run one mongod replica set in the background
 <pre>
-mongod --replSet exSet --config ~/bigdata/mongo/mongodb.conf
+mongod --replSet exSet 
 </pre>
 2.b For the first time, initialize the replica set
 <pre>
