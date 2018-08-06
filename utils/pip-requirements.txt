@@ -1,0 +1,3 @@
+Py2Neo==2.0.8
+Mongo-Connector==2.5.1
+Neo4j-Doc-Manager==0.1.2
