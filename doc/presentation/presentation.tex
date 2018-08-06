@@ -105,29 +105,29 @@ Graphdatenbank mit einer Dokumenten-Datenbank
 
 \end{frame}
 \section{Resultat: PolyGDBP}
-\subsection{Pipline und Workflow}
+\subsection{Features}
 \begin{frame}
 \begin{itemize}[<+- | alert@+>]
-\item File Struktur (Main, Mongo, Neo4j, Benchmark)
-\item Command line Interface
-\item nur Queryangabe ist pflicht, alles andere optional.
-\item gibt vorgefertigte Queries für Yelp Datensatz
-\item Nutzer kann JSON Datensatz importieren
-\item Wird in MongoCollections verarbeitet und durch MongoConnector erfolgt danach das Übertragen in Neo4j
-\item Queries werden ausgeführt
-\item vor und jedem dieser Schritte zeit gestoppt, geloggt und schließlich ausgegeben
-\item kann mithilfe unserer Javascript Anwendung visualisiert werden.
+\item Command line Interface mit Parametereingabe (Query, Serveradressen, Datensatz, ...)
+\item Obligatorisch nur Queryangabe 
+\item Vorgefertigte Queries für Yelp Datensatz, ansonsten Angabe benutzerspezifischer Queries
+\item Reduzieren und Einlesen des Datensatzes möglich (via MongoAPI und MongoConnector)
+\item Vor und nach jedem Schritt Stoppen der Zeit, Logging, Filewriting
+\item Visualisierung mittels Javascript Anwendung möglich
 \end{itemize}
 \end{frame}
-\section{Lets run it. With the help of YELP}
+\begin{frame}{Programmstruktur}
+\includegraphics[width=0.6\textwidth]{files}
+
+\end{frame}
+\section{Tests mit dem Yelp Dataset}
 \subsection{Datensatz + DatenModell}
 \begin{frame}
 \begin{itemize}[<+- | alert@+>]
-\item YELP = Suchmaschine und Empfehlungsportal für Restaurants und Geschäfte 
-\item YELP Datensatz X GB groß
-\item besteht aus X .jsons: users, business, review, ...
-\item Beispiele eines JSON Business Objektes:
-\item ...
+\item Yelp = Suchmaschine und Empfehlungsportal für Restaurants und Geschäfte 
+\item Datensatz $\geq$ 6,5 GB
+\item besteht aus 6 *.jsons: business, checkin, photos, review, tip,  user
+\item \includegraphics[width=1.0\textwidth]{business}
 \end{itemize}
 \end{frame}
 \begin{frame}{Neo4j Datenmodell}
@@ -138,12 +138,12 @@ Graphdatenbank mit einer Dokumenten-Datenbank
 	\section{Zusammenfassung}
 	\begin{frame}{Zusammenfassung}
 	\begin{itemize}[<+- | alert@+>]
-	\item Verschiedene DB-Typen haben versch. Vor- und Nachteile
-	\item PolyG-DBP ist ein Framework zum Vergleich einer Dokument-DB mit einer Graphdatenbank
+	\item Verschiedene DB-Typen mit versch. Vor- und Nachteile
+	\item PolyG-DBP = Framework zum Vergleich einer Dokument-DB mit einer Graphdatenbank
 	\item konkret: MongoDB und Neo4j werden getestet
-	\item Nutzer kann prebuilt queries ausführen lassen oder eigene Queries testen lassen
-	\item Ausführungszeiten der Queries werden gemessen und verglichen
-	\item Unsere Tests mithilfe von PolyG-DBP und Yelp zeigen: Neo4j und MongoDB siegen bei bestimmten Arten von Queries
+	\item Ausführung von prebuilt Queries oder nutzerspezifischen Queries
+	\item Messen und Vergleich der Query-Ausführungszeiten
+	\item Vergleich Neo4j und MongoDB mit Yelp Datensatz: MongoDB performanter bei einfachen Queries, Neo4j siegt bei Queries mit mehreren Relationen/Collections
 	\end{itemize}
 	\end{frame}
 \begin{frame}[standout]
