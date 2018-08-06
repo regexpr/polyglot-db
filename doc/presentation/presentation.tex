@@ -79,31 +79,25 @@ Graphdatenbank mit einer Dokumenten-Datenbank
 \end{tabular}
 \end{table}
 	\end{frame}
-\begin{frame}<presentation:0>
-\begin{itemize}
-\item Mongo + Neo4j Driver
-\item teilweise nicht ausgereift. Für das garantieren von beliebigen Queries muss geparst werden
-\end{itemize}
-\end{frame}
-\section{Herausforderung: Gleicher Datensatz auf beiden DB}
-\subsection{Mongo Connector + Neo4j Doc Manager}
-\begin{frame}{Mongo Connector + Neo4j Doc Manager}
-\begin{itemize}[<+- | alert@+>]
-\item Software jeweils von MongoDB und Neo4j
-\item Dauerhafte Synchronisation zwischen Mongo und Neo4j möglich
-\item Generisches Erstellen des Neo4j Datenmodells 
-\end{itemize}
-\end{frame}
-\subsection{Apoc}
-\begin{frame}
-\begin{itemize}[<+- | alert@+>]
-\item Software von Neo4j zum Import von JSONs in Neo4j
-\item keine automatische Synchronisierung zwischen Mongo und Neo4j
-\item kein generisches Datenmodell
-\item Vorteil des nutzerspezifischen Datenmodells: Ausnutzen graphdatenbankspezifischer Performanzvorteile
-\end{itemize}
 
-\end{frame}
+%\section{Herausforderung: Gleicher Datensatz auf beiden DB}
+%\subsection{Mongo Connector + Neo4j Doc Manager}
+%\begin{frame}{Mongo Connector + Neo4j Doc Manager}
+%\begin{itemize}[<+- | alert@+>]
+%\item Software jeweils von MongoDB und Neo4j
+%\item Dauerhafte Synchronisation zwischen Mongo und Neo4j möglich
+%\item Generisches Erstellen des Neo4j Datenmodells 
+%\end{itemize}
+%\end{frame}
+%\subsection{Apoc}
+%\begin{frame}
+%\begin{itemize}[<+- | alert@+>]
+%\item Software von Neo4j zum Import von JSONs in Neo4j
+%\item keine automatische Synchronisierung zwischen Mongo und Neo4j
+%\item kein generisches Datenmodell
+%\item Vorteil des nutzerspezifischen Datenmodells: Ausnutzen %graphdatenbankspezifischer Performanzvorteile
+%\end{itemize}
+%\end{frame}
 \section{Resultat: PolyGDBP}
 \subsection{Features}
 \begin{frame}
@@ -138,16 +132,25 @@ Graphdatenbank mit einer Dokumenten-Datenbank
 	\section{Zusammenfassung}
 	\begin{frame}{Zusammenfassung}
 	\begin{itemize}[<+- | alert@+>]
-	\item Verschiedene DB-Typen mit versch. Vor- und Nachteile
 	\item PolyG-DBP = Framework zum Vergleich einer Dokument-DB mit einer Graphdatenbank
 	\item konkret: MongoDB und Neo4j werden getestet
 	\item Ausführung von prebuilt Queries oder nutzerspezifischen Queries
 	\item Messen und Vergleich der Query-Ausführungszeiten
-	\item Vergleich Neo4j und MongoDB mit Yelp Datensatz: MongoDB performanter bei einfachen Queries, Neo4j siegt bei Queries mit mehreren Relationen/Collections
+	\item Vergleich Neo4j und MongoDB mit Yelp Datensatz: MongoDB performanter bei einfachen Queries, Neo4j punktet bei Queries mit mehreren Relationen/Collections
 	\end{itemize}
 	\end{frame}
-\begin{frame}[standout]
-  Fragen und Diskussion
+	\section{Ausblick}
+	\begin{frame}{Zukünftige Fragestellungen}
+	\begin{itemize}[<+- | alert@+>]
+	\item Optimierung der Datenbanken (z.B. Indexierung)
+	\item Auswirkungen des konstruierten Neo4j Datenmodells auf Queryzeit
+	\item Betrachte neben Queryzeit die Synchronisationszeit zwischen
+	MongoDB und Neo4j
+	\end{itemize}
+	\end{frame}
+
+\begin{frame}{Fragen?}
+  \includegraphics[width=0.7\textwidth]{questions}
 \end{frame}
 
 

@@ -1,0 +1,8 @@
+\beamer@sectionintoc {1}{Aufgabenstellung}{2}{0}{1}
+\beamer@sectionintoc {2}{Resultat: PolyGDBP}{10}{0}{2}
+\beamer@subsectionintoc {2}{1}{Features}{11}{0}{2}
+\beamer@sectionintoc {3}{Tests mit dem Yelp Dataset}{19}{0}{3}
+\beamer@subsectionintoc {3}{1}{Datensatz + DatenModell}{20}{0}{3}
+\beamer@subsectionintoc {3}{2}{Ergebnisse}{26}{0}{3}
+\beamer@sectionintoc {4}{Zusammenfassung}{27}{0}{4}
+\beamer@sectionintoc {5}{Ausblick}{33}{0}{5}
