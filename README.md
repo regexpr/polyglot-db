@@ -13,7 +13,12 @@ See https://dbs.uni-leipzig.de/study/ss_2018/bigdprak
 * Maven
 * MongoDB
 * Neo4J
-* neo4j doc manager
+* Mongo Connector + Neo4j doc manager
+
+You can install mongo connector and neo4j doc manger with 
+<pre>
+pip install -r utils/pip-requirements.txt   
+</pre>
 
 Please visit our Wiki to find out which Versions of the requiremental software we have used:
 https://github.com/regexpr/polyglot-db/wiki/
@@ -43,7 +48,7 @@ rs.initiate()
 
 3. Run PolyG-DBP
 <pre>
-cd polyglot-db/PolyG-DBP/PolyG-DBP/target
+cd polyglot-db/PolyG-DBP/target
 java -jar PolyG-DBP-0.1.jar
 </pre>
 
@@ -82,3 +87,7 @@ Example: java -jar PolyG-DBP-0.1.jar custom.
 * q6:	Output all businesses that were reviewed more than 700 times
 * q7:	The same query as above, but this time we count the reviews in the reviews collection
 * qa:	Run all queries above.
+
+# Furthermore
+* Why not testing the efficiency of the neo4j data model created by mongo-connector + neo4j doc manager?
+You can import the YELP dataset into the Neo4j directly by inserting the commands given in utils/Neo4jImportYelpJsons.txt into a cypher shell.
